@@ -2,109 +2,190 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Justin &amp; Hannah · Cabo Resort Guide</title>
-<meta name="description" content="Resort guide and wedding weekend itinerary for Justin &amp; Hannah's wedding at Pueblo Bonito Sunset Beach, November 21, 2026.">
-<meta name="theme-color" content="#f1e5d7">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="Your guide to Justin &amp; Hannah's wedding weekend at Pueblo Bonito Sunset Beach, Cabo San Lucas · November 21, 2026.">
+<meta name="theme-color" content="#f6f1e9">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Justin &amp; Hannah · Cabo Resort Guide">
+<meta property="og:description" content="Schedule, resort map and everything you need for our wedding weekend in Cabo.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231c3560'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='26' text-anchor='middle' fill='%23f6f1e9'%3EJ%26H%3C/text%3E%3C/svg%3E">
+
+<link rel="preload" href="fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/montserrat-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* ---------- Fonts (self-hosted, no external requests) ---------- */
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/cormorant-garamond-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/cormorant-garamond-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/cormorant-garamond-latin-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-latin-500-italic.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/montserrat-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/montserrat-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/montserrat-latin-600-normal.woff2) format("woff2")}
+
+/* ---------- Design tokens (from the wedding palette) ---------- */
 :root{
-  --sand:#f1e5d7; --sand-deep:#dfc5a7; --ink:#2b2420; --muted:#6b5e53; --paper:#fffdf9; --line:#e4d3bf; --accent:#8a6a47;
+  --cream:#f6f1e9;      /* page */
+  --ivory:#fbf8f3;      /* cards */
+  --sand:#ece4d8;       /* soft fills */
+  --sky:#a8c3de;
+  --dusty:#6f93b8;
+  --navy:#1c3560;       /* text + primary */
+  --tan:#b88c66;
+  --tan-2:#c9a37f;
+  --ink:#1c2a45;
+  --muted:#4f5c75;
+  --line:#e2d8c9;
   --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
-  --sans:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --sans:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --radius:18px;
+  --shadow:0 1px 2px rgba(28,53,96,.05),0 8px 24px rgba(28,53,96,.07);
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 var(--sans);-webkit-text-size-adjust:100%}
-a{color:var(--accent);text-underline-offset:3px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 1.0625rem/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto}
+a{color:var(--navy);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--dusty);outline-offset:3px;border-radius:8px}
 .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:12px;top:-60px;background:var(--navy);color:#fff;padding:10px 16px;border-radius:10px;z-index:20;text-decoration:none}
+.skip:focus{top:12px}
 
-/* hero */
-.hero{background:var(--sand);text-align:center;padding:64px 20px 56px}
-.eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
-.hero h1{font:500 clamp(2.6rem,9vw,4.6rem)/1.05 var(--serif);margin:0 0 10px;letter-spacing:.01em}
-.hero .date{font:italic 400 1.5rem var(--serif);margin:0 0 6px}
-.hero .place{margin:0;color:var(--muted);font-size:.9rem}
-.hero .welcome{font:500 clamp(1.8rem,6vw,2.6rem)/1.1 var(--serif);letter-spacing:.14em;text-transform:uppercase;margin:34px 0 0}
-.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px}
-.btn{display:inline-block;padding:12px 20px;border-radius:999px;background:var(--ink);color:#fff;text-decoration:none;font-size:.85rem;font-weight:500;letter-spacing:.02em}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+/* ---------- Hero ---------- */
+.hero{position:relative;text-align:center;color:var(--navy);padding:76px 20px 150px;
+  background:
+    radial-gradient(120% 60% at 50% 100%,rgba(222,172,132,.45) 0%,rgba(222,172,132,0) 62%),
+    linear-gradient(180deg,#d3e1ef 0%,#e8eef3 38%,var(--cream) 82%);
+  overflow:hidden}
+.eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;margin:0 0 20px;color:var(--navy);font-weight:500}
+.names{font:500 clamp(2.6rem,12vw,5rem)/1.02 var(--serif);letter-spacing:.07em;text-transform:uppercase;margin:0}
+.names span{display:block}
+.names .amp{font:italic 400 clamp(1.6rem,6vw,2.4rem)/1.2 var(--serif);color:var(--tan);text-transform:none;letter-spacing:0;margin:2px 0}
+.when{font:500 clamp(.82rem,3.2vw,1rem)/1.5 var(--sans);letter-spacing:.3em;text-transform:uppercase;margin:26px 0 4px}
+.where{margin:0;color:var(--muted);font-size:.95rem}
+.dots{display:flex;gap:10px;justify-content:center;margin:26px 0 0;padding:0;list-style:none}
+.dots li{width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(28,53,96,.12)}
+.count{display:inline-block;margin-top:26px;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(28,53,96,.14);font-size:.9rem;font-weight:500;color:var(--navy)}
+.count b{font:600 1.35rem/1 var(--serif);margin-right:4px}
+.waves{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:110px;display:block}
 
-/* nav */
-nav{position:sticky;top:0;z-index:5;background:rgba(255,253,249,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-nav .bar{max-width:760px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between}
-nav .brand{font:500 1.35rem var(--serif);color:var(--ink);text-decoration:none}
-.burger{width:44px;height:44px;border:0;background:transparent;border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer;padding:0}
-.burger span{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:transform .2s,opacity .2s}
+/* ---------- Nav ---------- */
+nav{position:sticky;top:0;z-index:10;background:rgba(246,241,233,.92);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){nav{background:var(--cream)}}
+nav .bar{max-width:760px;margin:0 auto;padding:6px max(20px,env(safe-area-inset-right)) 6px max(20px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;min-height:56px}
+nav .brand{font:500 1.3rem var(--serif);letter-spacing:.08em;text-transform:uppercase;color:var(--navy);text-decoration:none}
+.burger{width:48px;height:48px;border:0;background:transparent;border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent}
+.burger span{display:block;width:24px;height:2px;background:var(--navy);border-radius:2px;transition:transform .2s,opacity .2s}
 .burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
-.burger:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-nav ul{list-style:none;margin:0;padding:4px 20px 14px;max-width:760px;margin:0 auto;border-top:1px solid var(--line)}
+nav ul{list-style:none;margin:0 auto;padding:4px max(20px,env(safe-area-inset-right)) 16px max(20px,env(safe-area-inset-left));max-width:760px;border-top:1px solid var(--line)}
 nav ul[hidden]{display:none}
-nav ul a{display:block;padding:14px 4px;color:var(--ink);text-decoration:none;font-size:1rem;font-weight:500;border-bottom:1px solid var(--line)}
+nav ul a{display:block;padding:15px 4px;color:var(--navy);text-decoration:none;font-size:1.02rem;font-weight:500;border-bottom:1px solid var(--line)}
 nav ul li:last-child a{border-bottom:0}
-nav{box-shadow:0 6px 18px rgba(0,0,0,.04)}
 
-/* sections */
-section{padding:52px 0 8px}
-h2{font:500 clamp(2rem,7vw,2.8rem)/1.1 var(--serif);margin:0 0 6px}
-.kicker{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 8px;font-weight:600}
-.lede{color:var(--muted);margin:0 0 22px}
-.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px;margin:0 0 16px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
-.card h3{font:600 1.5rem/1.2 var(--serif);margin:0 0 4px}
-.card p{margin:8px 0 0}
-.when{font-weight:600;font-size:.92rem;margin:2px 0 0!important}
-.meta{color:var(--muted);font-size:.92rem}
-.tag{display:inline-block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;background:var(--sand);padding:4px 10px;border-radius:999px;margin-top:10px;font-weight:600}
-.note{border-left:3px solid var(--sand-deep);padding:4px 0 4px 14px;margin-top:12px;color:var(--muted);font-size:.92rem}
+/* ---------- Quick links ---------- */
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:-92px auto 0;position:relative;z-index:2}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:18px 16px;border-radius:var(--radius);background:var(--ivory);border:1px solid var(--line);box-shadow:var(--shadow);text-decoration:none;color:var(--navy);min-height:112px;transition:transform .15s,box-shadow .15s}
+.tile:active{transform:scale(.98)}
+.tile svg{width:28px;height:28px;stroke:var(--dusty);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.tile b{font:600 1.35rem/1.15 var(--serif);letter-spacing:.01em}
+.tile small{display:block;font-size:.78rem;color:var(--muted);font-weight:400;margin-top:2px;line-height:1.35}
+@media(min-width:700px){.quick{grid-template-columns:repeat(4,1fr)}}
+@media(hover:hover){.tile:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(28,53,96,.06),0 14px 30px rgba(28,53,96,.1)}}
 
-/* timeline */
-.timeline{position:relative;margin:6px 0 0;padding-left:26px}
-.timeline:before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--sand-deep)}
-.step{position:relative;margin-bottom:16px}
-.step:before{content:"";position:absolute;left:-26px;top:22px;width:16px;height:16px;border-radius:50%;background:var(--paper);border:3px solid var(--accent)}
-.step .card{margin:0}
+/* ---------- Sections ---------- */
+section{padding:60px 0 6px}
+.kicker{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--tan);margin:0 0 10px;font-weight:600}
+h2{font:500 clamp(2.1rem,8vw,3rem)/1.08 var(--serif);margin:0 0 10px;color:var(--navy);letter-spacing:.01em}
+.lede{color:var(--muted);margin:0 0 26px}
+.rule{display:flex;align-items:center;gap:10px;margin:0 0 20px}
+.rule i{height:1px;background:var(--line);flex:1}
+.rule b{width:8px;height:8px;border-radius:50%;background:var(--tan-2)}
+
+.card{background:var(--ivory);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.card h3{font:600 1.6rem/1.15 var(--serif);margin:0 0 4px;color:var(--navy)}
+.card p{margin:10px 0 0}
+.meta{color:var(--muted);font-size:.95rem}
+.chip{display:inline-block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;background:var(--sand);color:var(--navy);padding:6px 12px;border-radius:999px;margin-top:12px;font-weight:600}
+.note{border-left:3px solid var(--sky);padding:2px 0 2px 14px;margin-top:14px;color:var(--muted);font-size:.95rem}
 
 /* overview */
 .ov{display:grid;gap:12px;grid-template-columns:1fr}
 @media(min-width:620px){.ov{grid-template-columns:repeat(2,1fr)}}
 .ov a{display:block;text-decoration:none;color:inherit}
-.ov .card{height:100%;margin:0}
+.ov .card{height:100%;padding:18px 20px;transition:transform .15s}
+.ov a:active .card{transform:scale(.99)}
+.ov .day{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dusty);font-weight:600;margin:0 0 6px}
+.ov .card h3{font-size:1.5rem}
+.ov .card p{margin-top:4px}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
-.stats div{background:var(--sand);border-radius:14px;padding:16px 8px;text-align:center}
-.stats b{display:block;font:500 2.2rem/1 var(--serif)}
-.stats span{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+/* timeline */
+.day-pill{display:inline-block;margin:28px 0 14px;padding:8px 18px;border-radius:999px;background:var(--navy);color:#fff;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.day-pill:first-child{margin-top:0}
+.tl{position:relative}
+.ev{display:grid;grid-template-columns:70px 1fr;gap:12px;margin-bottom:14px;position:relative}
+.ev::before{content:"";position:absolute;left:35px;top:0;bottom:-14px;width:2px;background:var(--sky);opacity:.7}
+.tl .ev:last-child::before{bottom:50%}
+.time{position:relative;z-index:1;align-self:start;margin-top:14px;background:var(--cream);text-align:center;line-height:1.1;padding:6px 0;border-radius:12px}
+.time b{display:block;font:600 1.35rem/1 var(--serif);color:var(--navy)}
+.time i{display:block;font:500 .66rem/1.2 var(--sans);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--dusty);margin-top:3px}
+.ev .card{padding:18px 18px 20px}
+.ev .card h3{font-size:1.45rem}
 
-figure{margin:0 0 16px}
-figure img{width:100%;height:auto;border-radius:16px;display:block}
+/* accordion */
+.acc{background:var(--ivory);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
+.acc summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;min-height:60px;font:600 1.45rem/1.2 var(--serif);color:var(--navy);-webkit-tap-highlight-color:transparent}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::marker{content:""}
+.acc summary svg{flex:none;width:22px;height:22px;stroke:var(--dusty);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.acc[open] summary svg{transform:rotate(180deg)}
+.acc[open] summary{padding-bottom:6px}
+.acc-body{padding:0 20px 20px}
+.acc-body p{margin:10px 0 0}
 
-.pbs{white-space:normal}
-footer{margin-top:56px;background:var(--sand);text-align:center;padding:48px 20px 56px}
-footer .script{font:italic 500 2rem var(--serif);margin:0 0 6px}
-footer p{margin:4px 0;color:var(--muted)}
-.top{display:inline-block;margin-top:18px;font-size:.8rem}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+figure{margin:0 0 14px}
+figure a{display:block;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:#fff}
+figure img{display:block;width:100%;height:auto}
+
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:12px 24px;border-radius:999px;background:var(--navy);color:#fff;text-decoration:none;font-size:.92rem;font-weight:500;letter-spacing:.02em;border:1px solid var(--navy)}
+.btn.ghost{background:transparent;color:var(--navy)}
+@media(max-width:420px){.btns .btn{flex:1 1 100%}}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
+.stats div{background:var(--sand);border-radius:16px;padding:16px 6px;text-align:center}
+.stats b{display:block;font:500 2.4rem/1 var(--serif);color:var(--navy)}
+.stats span{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.facts p{margin:0 0 16px;overflow-wrap:anywhere}
+.facts p:last-child{margin:0}
+.facts b{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--tan);margin-bottom:2px}
+
+/* footer */
+footer{margin-top:72px;background:var(--navy);color:#f6f1e9;text-align:center;padding:56px 20px calc(48px + env(safe-area-inset-bottom))}
+footer .script{font:italic 500 clamp(1.8rem,7vw,2.4rem)/1.2 var(--serif);margin:0 0 8px}
+footer p{margin:6px 0;color:#d9dfeb}
+footer .dots{margin-top:22px}
+footer .dots li{box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;padding:10px}
+
+/* gentle reveal (only when JS is running) */
+.js .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .reveal{opacity:1;transform:none;transition:none}
+  *{transition-duration:0s!important}
+}
+@media print{nav,.quick,.waves,footer a{display:none}.hero{padding:30px 20px}.js .reveal{opacity:1;transform:none}.acc{break-inside:avoid}}
 </style>
+<noscript><style>#menu[hidden]{display:block}.burger{display:none}.acc>*{display:block}</style></noscript>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<header class="hero" id="top">
-  <p class="eyebrow">Exclusive wedding &amp; resort guide for the guests of</p>
-  <h1>Justin &amp; Hannah</h1>
-  <p class="date">November 21, 2026</p>
-  <p class="place">Pueblo Bonito Sunset Beach · Cabo San Lucas</p>
-  <p class="welcome">Welcome to Cabo</p>
-  <div class="btns">
-    <a class="btn" href="#map">View the resort map</a>
-    <a class="btn ghost" href="#app">Get the Pueblo Bonito app</a>
-  </div>
-</header>
-
-<nav aria-label="Sections">
+<nav aria-label="Main">
   <div class="bar">
     <a class="brand" href="#top">Justin &amp; Hannah</a>
     <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
@@ -113,89 +194,123 @@ footer p{margin:4px 0;color:var(--muted)}
   </div>
   <ul id="menu" hidden>
     <li><a href="#overview">Overview</a></li>
-    <li><a href="#weekend">Weekend details</a></li>
-    <li><a href="#info">Useful info</a></li>
+    <li><a href="#weekend">Weekend schedule</a></li>
+    <li><a href="#info">Good to know</a></li>
     <li><a href="#map">Resort map</a></li>
     <li><a href="#app">Pueblo Bonito app</a></li>
     <li><a href="#resort">Resort details</a></li>
   </ul>
 </nav>
-<script>
-(function(){
-  var b=document.getElementById('burger'),m=document.getElementById('menu');
-  function set(open){m.hidden=!open;b.setAttribute('aria-expanded',open);b.setAttribute('aria-label',open?'Close menu':'Open menu');b.classList.toggle('open',open);}
-  b.addEventListener('click',function(){set(m.hidden);});
-  m.addEventListener('click',function(e){if(e.target.tagName==='A')set(false);});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false);});
-  document.addEventListener('click',function(e){if(!m.hidden&&!e.target.closest('nav'))set(false);});
-})();
-</script>
 
-<main class="wrap">
+<header class="hero" id="top">
+  <p class="eyebrow">Our wedding weekend</p>
+  <h1 class="names"><span>Justin</span><span class="amp">&amp;</span><span>Hannah</span></h1>
+  <p class="when">November 21, 2026</p>
+  <p class="where">Pueblo Bonito Sunset Beach · Cabo San Lucas, Mexico</p>
+  <ul class="dots" aria-hidden="true">
+    <li style="background:#ece6dc"></li><li style="background:#a8c3de"></li><li style="background:#6f93b8"></li><li style="background:#1c3560"></li><li style="background:#b88c66"></li><li style="background:#c9a37f"></li>
+  </ul>
+  <div class="count" id="count"><span id="countText">Welcome to Cabo</span></div>
+  <svg class="waves" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path fill="#a8c3de" opacity=".55" d="M0 58C240 18 480 98 720 58S1200 18 1440 58V120H0Z"/>
+    <path fill="#6f93b8" opacity=".33" d="M0 80C260 50 500 110 760 80S1220 50 1440 80V120H0Z"/>
+    <path fill="#f6f1e9" d="M0 100C300 76 520 120 800 98S1250 80 1440 100V120H0Z"/>
+  </svg>
+</header>
+
+
+
+<main id="main" class="wrap">
+
+  <div class="quick">
+    <a class="tile" href="#weekend">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      <span><b>Schedule</b><small>Bonfire, pool day &amp; wedding</small></span>
+    </a>
+    <a class="tile" href="#map">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg>
+      <span><b>Resort map</b><small>Venues, pools &amp; restaurants</small></span>
+    </a>
+    <a class="tile" href="#app">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M11 18.5h2"/></svg>
+      <span><b>Resort app</b><small>Menus, hours &amp; activities</small></span>
+    </a>
+    <a class="tile" href="tel:+18445300518">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+      <span><b>Call resort</b><small>1-844-530-0518</small></span>
+    </a>
+  </div>
 
   <section id="overview">
-    <p class="kicker">Overview</p>
-    <h2>Your weekend at a glance</h2>
-    <p class="lede">Explore the resort, have a drink by the pool, and get ready for a good time!</p>
+    <p class="kicker reveal">Overview</p>
+    <h2 class="reveal">Your weekend at a glance</h2>
+    <p class="lede reveal">Explore the resort, have a drink by the pool, and get ready for a good time! All times are local Cabo time.</p>
     <div class="ov">
-      <a href="#weekend"><div class="card"><h3>Arrive</h3><p class="meta">Settle in, explore the resort, and grab a drink by the pool.</p></div></a>
-      <a href="#bonfire"><div class="card"><h3>Welcome Bonfire</h3><p class="when">Thursday, Nov 19 · 7:00–9:00 pm</p><p class="meta">Beach Bonfire</p></div></a>
-      <a href="#pool"><div class="card"><h3>Pool Day</h3><p class="when">Friday, Nov 20 · 10:00 am–4:00 pm</p><p class="meta">Sky Pool</p></div></a>
-      <a href="#wedding"><div class="card"><h3>Wedding Day</h3><p class="when">Saturday, Nov 21</p><p class="meta">Ceremony 5:00 pm · Sunshine Garden<br>Reception 5:30 pm · Swan Terrace</p></div></a>
+      <a class="reveal" href="#bonfire"><div class="card"><p class="day">Thursday · Nov 19</p><h3>Welcome Bonfire</h3><p class="meta">7:00–9:00 pm · on the beach</p><span class="chip">All white</span></div></a>
+      <a class="reveal" href="#pool"><div class="card"><p class="day">Friday · Nov 20</p><h3>Pool Day</h3><p class="meta">10:00 am–4:00 pm · Sky Pool</p></div></a>
+      <a class="reveal" href="#wedding"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Ceremony</h3><p class="meta">5:00 pm · Sunshine Garden</p><span class="chip">Beach formal</span></div></a>
+      <a class="reveal" href="#reception"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Reception</h3><p class="meta">5:30 pm · Swan Terrace</p></div></a>
     </div>
   </section>
 
   <section id="weekend">
-    <p class="kicker">The weekend</p>
-    <h2>Event details</h2>
-    <p class="lede">In order, from Thursday night to the reception.</p>
+    <p class="kicker reveal">The weekend</p>
+    <h2 class="reveal">Schedule</h2>
+    <p class="lede reveal">Everything in order, from Thursday night to the reception.</p>
 
-    <div class="timeline">
-      <div class="step" id="bonfire">
+    <div class="tl">
+      <span class="day-pill reveal">Thursday · November 19</span>
+      <div class="ev reveal" id="bonfire">
+        <div class="time"><b>7:00</b><i>pm</i></div>
         <div class="card">
           <h3>Welcome Bonfire</h3>
-          <p class="when">Thursday, November 19 · 7:00–9:00 pm</p>
-          <p class="meta">Location: Pueblo Bonito Sunset Beach</p>
-          <span class="tag">Attire: all white</span>
+          <p class="meta">7:00–9:00 pm · Pueblo Bonito Sunset Beach</p>
+          <span class="chip">Attire: all white</span>
           <p>Join us for a night of drinks and laughter to start our wedding weekend!</p>
         </div>
       </div>
 
-      <div class="step" id="pool">
+      <span class="day-pill reveal">Friday · November 20</span>
+      <div class="ev reveal" id="pool">
+        <div class="time"><b>10:00</b><i>am</i></div>
         <div class="card">
           <h3>Pool Day</h3>
-          <p class="when">Friday, November 20 · 10:00 am–4:00 pm</p>
-          <p class="meta">Location: the Sky Pool, Pueblo Bonito Sunset Beach</p>
+          <p class="meta">10:00 am–4:00 pm · the Sky Pool, Pueblo Bonito Sunset Beach</p>
           <div class="note">Pool day details will be updated the day of, so check back!</div>
         </div>
       </div>
 
-      <div class="step" id="wedding">
+      <span class="day-pill reveal" id="wedding">Saturday · November 21 · Wedding day</span>
+      <div class="ev reveal">
+        <div class="time"><b>4:30</b><i>pm</i></div>
         <div class="card">
           <h3>Arrive</h3>
-          <p class="when">Saturday, November 21 · 4:30 pm · Sunshine Garden</p>
-          <span class="tag">Attire: beach formal</span>
+          <p class="meta">Sunshine Garden</p>
+          <span class="chip">Attire: beach formal</span>
           <div class="note">Plan to arrive by 4:30 pm, as carts may take a while. Beach formal means elegant but relaxed.</div>
         </div>
       </div>
-      <div class="step">
+      <div class="ev reveal">
+        <div class="time"><b>5:00</b><i>pm</i></div>
         <div class="card">
           <h3>Ceremony</h3>
-          <p class="when">5:00 pm · Sunshine Garden</p>
+          <p class="meta">Sunshine Garden</p>
           <div class="note">The ceremony begins at 5:00 pm sharp.</div>
         </div>
       </div>
-      <div class="step">
+      <div class="ev reveal">
+        <div class="time"><b>Then</b><i>after</i></div>
         <div class="card">
           <h3>Cart ride</h3>
-          <p class="when">After the ceremony</p>
+          <p class="meta">After the ceremony</p>
           <div class="note">Carts will be lined up to take everyone from the ceremony to the reception.</div>
         </div>
       </div>
-      <div class="step">
+      <div class="ev reveal" id="reception">
+        <div class="time"><b>5:30</b><i>pm</i></div>
         <div class="card">
           <h3>Reception</h3>
-          <p class="when">5:30 pm · Swan Terrace</p>
+          <p class="meta">Swan Terrace</p>
           <div class="note">Reception to follow at Swan Terrace, Pueblo Bonito Sunset Beach Resort.</div>
         </div>
       </div>
@@ -203,93 +318,110 @@ footer p{margin:4px 0;color:var(--muted)}
   </section>
 
   <section id="info">
-    <p class="kicker">Useful info</p>
-    <h2>Good to know</h2>
+    <p class="kicker reveal">Good to know</p>
+    <h2 class="reveal">Useful info</h2>
+    <p class="lede reveal">Tap a section to open it.</p>
 
-    <div class="card">
-      <h3>Getting around</h3>
-      <p>Golf carts are a major part of the transportation network at the resort. To request a cart, just <b>dial 0 from your resort room phone</b> and ask for a cart. The operator answers in Spanish, so just say “cart, please” and your location. You can also get picked up at a cart stop along the paths and restaurants.</p>
-      <p>The resort sits on a fairly steep incline, so carts are handy for uphill and downhill trips, but if you’re a walker there are tons of great walking paths!</p>
-    </div>
+    <details class="acc reveal" open>
+      <summary>Getting around <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+        <p>Golf carts are a major part of the transportation network at the resort. To request a cart, just <b>dial 0 from your resort room phone</b> and ask for a cart. The operator answers in Spanish, so just say “cart, please” and your location. You can also get picked up at a cart stop along the paths and restaurants.</p>
+        <p>The resort sits on a fairly steep incline, so carts are handy for uphill and downhill trips, but if you’re a walker there are tons of great walking paths!</p>
+      </div>
+    </details>
 
-    <div class="card">
-      <h3>All inclusive</h3>
-      <p>Your all-inclusive plan covers the majority of items at the resort. You will see prices on the menus. These are for guests without the all-inclusive plan, and if an item requires a surcharge, it will be stated.</p>
-      <p>Two restaurants have a surcharge for dinner: the Steakhouse Restaurant at Quivira Golf Club ($40 USD) and LaFrida ($30 USD). Both also require a smart casual dress code.</p>
-      <div class="note">Menus, dress codes, and current hours for all restaurants are in the Pueblo Bonito app.</div>
-    </div>
+    <details class="acc reveal">
+      <summary>All inclusive <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+        <p>Your all-inclusive plan covers the majority of items at the resort. You will see prices on the menus. These are for guests without the all-inclusive plan, and if an item requires a surcharge, it will be stated.</p>
+        <p>Two restaurants have a surcharge for dinner: the Steakhouse Restaurant at Quivira Golf Club ($40 USD) and LaFrida ($30 USD). Both also require a smart casual dress code.</p>
+        <div class="note">Menus, dress codes, and current hours for all restaurants are in the Pueblo Bonito app.</div>
+      </div>
+    </details>
 
-    <div class="card">
-      <h3>Pueblo Bonito sister resorts</h3>
-      <p>There is a free shuttle to the sister resorts Rose and Los Cabos in downtown Cabo. Your all-inclusive benefits also work at these resorts if you want to try a different restaurant or just see more of beautiful Cabo. The beaches at these two resorts are also swimmable!</p>
-      <div class="note">We highly suggest pre-booking the shuttle in the Pueblo Bonito app if you’re interested.</div>
-    </div>
+    <details class="acc reveal">
+      <summary>Sister resorts <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+        <p>There is a free shuttle to the Pueblo Bonito sister resorts Rose and Los Cabos in downtown Cabo. Your all-inclusive benefits also work at these resorts if you want to try a different restaurant or just see more of beautiful Cabo. The beaches at these two resorts are also swimmable!</p>
+        <div class="note">We highly suggest pre-booking the shuttle in the Pueblo Bonito app if you’re interested.</div>
+      </div>
+    </details>
 
-    <div class="card">
-      <h3>Activities</h3>
-      <p>The resort has multiple daily activities, and the full list with locations and times is in the app. Examples include cornhole, beach and pool volleyball, water aerobics, Zumba, yoga, spin, and many more! Sunset Beach is family friendly, with a kids’ pool and kids’ activities by the pool. For older kids there’s even a “Fun Lab” with an arcade, movie theater, and more.</p>
-      <p>There are also wine and tequila tastings, an award-winning spa, and an award-winning golf course.</p>
-      <p>Feel free to enjoy outside activities in Cabo too, like ATV rides, boat tours, fishing trips, zip lining, and more. Cabo is also known for shopping, from tourist shops to luxury shops, and in San José del Cabo there is an art walk every Thursday evening.</p>
-    </div>
+    <details class="acc reveal">
+      <summary>Activities <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+        <p>The resort has multiple daily activities, and the full list with locations and times is in the app. Examples include cornhole, beach and pool volleyball, water aerobics, Zumba, yoga, spin, and many more! Sunset Beach is family friendly, with a kids’ pool and kids’ activities by the pool. For older kids there’s even a “Fun Lab” with an arcade, movie theater, and more.</p>
+        <p>There are also wine and tequila tastings, an award-winning spa, and an award-winning golf course.</p>
+        <p>Feel free to enjoy outside activities in Cabo too, like ATV rides, boat tours, fishing trips, zip lining, and more. Cabo is also known for shopping, from tourist shops to luxury shops, and in San José del Cabo there is an art walk every Thursday evening.</p>
+      </div>
+    </details>
 
-    <div class="card">
-      <h3>Suite service</h3>
-      <p>What’s better than room service on vacation? Not much! You can have a wide variety of items delivered straight to your suite. Check the app for details.</p>
-    </div>
+    <details class="acc reveal">
+      <summary>Suite service <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+        <p>What’s better than room service on vacation? Not much! You can have a wide variety of items delivered straight to your suite. Check the app for details.</p>
+      </div>
+    </details>
 
-    <div class="card">
-      <h3>The Market</h3>
-      <p>The Market is a popular place! It’s an authentic food hall with nine stations of different cuisines: Asian, Italian, Mexican, desserts, cocktails, and American-style diner. Popular picks: the coffee stand, crepe station, and gelato!</p>
-      <p><a href="https://www.instagram.com/themarketatquivira?igsh=Zms5YnIxcGN6Nm1o" target="_blank" rel="noopener">For a sneak peek, see their Instagram.</a></p>
-    </div>
+    <details class="acc reveal">
+      <summary>The Market <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+        <p>The Market is a popular place! It’s an authentic food hall with nine stations of different cuisines: Asian, Italian, Mexican, desserts, cocktails, and American-style diner. Popular picks: the coffee stand, crepe station, and gelato!</p>
+        <p><a href="https://www.instagram.com/themarketatquivira?igsh=Zms5YnIxcGN6Nm1o" target="_blank" rel="noopener">For a sneak peek, see their Instagram.</a></p>
+      </div>
+    </details>
 
-    <div class="card">
-      <h3>Theme nights at La Nao</h3>
-      <p>At La Nao, by the main pool, there is a different themed buffet dinner every night, and a fabulous breakfast buffet each morning!</p>
-      <div class="note">Check the Pueblo Bonito app for the La Nao theme night schedule.</div>
-    </div>
+    <details class="acc reveal">
+      <summary>Theme nights at La Nao <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+        <p>At La Nao, by the main pool, there is a different themed buffet dinner every night, and a fabulous breakfast buffet each morning!</p>
+        <div class="note">Check the Pueblo Bonito app for the La Nao theme night schedule.</div>
+      </div>
+    </details>
 
-    <div class="card">
-      <h3>Safety first</h3>
-      <p>The resort has a medical center on property, and the doctor can also make “house” calls to your room. Hopefully not needed, but just in case!</p>
-    </div>
+    <details class="acc reveal">
+      <summary>Safety first <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+        <p>The resort has a medical center on property, and the doctor can also make “house” calls to your room. Hopefully not needed, but just in case!</p>
+      </div>
+    </details>
   </section>
 
   <section id="map">
-    <p class="kicker">Resort map</p>
-    <h2>Find your way around</h2>
-    <p class="lede">Tap the map to open it full size, then pinch to zoom. The wedding venues are listed in the box at the bottom.</p>
-    <figure>
+    <p class="kicker reveal">Resort map</p>
+    <h2 class="reveal">Find your way around</h2>
+    <p class="lede reveal">Tap the map to open it full size, then pinch to zoom. The wedding venues are listed in the box at the bottom.</p>
+    <figure class="reveal">
       <a href="images/resort-map.jpg" target="_blank" rel="noopener">
-        <img src="images/resort-map.jpg" width="2444" height="1908" alt="Pueblo Bonito Sunset Beach resort map with a legend of restaurants, pools, services and wedding venues" loading="lazy">
+        <img src="images/resort-map.jpg" width="2444" height="1908" alt="Pueblo Bonito Sunset Beach resort map with a legend of restaurants, pools, services and wedding venues" loading="lazy" decoding="async">
       </a>
     </figure>
-    <p class="meta">Need help? Resort assistance is Ext. 6000 from your room phone.</p>
+    <p class="meta reveal">Need help? Resort assistance is Ext. 6000 from your room phone.</p>
   </section>
 
   <section id="app">
-    <p class="kicker">The Pueblo Bonito app</p>
-    <h2>Download the app</h2>
-    <p class="lede">The app will be very useful on your trip. We encourage everyone to download it for the most up-to-date information and resources.</p>
-    <div class="btns" style="justify-content:flex-start;margin-top:0">
+    <p class="kicker reveal">The Pueblo Bonito app</p>
+    <h2 class="reveal">Download the app</h2>
+    <p class="lede reveal">The app will be very useful on your trip. Menus, restaurant hours, activity schedules and more are all in it, so we encourage everyone to download it for the most up-to-date information.</p>
+    <div class="btns reveal">
       <a class="btn" href="https://apps.apple.com/us/app/pueblo-bonito/id1328141241" target="_blank" rel="noopener">Download for iPhone</a>
-      <a class="btn" href="https://play.google.com/store/apps/details?id=com.pueblobonito.ebitware.pueblobonitoapp" target="_blank" rel="noopener">Download for Android</a>
+      <a class="btn ghost" href="https://play.google.com/store/apps/details?id=com.pueblobonito.ebitware.pueblobonitoapp" target="_blank" rel="noopener">Download for Android</a>
     </div>
-    <div class="note">You may need to book your room in the app before you can explore it.</div>
+    <div class="note reveal">You may need to book your room in the app before you can explore it.</div>
   </section>
 
   <section id="resort">
-    <p class="kicker">Resort details</p>
-    <h2>Pueblo Bonito Sunset Beach</h2>
-    <div class="stats">
+    <p class="kicker reveal">Resort details</p>
+    <h2 class="reveal">Pueblo Bonito Sunset Beach</h2>
+    <div class="stats reveal">
       <div><b>9</b><span>Restaurants</span></div>
       <div><b>6</b><span>Pools</span></div>
       <div><b>8</b><span>Bars</span></div>
     </div>
-    <div class="card" style="margin-top:16px">
-      <p style="margin-top:0"><b>Address</b><br>Paraíso Escondido S/N, Paraíso Escondido, Centro 23450<br>Cabo San Lucas, B.C.S., Mexico</p>
-      <p><b>Phone</b><br><a href="tel:+18445300518">1-844-530-0518</a></p>
-      <p><b>Email</b><br><a href="mailto:groupsreservations@pueblobonito.com.mx">groupsreservations@pueblobonito.com.mx</a></p>
+    <div class="card facts reveal">
+      <p><b>Address</b>Paraíso Escondido S/N, Paraíso Escondido, Centro 23450<br>Cabo San Lucas, B.C.S., Mexico</p>
+      <p><b>Phone</b><a href="tel:+18445300518">1-844-530-0518</a></p>
+      <p><b>Email</b><a href="mailto:groupsreservations@pueblobonito.com.mx">groupsreservations@pueblobonito.com.mx</a></p>
       <p class="meta">Menus, maps, and restaurant information can be found in the app.</p>
     </div>
   </section>
@@ -300,8 +432,47 @@ footer p{margin:4px 0;color:var(--muted)}
   <p class="script">We can’t wait to celebrate with you!</p>
   <p>Justin &amp; Hannah · 11.21.2026</p>
   <p><em>See you at the beach!</em></p>
-  <a class="top" href="#top">Back to top ↑</a>
+  <ul class="dots" aria-hidden="true">
+    <li style="background:#ece6dc"></li><li style="background:#a8c3de"></li><li style="background:#6f93b8"></li><li style="background:#f6f1e9"></li><li style="background:#b88c66"></li><li style="background:#c9a37f"></li>
+  </ul>
+  <a href="#top">Back to top ↑</a>
 </footer>
 
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  root.className+=' js';
+
+  /* hamburger menu */
+  var b=d.getElementById('burger'), m=d.getElementById('menu');
+  function set(open){m.hidden=!open;b.setAttribute('aria-expanded',String(open));b.setAttribute('aria-label',open?'Close menu':'Open menu');b.classList.toggle('open',open);}
+  b.addEventListener('click',function(e){e.stopPropagation();set(m.hidden);});
+  m.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('a'))set(false);});
+  d.addEventListener('keydown',function(e){if(e.key==='Escape'||e.key==='Esc')set(false);});
+  d.addEventListener('click',function(e){if(!m.hidden&&!(e.target.closest&&e.target.closest('nav')))set(false);});
+
+  /* open the right accordion if a link points inside one */
+  /* countdown (ceremony: Nov 21, 2026, 5:00 pm Cabo time = Nov 22, 00:00 UTC) */
+  var t=d.getElementById('countText');
+  try{
+    var target=Date.UTC(2026,10,22,0,0,0), diff=target-Date.now(), day=86400000;
+    if(diff>day){var n=Math.floor(diff/day);t.innerHTML='<b>'+n+'</b> '+(n===1?'day':'days')+' to go';}
+    else if(diff>0){t.textContent='Today’s the big day!';}
+    else if(diff>-day){t.textContent='We’re married. Thank you for being here!';}
+    else{t.textContent='Thank you for celebrating with us!';}
+  }catch(e){}
+
+  /* gentle reveal on scroll; everything shows if IntersectionObserver is missing */
+  var els=d.querySelectorAll('.reveal');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!('IntersectionObserver' in window)||reduce){for(var i=0;i<els.length;i++)els[i].className+=' in';return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.className+=' in';io.unobserve(en.target);}});
+  },{rootMargin:'0px 0px -6% 0px',threshold:0.05});
+  for(var j=0;j<els.length;j++)io.observe(els[j]);
+  /* safety net: never leave content hidden */
+  setTimeout(function(){for(var k=0;k<els.length;k++){if(els[k].className.indexOf(' in')<0)els[k].className+=' in';}},4000);
+})();
+</script>
 </body>
 </html>
