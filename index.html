@@ -111,15 +111,6 @@ h2{font:500 clamp(2.1rem,8vw,3rem)/1.08 var(--serif);margin:0 0 10px;color:var(-
 .chip{display:inline-block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;background:var(--sand);color:var(--navy);padding:6px 12px;border-radius:999px;margin-top:12px;font-weight:600}
 .note{border-left:3px solid var(--sky);padding:2px 0 2px 14px;margin-top:14px;color:var(--muted);font-size:.95rem}
 
-/* overview */
-.ov{display:grid;gap:12px;grid-template-columns:1fr}
-@media(min-width:620px){.ov{grid-template-columns:repeat(2,1fr)}}
-.ov a{display:block;text-decoration:none;color:inherit}
-.ov .card{height:100%;padding:18px 20px;transition:transform .15s}
-.ov a:active .card{transform:scale(.99)}
-.ov .day{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dusty);font-weight:600;margin:0 0 6px}
-.ov .card h3{font-size:1.5rem}
-.ov .card p{margin-top:4px}
 
 /* timeline */
 .day-pill{display:inline-block;margin:28px 0 14px;padding:8px 18px;border-radius:999px;background:var(--navy);color:#fff;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
@@ -193,7 +184,6 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
     </button>
   </div>
   <ul id="menu" hidden>
-    <li><a href="#overview">Overview</a></li>
     <li><a href="#weekend">Weekend schedule</a></li>
     <li><a href="#info">Good to know</a></li>
     <li><a href="#map">Resort map</a></li>
@@ -241,23 +231,10 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
     </a>
   </div>
 
-  <section id="overview">
-    <p class="kicker reveal">Overview</p>
-    <h2 class="reveal">Your weekend at a glance</h2>
-    <p class="lede reveal">Explore the resort, have a drink by the pool, and get ready for a good time! All times are local Cabo time.</p>
-    <div class="ov">
-      <a class="reveal" href="#bonfire"><div class="card"><p class="day">Thursday · Nov 19</p><h3>Welcome Bonfire</h3><p class="meta">7:00–9:00 pm · on the beach</p><span class="chip">All white</span></div></a>
-      <a class="reveal" href="#pool"><div class="card"><p class="day">Friday · Nov 20</p><h3>Pool Day</h3><p class="meta">10:00 am–4:00 pm · Sky Pool</p></div></a>
-      <a class="reveal" href="#wedding"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Ceremony</h3><p class="meta">4:30 pm · Sunshine Garden</p><span class="chip">Beach formal</span></div></a>
-      <a class="reveal" href="#cocktail"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Cocktail Hour</h3><p class="meta">5:00–6:00 pm · Swan Terrace, Lower Terrace</p></div></a>
-      <a class="reveal" href="#reception"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Dinner &amp; Reception</h3><p class="meta">6:00–10:00 pm · Swan Terrace, Upper Terrace</p></div></a>
-    </div>
-  </section>
-
   <section id="weekend">
     <p class="kicker reveal">The weekend</p>
     <h2 class="reveal">Schedule</h2>
-    <p class="lede reveal">Everything in order, from Thursday night to the reception.</p>
+    <p class="lede reveal">Everything in order, from Thursday night to the reception. All times are local Cabo time.</p>
 
     <div class="tl">
       <span class="day-pill reveal">Thursday · November 19</span>
