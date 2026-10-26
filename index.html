@@ -431,13 +431,15 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
   d.addEventListener('click',function(e){if(!m.hidden&&!(e.target.closest&&e.target.closest('nav')))set(false);});
 
   /* open the right accordion if a link points inside one */
-  /* countdown (ceremony: Nov 21, 2026, 4:30 pm Cabo time = 23:30 UTC) */
+  /* countdown to the welcome bonfire: Thu Nov 19, 2026, 7:00 pm Cabo time (UTC-7) = Nov 20, 02:00 UTC */
   var t=d.getElementById('countText');
   try{
-    var target=Date.UTC(2026,10,21,23,30,0), diff=target-Date.now(), day=86400000;
+    var now=Date.now(), day=86400000;
+    var bonfire=Date.UTC(2026,10,20,2,0,0), wedding=Date.UTC(2026,10,21,23,30,0);
+    var diff=bonfire-now;
     if(diff>day){var n=Math.floor(diff/day);t.innerHTML='<b>'+n+'</b> '+(n===1?'day':'days')+' to go';}
-    else if(diff>0){t.textContent='Today’s the big day!';}
-    else if(diff>-day){t.textContent='We’re married. Thank you for being here!';}
+    else if(diff>0){t.textContent='The celebration starts tonight!';}
+    else if(now<wedding+day){t.textContent='Welcome to Cabo!';}
     else{t.textContent='Thank you for celebrating with us!';}
   }catch(e){}
 
