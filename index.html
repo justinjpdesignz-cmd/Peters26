@@ -248,8 +248,9 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
     <div class="ov">
       <a class="reveal" href="#bonfire"><div class="card"><p class="day">Thursday · Nov 19</p><h3>Welcome Bonfire</h3><p class="meta">7:00–9:00 pm · on the beach</p><span class="chip">All white</span></div></a>
       <a class="reveal" href="#pool"><div class="card"><p class="day">Friday · Nov 20</p><h3>Pool Day</h3><p class="meta">10:00 am–4:00 pm · Sky Pool</p></div></a>
-      <a class="reveal" href="#wedding"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Ceremony</h3><p class="meta">5:00 pm · Sunshine Garden</p><span class="chip">Beach formal</span></div></a>
-      <a class="reveal" href="#reception"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Reception</h3><p class="meta">5:30 pm · Swan Terrace</p></div></a>
+      <a class="reveal" href="#wedding"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Ceremony</h3><p class="meta">4:30 pm · Sunshine Garden</p><span class="chip">Beach formal</span></div></a>
+      <a class="reveal" href="#cocktail"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Cocktail Hour</h3><p class="meta">5:00–6:00 pm · Swan Terrace, Lower Terrace</p></div></a>
+      <a class="reveal" href="#reception"><div class="card"><p class="day">Saturday · Nov 21</p><h3>Dinner &amp; Reception</h3><p class="meta">6:00–10:00 pm · Swan Terrace, Upper Terrace</p></div></a>
     </div>
   </section>
 
@@ -266,7 +267,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
           <h3>Welcome Bonfire</h3>
           <p class="meta">7:00–9:00 pm · Pueblo Bonito Sunset Beach</p>
           <span class="chip">Attire: all white</span>
-          <p>Join us for a night of drinks and laughter to start our wedding weekend!</p>
+          <div class="note">Cocktails &amp; tacos on the beach. Join us for a night of drinks and laughter to start our wedding weekend!</div>
         </div>
       </div>
 
@@ -275,8 +276,8 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
         <div class="time"><b>10:00</b><i>am</i></div>
         <div class="card">
           <h3>Pool Day</h3>
-          <p class="meta">10:00 am–4:00 pm · the Sky Pool, Pueblo Bonito Sunset Beach</p>
-          <div class="note">Pool day details will be updated the day of, so check back!</div>
+          <p class="meta">10:00 am–4:00 pm · Sky Pool, Pueblo Bonito Sunset Beach</p>
+          <div class="note">Join us at the Sky Pool, or feel free to make a day for yourself to explore Cabo! Pool day details will be updated the day of, so check back.</div>
         </div>
       </div>
 
@@ -284,18 +285,10 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
       <div class="ev reveal">
         <div class="time"><b>4:30</b><i>pm</i></div>
         <div class="card">
-          <h3>Arrive</h3>
-          <p class="meta">Sunshine Garden</p>
-          <span class="chip">Attire: beach formal</span>
-          <div class="note">Plan to arrive by 4:30 pm, as carts may take a while. Beach formal means elegant but relaxed.</div>
-        </div>
-      </div>
-      <div class="ev reveal">
-        <div class="time"><b>5:00</b><i>pm</i></div>
-        <div class="card">
           <h3>Ceremony</h3>
-          <p class="meta">Sunshine Garden</p>
-          <div class="note">The ceremony begins at 5:00 pm sharp.</div>
+          <p class="meta">4:30 pm · Sunshine Garden</p>
+          <span class="chip">Attire: beach formal</span>
+          <div class="note">Please arrive a little early, as carts may take a while. Beach formal means elegant but relaxed.</div>
         </div>
       </div>
       <div class="ev reveal">
@@ -303,15 +296,23 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
         <div class="card">
           <h3>Cart ride</h3>
           <p class="meta">After the ceremony</p>
-          <div class="note">Carts will be lined up to take everyone from the ceremony to the reception.</div>
+          <div class="note">Carts will be lined up to take everyone from the ceremony to Swan Terrace.</div>
+        </div>
+      </div>
+      <div class="ev reveal" id="cocktail">
+        <div class="time"><b>5:00</b><i>pm</i></div>
+        <div class="card">
+          <h3>Cocktail Hour</h3>
+          <p class="meta">5:00–6:00 pm · Swan Terrace, Lower Terrace</p>
+          <div class="note">Drinks and mingling at Swan Terrace, Pueblo Bonito Sunset Beach Resort.</div>
         </div>
       </div>
       <div class="ev reveal" id="reception">
-        <div class="time"><b>5:30</b><i>pm</i></div>
+        <div class="time"><b>6:00</b><i>pm</i></div>
         <div class="card">
-          <h3>Reception</h3>
-          <p class="meta">Swan Terrace</p>
-          <div class="note">Reception to follow at Swan Terrace, Pueblo Bonito Sunset Beach Resort.</div>
+          <h3>Dinner &amp; Reception</h3>
+          <p class="meta">6:00–10:00 pm · Swan Terrace, Upper Terrace</p>
+          <div class="note">Dinner and celebration to follow at Swan Terrace, Pueblo Bonito Sunset Beach Resort.</div>
         </div>
       </div>
     </div>
@@ -452,10 +453,10 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
   d.addEventListener('click',function(e){if(!m.hidden&&!(e.target.closest&&e.target.closest('nav')))set(false);});
 
   /* open the right accordion if a link points inside one */
-  /* countdown (ceremony: Nov 21, 2026, 5:00 pm Cabo time = Nov 22, 00:00 UTC) */
+  /* countdown (ceremony: Nov 21, 2026, 4:30 pm Cabo time = 23:30 UTC) */
   var t=d.getElementById('countText');
   try{
-    var target=Date.UTC(2026,10,22,0,0,0), diff=target-Date.now(), day=86400000;
+    var target=Date.UTC(2026,10,21,23,30,0), diff=target-Date.now(), day=86400000;
     if(diff>day){var n=Math.floor(diff/day);t.innerHTML='<b>'+n+'</b> '+(n===1?'day':'days')+' to go';}
     else if(diff>0){t.textContent='Today’s the big day!';}
     else if(diff>-day){t.textContent='We’re married. Thank you for being here!';}
