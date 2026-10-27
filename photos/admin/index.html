@@ -41,6 +41,8 @@ h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0
 .tile.sel .tick{background:var(--navy)}
 [hidden]{display:none!important}
 .btn[disabled]{opacity:.5;cursor:default}
+.show{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 0;font-size:.92rem;color:var(--muted);cursor:pointer;min-height:44px}
+.show input{width:20px;height:20px;min-height:0;padding:0;margin:0;accent-color:var(--navy)}
 .login .btn{width:100%;margin-top:12px;min-height:52px;font-size:1rem}
 .err{color:var(--bad);min-height:1.3em;margin:10px 0 0;font-size:.9rem}
 #app{display:none}
@@ -84,7 +86,7 @@ main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
 <div class="login" id="login">
   <h1>Photo gallery</h1>
   <p>Enter the passcode to view the guest photos.</p>
-  <form id="form"><input id="pass" type="password" autocomplete="current-password" placeholder="Passcode" aria-label="Passcode"><button class="btn" type="submit" id="open">Open gallery</button></form>
+  <form id="form"><input id="pass" type="password" autocomplete="current-password" placeholder="Passcode" aria-label="Passcode"><label class="show"><input type="checkbox" id="showpw"> Show passcode</label><button class="btn" type="submit" id="open">Open gallery</button></form>
   <p class="err" id="err" role="alert"></p>
 </div>
 
@@ -258,6 +260,7 @@ $('dlShown').onclick=function(){bulk(shown,false)};
 $('refresh').onclick=function(){load().then(function(){toast('Refreshed.')}).catch(function(e){toast(e.message)})};
 $('who').onchange=function(){whoFilter=$('who').value;render();};
 
+$('showpw').onchange=function(){$('pass').type=this.checked?'text':'password';$('pass').focus();};
 $('form').onsubmit=function(e){
   e.preventDefault();pass=$('pass').value;if(!pass)return;$('err').textContent='';$('open').disabled=true;$('open').textContent='Checking…';
   load().catch(function(er){$('err').textContent=er.message;try{sessionStorage.removeItem('p26admin')}catch(x){}}).finally(function(){$('open').disabled=false;$('open').textContent='Open gallery';});
