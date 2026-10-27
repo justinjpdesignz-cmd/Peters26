@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Share Your Photos · Justin &amp; Hannah</title>
+<meta name="description" content="Upload the photos and videos you take at Justin &amp; Hannah's wedding weekend in Cabo.">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Justin &amp; Hannah">
+<meta property="og:url" content="https://peters26.com/photos/">
+<meta property="og:title" content="Share your photos · Justin &amp; Hannah">
+<meta property="og:description" content="Add the photos and videos you take at our wedding weekend in Cabo.">
+<meta property="og:image" content="https://peters26.com/images/og-photos.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Share your photos from Justin &amp; Hannah's wedding weekend">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://peters26.com/images/og-photos.png">
+<meta name="theme-color" content="#f6f1e9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231c3560'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='26' text-anchor='middle' fill='%23f6f1e9'%3EJ%26H%3C/text%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Cormorant Garamond";font-weight:500;font-display:swap;src:url(../../fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-weight:600;font-display:swap;src:url(../../fonts/cormorant-garamond-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-weight:400;font-display:swap;src:url(../../fonts/montserrat-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-weight:500;font-display:swap;src:url(../../fonts/montserrat-latin-500-normal.woff2) format("woff2")}
+:root{--cream:#f6f1e9;--ivory:#fbf8f3;--sand:#ece4d8;--sky:#a8c3de;--dusty:#6f93b8;--navy:#1c3560;--tan:#b88c66;--ink:#1c2a45;--muted:#4f5c75;--line:#e2d8c9;--ok:#2f7d5b;--bad:#b3402f;
+--serif:"Cormorant Garamond",Georgia,serif;--sans:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 1.0625rem/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--navy);text-underline-offset:3px}
+button,input{font:inherit;color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,label:focus-within{outline:3px solid var(--dusty);outline-offset:3px;border-radius:12px}
+.top{background:linear-gradient(180deg,#d3e1ef 0%,#e8eef3 60%,var(--cream) 100%);text-align:center;padding:max(28px,env(safe-area-inset-top)) 20px 44px}
+.back{display:inline-block;font-size:.9rem;font-weight:500;text-decoration:none;color:var(--navy);padding:10px 14px;margin-bottom:12px}
+.eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--navy);font-weight:500;margin:0 0 10px}
+h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:0;letter-spacing:.02em}
+.wrap{max-width:600px;margin:0 auto;padding:0 16px 120px}
+.card{background:var(--ivory);border:1px solid var(--line);border-radius:18px;padding:22px 18px;box-shadow:0 1px 2px rgba(28,53,96,.05),0 8px 24px rgba(28,53,96,.07);margin-top:-10px}
+.step{margin:0 0 22px}
+.lbl{display:flex;align-items:center;gap:10px;font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:10px}
+.lbl i{font-style:normal;display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:.75rem;letter-spacing:0}
+#who{width:100%;font-size:1rem;padding:14px 16px;min-height:52px;border:1px solid var(--line);border-radius:14px;background:#fff}
+#who.err{border-color:var(--bad);box-shadow:0 0 0 3px rgba(179,64,47,.15)}
+.hint{margin:6px 2px 0;font-size:.85rem;color:var(--bad);min-height:1.2em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;min-height:46px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:.92rem;font-weight:500;color:var(--muted)}
+.chip input:checked+span{background:var(--navy);border-color:var(--navy);color:#fff}
+.chip input:focus-visible+span{outline:3px solid var(--dusty);outline-offset:2px}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;border:2px dashed var(--sky);border-radius:16px;background:#fff;padding:30px 16px;cursor:pointer;min-height:150px;transition:background .15s,border-color .15s}
+.drop:hover,.drop.over{background:#eef4fa;border-color:var(--dusty)}
+.drop .big{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:12px 26px;border-radius:999px;background:var(--navy);color:#fff;font-weight:500;font-size:1rem}
+.drop small{color:var(--muted);font-size:.85rem}
+.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.list{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+.it{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}
+.th{width:56px;height:56px;border-radius:10px;background:var(--sand);overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:1.3rem}
+.th img,.th video{width:100%;height:100%;object-fit:cover;display:block}
+.nm{font-size:.92rem;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.st{font-size:.8rem;color:var(--muted)}
+.st.ok{color:var(--ok);font-weight:500}.st.bad{color:var(--bad);font-weight:500}
+.bar{height:6px;border-radius:99px;background:var(--sand);margin-top:6px;overflow:hidden}
+.bar b{display:block;height:100%;width:0;background:var(--dusty);transition:width .2s}
+.it.done .bar b{background:var(--ok)}.it.error .bar b{background:var(--bad)}
+.act{min-width:44px;min-height:44px;border:0;border-radius:12px;background:transparent;color:var(--navy);font-weight:500;font-size:.85rem;cursor:pointer;padding:0 10px}
+.act:hover{background:var(--sand)}
+.tips{list-style:none;margin:22px 0 0;padding:0;color:var(--muted);font-size:.92rem}
+.tips li{padding:9px 0 9px 26px;position:relative;border-top:1px solid var(--line)}
+.tips li::before{content:"";position:absolute;left:4px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--sky)}
+.note{border-left:3px solid var(--sky);padding:2px 0 2px 14px;margin:18px 0 0;color:var(--muted);font-size:.92rem}
+.foot{text-align:center;color:var(--muted);font-size:.9rem;margin-top:24px}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:rgba(251,248,243,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));transform:translateY(110%);transition:transform .2s;z-index:5}
+.bottom.show{transform:none}
+.bottom .in{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.bottom .sum{flex:1;font-size:.88rem;font-weight:500;min-width:0}
+.bottom .sum small{display:block;font-weight:400;color:var(--muted)}
+.go{min-height:52px;padding:0 24px;border:0;border-radius:999px;background:var(--navy);color:#fff;font-weight:500;font-size:1rem;cursor:pointer;white-space:nowrap}
+.go[disabled]{opacity:.5;cursor:default}
+.thanks{display:none;text-align:center;padding:18px 8px 4px}
+.thanks.show{display:block}
+.thanks h2{font:500 2rem/1.1 var(--serif);color:var(--navy);margin:0 0 6px}
+.thanks p{margin:0;color:var(--muted)}
+.nojs{margin-top:14px;color:var(--muted);font-size:.95rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="../../">← Back to the guide</a>
+  <p class="eyebrow">Justin &amp; Hannah · Cabo 2026</p>
+  <h1>Share your photos</h1>
+</header>
+
+<main class="wrap">
+  <div class="card">
+    <div class="step">
+      <div class="lbl"><i>1</i><label for="who">Your name</label></div>
+      <input id="who" type="text" autocomplete="name" placeholder="So we know who took them" maxlength="60">
+      <p class="hint" id="whoHint" role="alert"></p>
+    </div>
+
+    <div class="step">
+      <div class="lbl"><i>2</i><span id="evLbl">What are these from?</span></div>
+      <div class="chips" role="radiogroup" aria-labelledby="evLbl" id="chips">
+        <label class="chip"><input type="radio" name="ev" value="Cabo adventures" checked><span>Cabo adventures</span></label>
+        <label class="chip"><input type="radio" name="ev" value="Welcome bonfire"><span>Welcome bonfire</span></label>
+        <label class="chip"><input type="radio" name="ev" value="Pool day"><span>Pool day</span></label>
+        <label class="chip"><input type="radio" name="ev" value="Ceremony"><span>Ceremony</span></label>
+        <label class="chip"><input type="radio" name="ev" value="Cocktail hour"><span>Cocktail hour</span></label>
+        <label class="chip"><input type="radio" name="ev" value="Reception"><span>Dinner &amp; reception</span></label>
+      </div>
+    </div>
+
+    <div class="step" style="margin-bottom:0">
+      <div class="lbl"><i>3</i><span>Choose your photos &amp; videos</span></div>
+      <label class="drop" id="drop">
+        <span class="big" id="pick">Add photos &amp; videos</span>
+        <small>Tap to choose from your phone, or drop files here</small>
+        <input id="file" type="file" multiple accept="image/*,video/*">
+      </label>
+      <ul class="list" id="list" aria-live="polite"></ul>
+      <div class="thanks" id="thanks" role="status"><h2>Thank you!</h2><p id="thanksTxt"></p></div>
+    </div>
+
+    <p class="nojs" id="nojs">This page needs JavaScript to upload. If it doesn’t load, try again with a stronger signal, or send your photos to Justin or Hannah directly.</p>
+
+    <ul class="tips">
+      <li>Pick your name and event first. It helps us sort everything.</li>
+      <li>Each file can be up to 500&nbsp;MB, so very long videos may need to be trimmed.</li>
+      <li>Resort Wi-Fi can be slow. Keep this page open while it uploads, or come back after you’re home. Failed files can be retried.</li>
+    </ul>
+    <div class="note">Your uploads go straight to Justin and Hannah. There’s no public gallery.</div>
+  </div>
+  <p class="foot"><a href="../../">Back to the resort guide</a></p>
+</main>
+
+<div class="bottom" id="bottom"><div class="in"><div class="sum" id="sum"></div><button class="go" id="go" type="button">Upload</button></div></div>
+
+<script>
+(function(){
+  var API='https://t5e5ehsifanwb76pvjnq6wsx5q0shtzi.lambda-url.us-east-2.on.aws/', MAX=524288000, PARALLEL=2;
+  var $=function(id){return document.getElementById(id)};
+  var who=$('who'),file=$('file'),drop=$('drop'),list=$('list'),bottom=$('bottom'),sum=$('sum'),go=$('go'),thanks=$('thanks');
+  $('nojs').style.display='none';
+
+  try{ who.value=localStorage.getItem('p26name')||''; }catch(e){}
+  who.addEventListener('input',function(){ who.classList.remove('err'); $('whoHint').textContent=''; try{localStorage.setItem('p26name',who.value)}catch(e){} });
+
+  var items=[], seq=0, running=0, lock=null;
+  function ev(){ return document.querySelector('input[name=ev]:checked').value; }
+  function size(n){ return n>=1048576 ? (n/1048576).toFixed(n>=1.05e8?0:1)+' MB' : Math.max(1,Math.round(n/1024))+' KB'; }
+  function ok(f){ return /^(image|video)\//.test(f.type) || /\.(jpe?g|png|gif|heic|heif|webp|avif|mp4|mov|m4v|3gp|webm)$/i.test(f.name); }
+
+  function add(files){
+    thanks.classList.remove('show');
+    Array.prototype.forEach.call(files,function(f){
+      var it={id:++seq,file:f,status:'ready',pct:0,msg:''};
+      if(!ok(f)){ it.status='error'; it.msg='Only photos and videos can be added.'; it.fatal=true; }
+      else if(f.size>MAX){ it.status='error'; it.msg='Over the 500 MB limit ('+size(f.size)+'). Try trimming it.'; it.fatal=true; }
+      items.push(it); build(it);
+    });
+    file.value=''; refresh();
+  }
+
+  function build(it){
+    var li=document.createElement('li'); li.className='it'; it.el=li;
+    li.innerHTML='<div class="th"></div><div style="min-width:0"><div class="nm"></div><div class="st"></div><div class="bar"><b></b></div></div><button type="button" class="act"></button>';
+    li.querySelector('.nm').textContent=it.file.name;
+    var th=li.querySelector('.th');
+    try{
+      var u=URL.createObjectURL(it.file); it.url=u;
+      if(/^image\//.test(it.file.type) && !/hei[cf]$/i.test(it.file.name)){ var im=new Image(); im.alt=''; im.src=u; im.onerror=function(){th.textContent='🖼'}; th.appendChild(im); }
+      else if(/^video\//.test(it.file.type)){ var v=document.createElement('video'); v.muted=true; v.preload='metadata'; v.playsInline=true; v.src=u+'#t=0.1'; th.appendChild(v); }
+      else th.textContent='🖼';
+    }catch(e){ th.textContent='🖼'; }
+    li.querySelector('.act').addEventListener('click',function(){ act(it); });
+    list.appendChild(li); paint(it);
+  }
+
+  function paint(it){
+    var li=it.el, st=li.querySelector('.st'), b=li.querySelector('.bar b'), a=li.querySelector('.act');
+    li.className='it '+it.status; st.className='st'; b.style.width=(it.status==='done'?100:it.pct)+'%';
+    if(it.status==='ready'){ st.textContent=size(it.file.size)+' · ready'; a.textContent='Remove'; a.setAttribute('aria-label','Remove '+it.file.name); }
+    else if(it.status==='queued'){ st.textContent='Waiting…'; a.textContent='Cancel'; }
+    else if(it.status==='uploading'){ st.textContent='Uploading '+it.pct+'% of '+size(it.file.size); a.textContent='Cancel'; }
+    else if(it.status==='done'){ st.textContent='Uploaded ✓'; st.className='st ok'; a.textContent=''; a.style.visibility='hidden'; }
+    else { st.textContent=it.msg; st.className='st bad'; a.textContent=it.fatal?'Remove':'Retry'; a.setAttribute('aria-label',(it.fatal?'Remove ':'Retry ')+it.file.name); }
+  }
+
+  function cancelIt(it){
+    it.cancelled=true; if(it.xhr) try{it.xhr.abort()}catch(e){}
+    if(it.session&&it.session.mode==='multipart'){ var q=it.session; it.session=null; try{post({action:'abort',key:q.key,uploadId:q.uploadId}).catch(function(){})}catch(e){} }
+  }
+  function remove(it){
+    cancelIt(it);
+    if(it.url) try{URL.revokeObjectURL(it.url)}catch(e){}
+    it.el.remove(); items=items.filter(function(x){return x!==it}); refresh();
+  }
+  function act(it){
+    if(it.status==='error' && !it.fatal){ it.status='queued'; it.pct=0; paint(it); pump(); refresh(); return; }
+    if(it.status==='uploading'||it.status==='queued'){ cancelIt(it); it.status='ready'; it.pct=0; paint(it); refresh(); return; }
+    remove(it);
+  }
+
+  function count(s){ return items.filter(function(i){return s.indexOf(i.status)>-1}).length; }
+  function refresh(){
+    var ready=count(['ready']), busy=count(['queued','uploading']), done=count(['done']), failed=items.filter(function(i){return i.status==='error'&&!i.fatal}).length;
+    var total=ready+busy+done+failed;
+    bottom.classList.toggle('show', items.length>0);
+    go.style.display='';
+    if(busy){ go.style.display='none'; sum.innerHTML='Uploading '+(done+1>total?total:done+1)+' of '+total+'…<small>Keep this page open</small>'; }
+    else if(ready){ go.disabled=false; go.textContent='Upload '+ready+(ready===1?' file':' files'); sum.innerHTML=ready+' ready'+(done?' · '+done+' uploaded':'')+(failed?' · '+failed+' failed':''); }
+    else if(failed){ go.disabled=false; go.textContent='Retry '+failed; sum.innerHTML=failed+' failed'+(done?' · '+done+' uploaded':'')+'<small>Tap Retry when your signal is better</small>'; }
+    else if(done){ go.textContent='Add more'; go.disabled=false; sum.innerHTML=done+' uploaded ✓'; }
+    else { bottom.classList.remove('show'); }
+    if(!busy && done && !ready && !failed){
+      $('thanksTxt').textContent=done+(done===1?' file':' files')+' uploaded. Add more any time, even after you’re home.'; thanks.classList.add('show');
+    }
+    keepAwake(busy>0);
+  }
+
+  function keepAwake(on){
+    try{
+      if(on && !lock && navigator.wakeLock){ navigator.wakeLock.request('screen').then(function(l){lock=l; l.addEventListener('release',function(){lock=null})}).catch(function(){}); }
+      if(!on && lock){ lock.release(); lock=null; }
+    }catch(e){}
+  }
+  window.addEventListener('beforeunload',function(e){ if(count(['queued','uploading'])){ e.preventDefault(); e.returnValue=''; } });
+
+  function start(){
+    var name=who.value.trim();
+    if(!name){ who.classList.add('err'); $('whoHint').textContent='Please add your name first.'; who.scrollIntoView({block:'center',behavior:'smooth'}); who.focus(); return; }
+    var e=ev();
+    items.forEach(function(it){ if(it.status==='ready'){ it.meta={uploader:name.slice(0,60),event:e}; it.status='queued'; paint(it); } else if(it.status==='error'&&!it.fatal&&!it.meta){ it.meta={uploader:name.slice(0,60),event:e}; } });
+    items.forEach(function(it){ if(it.status==='error'&&!it.fatal){ it.status='queued'; it.pct=0; paint(it);} });
+    pump(); refresh();
+  }
+
+  function pump(){
+    var next;
+    while(running<PARALLEL && (next=items.filter(function(i){return i.status==='queued'})[0])){ send(next); }
+  }
+
+  function post(body){
+    return fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(function(r){
+      return r.json().catch(function(){return {}}).then(function(j){ if(!r.ok) throw new Error(j.error||'Server error'); return j; });
+    });
+  }
+  function put(it,url,blob,headers,onProg){
+    return new Promise(function(res,rej){
+      var x=new XMLHttpRequest(); it.xhr=x; x.open('PUT',url);
+      Object.keys(headers||{}).forEach(function(k){x.setRequestHeader(k,headers[k])});
+      x.upload.onprogress=function(e){ if(e.lengthComputable) onProg(e.loaded); };
+      x.onload=function(){ (x.status>=200&&x.status<300)?res(x.getResponseHeader('ETag')):rej(new Error('HTTP '+x.status)); };
+      x.onerror=function(){ rej(new Error('network')); };
+      x.onabort=function(){ var e=new Error('aborted'); e.aborted=true; rej(e); };
+      x.send(blob);
+    });
+  }
+  function retrying(it,fn){
+    var n=0;
+    return new Promise(function(res,rej){
+      (function go(){
+        fn().then(res,function(e){
+          if(e.aborted||it.cancelled||++n>3) return rej(e);
+          setTimeout(go,n*1500);
+        });
+      })();
+    });
+  }
+  function prog(it,bytes){
+    it.pct=Math.min(99,Math.round(bytes/it.file.size*100));
+    it.el.querySelector('.bar b').style.width=it.pct+'%';
+    it.el.querySelector('.st').textContent='Uploading '+it.pct+'% of '+size(it.file.size);
+  }
+  function upload(it){
+    var tag=it.meta||{uploader:(who.value.trim()||'Unknown').slice(0,60),event:ev()};
+    var begin=it.session?Promise.resolve():post({action:'start',name:tag.uploader,event:tag.event,size:it.file.size,type:it.file.type,filename:it.file.name,taken:it.file.lastModified}).then(function(s){ it.session=s; it.etags=[]; });
+    return begin.then(function(){
+      var s=it.session;
+      if(s.mode==='single') return retrying(it,function(){ return put(it,s.url,it.file,{'Content-Type':s.contentType},function(l){prog(it,l)}); });
+      var chain=Promise.resolve();
+      s.urls.forEach(function(url,i){
+        chain=chain.then(function(){
+          if(it.etags[i]) return;
+          var from=i*s.partSize, blob=it.file.slice(from,Math.min(it.file.size,from+s.partSize));
+          return retrying(it,function(){ return put(it,url,blob,{},function(l){prog(it,from+l)}); }).then(function(etag){
+            if(!etag) throw new Error('Upload blocked (storage settings).');
+            it.etags[i]=etag;
+          });
+        });
+      });
+      return chain.then(function(){ return post({action:'complete',key:s.key,uploadId:s.uploadId,parts:it.etags.map(function(e,i){return {PartNumber:i+1,ETag:e}})}); });
+    });
+  }
+  function send(it){
+    running++; it.status='uploading'; it.pct=0; it.cancelled=false; paint(it); refresh();
+    upload(it).then(function(){
+      it.status='done'; it.pct=100; it.session=null;
+    }).catch(function(err){
+      if(it.status!=='uploading') return;   // cancelled by the guest
+      it.status='error'; it.pct=0;
+      it.msg='Couldn’t upload (check your signal). Tap Retry.';
+    }).then(function(){
+      running--; it.xhr=null; paint(it); pump(); refresh();
+    });
+  }
+
+  go.addEventListener('click',function(){
+    if(count(['ready'])||items.some(function(i){return i.status==='error'&&!i.fatal})) start();
+    else { file.click(); }
+  });
+  file.addEventListener('change',function(){ if(file.files&&file.files.length) add(file.files); });
+  ['dragenter','dragover'].forEach(function(n){ drop.addEventListener(n,function(e){e.preventDefault(); drop.classList.add('over');}); });
+  ['dragleave','drop'].forEach(function(n){ drop.addEventListener(n,function(e){e.preventDefault(); drop.classList.remove('over');}); });
+  drop.addEventListener('drop',function(e){ if(e.dataTransfer&&e.dataTransfer.files.length) add(e.dataTransfer.files); });
+})();
+</script>
+</body>
+</html>
