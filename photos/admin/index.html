@@ -52,8 +52,10 @@ h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0
 .bar{position:sticky;top:0;z-index:5;background:rgba(246,241,233,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 16px}
 .bar .row{max-width:1400px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .bar .sp{flex:1}
-.bar .row.ctl{margin-top:8px}
-.rt{display:flex;gap:8px;flex-wrap:nowrap;margin-left:auto}
+.bar .row.main{display:grid;grid-template-columns:1fr auto;align-items:start;gap:10px 14px}
+.lft{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;min-width:0}
+.rt{display:flex;gap:8px;flex-wrap:nowrap;justify-self:end}
+@media (max-width:760px){.bar .row.main{grid-template-columns:1fr}.rt{order:-1}}
 .stats{color:var(--muted);font-size:.88rem}
 .chips{display:flex;flex-wrap:wrap;gap:6px;max-width:1400px;margin:10px auto 0}
 .chip{min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:.85rem;font-weight:500;color:var(--muted);cursor:pointer}
@@ -97,19 +99,18 @@ main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
 
 <div id="app">
   <div class="bar">
-    <div class="row top">
-      <h1 style="font-size:1.6rem">Guest photos</h1>
-      <span class="sp"></span>
-      <span class="rt"><button class="btn" id="dlShown" type="button">Download shown…</button><button class="btn signout" id="out" type="button">Sign out</button></span>
-    </div>
-    <div class="row ctl">
-      <span class="stats" id="stats"></span>
-      <span class="sp"></span>
-      <select id="who" aria-label="Filter by guest"><option value="">All guests</option></select>
-      <button class="btn ghost" id="refresh" type="button">Refresh</button>
-      <button class="btn ghost" id="selBtn" type="button">Select</button>
-      <button class="btn ghost" id="selAll" type="button" hidden>Select all shown</button>
-      <button class="btn danger" id="delSel" type="button" hidden>Delete selected (0)</button>
+    <div class="row main">
+      <div class="lft">
+        <h1 style="font-size:1.6rem">Guest photos</h1>
+        <span class="stats" id="stats"></span>
+        <span class="sp"></span>
+        <select id="who" aria-label="Filter by guest"><option value="">All guests</option></select>
+        <button class="btn ghost" id="refresh" type="button">Refresh</button>
+        <button class="btn ghost" id="selBtn" type="button">Select</button>
+        <button class="btn ghost" id="selAll" type="button" hidden>Select all shown</button>
+        <button class="btn danger" id="delSel" type="button" hidden>Delete selected (0)</button>
+      </div>
+      <div class="rt"><button class="btn" id="dlShown" type="button">Download shown…</button><button class="btn signout" id="out" type="button">Sign out</button></div>
     </div>
     <div class="chips" id="chips" role="group" aria-label="Filter by event"></div>
   </div>
