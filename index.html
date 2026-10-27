@@ -76,6 +76,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .dots{display:flex;gap:10px;justify-content:center;margin:26px 0 0;padding:0;list-style:none}
 .dots li{width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(28,53,96,.12)}
 .count{display:inline-block;margin-top:26px;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(28,53,96,.14);font-size:.9rem;font-weight:500;color:var(--navy)}
+.share{display:inline-flex;align-items:center;justify-content:center;min-height:46px;margin-top:14px;padding:10px 22px;border-radius:999px;background:var(--navy);color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;letter-spacing:.02em}
+.share:hover{background:#142848}
 .count b{font:600 1.35rem/1 var(--serif);margin-right:4px}
 .waves{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:110px;display:block}
 
@@ -210,6 +212,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
     <li style="background:#ece6dc"></li><li style="background:#a8c3de"></li><li style="background:#6f93b8"></li><li style="background:#1c3560"></li><li style="background:#b88c66"></li><li style="background:#c9a37f"></li>
   </ul>
   <div class="count" id="count"><span id="countText">Welcome to Cabo</span></div>
+  <div><a class="share" href="photos/">Share your photos &amp; videos</a></div>
   <svg class="waves" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
     <path fill="#a8c3de" opacity=".55" d="M0 58C240 18 480 98 720 58S1200 18 1440 58V120H0Z"/>
     <path fill="#6f93b8" opacity=".33" d="M0 80C260 50 500 110 760 80S1220 50 1440 80V120H0Z"/>
