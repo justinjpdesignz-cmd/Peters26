@@ -244,8 +244,10 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
   }
 
   function post(body){
-    return fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(function(r){
-      return r.json().catch(function(){return {}}).then(function(j){ if(!r.ok) throw new Error(j.error||'Server error'); return j; });
+    return fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).catch(function(){
+      throw new Error('step 1: cannot reach the upload service');
+    }).then(function(r){
+      return r.json().catch(function(){return {}}).then(function(j){ if(!r.ok) throw new Error('step 1: service said '+r.status+(j.error?' - '+j.error:'')); return j; });
     });
   }
   function put(it,url,blob,headers,onProg){
@@ -253,8 +255,8 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
       var x=new XMLHttpRequest(); it.xhr=x; x.open('PUT',url);
       Object.keys(headers||{}).forEach(function(k){x.setRequestHeader(k,headers[k])});
       x.upload.onprogress=function(e){ if(e.lengthComputable) onProg(e.loaded); };
-      x.onload=function(){ (x.status>=200&&x.status<300)?res(x.getResponseHeader('ETag')):rej(new Error('HTTP '+x.status)); };
-      x.onerror=function(){ rej(new Error('network')); };
+      x.onload=function(){ (x.status>=200&&x.status<300)?res(x.getResponseHeader('ETag')):rej(new Error('step 2: storage said '+x.status)); };
+      x.onerror=function(){ rej(new Error('step 2: storage blocked or unreachable')); };
       x.onabort=function(){ var e=new Error('aborted'); e.aborted=true; rej(e); };
       x.send(blob);
     });
@@ -287,7 +289,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
           if(it.etags[i]) return;
           var from=i*s.partSize, blob=it.file.slice(from,Math.min(it.file.size,from+s.partSize));
           return retrying(it,function(){ return put(it,url,blob,{},function(l){prog(it,from+l)}); }).then(function(etag){
-            if(!etag) throw new Error('Upload blocked (storage settings).');
+            if(!etag) throw new Error('step 2: storage did not return a receipt (bucket CORS)');
             it.etags[i]=etag;
           });
         });
@@ -302,7 +304,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     }).catch(function(err){
       if(it.status!=='uploading') return;   // cancelled by the guest
       it.status='error'; it.pct=0;
-      it.msg='Couldn’t upload (check your signal). Tap Retry.';
+      it.msg='Couldn’t upload ('+(err&&err.message||'unknown')+'). Tap Retry.';
     }).then(function(){
       running--; it.xhr=null; paint(it); pump(); refresh();
     });
