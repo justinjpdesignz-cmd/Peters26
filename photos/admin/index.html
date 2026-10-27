@@ -34,6 +34,8 @@ h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0
 .login input{width:100%;padding:14px 16px;min-height:52px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:1rem}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid var(--navy);border-radius:999px;background:var(--navy);color:#fff;font-weight:500;font-size:.9rem;cursor:pointer;white-space:nowrap}
 .btn.ghost{background:transparent;color:var(--navy)}
+.btn.signout{background:transparent;color:var(--bad);border-color:var(--bad)}
+.btn.signout:hover{background:var(--bad);color:#fff}
 .btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
 .tile.sel{outline:4px solid var(--navy);outline-offset:-4px}
 .tile .tick{position:absolute;top:8px;left:8px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.9);border:2px solid var(--navy);color:#fff;display:none;place-items:center;font-size:.9rem;font-weight:700}
@@ -50,6 +52,8 @@ h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0
 .bar{position:sticky;top:0;z-index:5;background:rgba(246,241,233,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 16px}
 .bar .row{max-width:1400px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .bar .sp{flex:1}
+.bar .row.ctl{margin-top:8px}
+.rt{display:flex;gap:8px;flex-wrap:nowrap;margin-left:auto}
 .stats{color:var(--muted);font-size:.88rem}
 .chips{display:flex;flex-wrap:wrap;gap:6px;max-width:1400px;margin:10px auto 0}
 .chip{min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:.85rem;font-weight:500;color:var(--muted);cursor:pointer}
@@ -93,17 +97,19 @@ main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
 
 <div id="app">
   <div class="bar">
-    <div class="row">
+    <div class="row top">
       <h1 style="font-size:1.6rem">Guest photos</h1>
+      <span class="sp"></span>
+      <span class="rt"><button class="btn" id="dlShown" type="button">Download shown…</button><button class="btn signout" id="out" type="button">Sign out</button></span>
+    </div>
+    <div class="row ctl">
       <span class="stats" id="stats"></span>
       <span class="sp"></span>
       <select id="who" aria-label="Filter by guest"><option value="">All guests</option></select>
       <button class="btn ghost" id="refresh" type="button">Refresh</button>
       <button class="btn ghost" id="selBtn" type="button">Select</button>
-      <button class="btn ghost" id="out" type="button">Sign out</button>
       <button class="btn ghost" id="selAll" type="button" hidden>Select all shown</button>
       <button class="btn danger" id="delSel" type="button" hidden>Delete selected (0)</button>
-      <button class="btn" id="dlShown" type="button">Download shown…</button>
     </div>
     <div class="chips" id="chips" role="group" aria-label="Filter by event"></div>
   </div>
