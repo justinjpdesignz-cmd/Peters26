@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Photo Gallery · Justin &amp; Hannah</title>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="theme-color" content="#f6f1e9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231c3560'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='26' text-anchor='middle' fill='%23f6f1e9'%3EJ%26H%3C/text%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Cormorant Garamond";font-weight:500;font-display:swap;src:url(../../fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-weight:400;font-display:swap;src:url(../../fonts/montserrat-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-weight:500;font-display:swap;src:url(../../fonts/montserrat-latin-500-normal.woff2) format("woff2")}
+:root{--cream:#f6f1e9;--ivory:#fbf8f3;--sand:#ece4d8;--sky:#a8c3de;--dusty:#6f93b8;--navy:#1c3560;--ink:#1c2a45;--muted:#4f5c75;--line:#e2d8c9;--bad:#b3402f;
+--serif:"Cormorant Garamond",Georgia,serif;--sans:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 1rem/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,.tile:focus-visible{outline:3px solid var(--dusty);outline-offset:2px;border-radius:10px}
+h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0}
+.login{max-width:420px;margin:12vh auto 0;padding:28px 22px;background:var(--ivory);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(28,53,96,.08);text-align:center}
+.login p{color:var(--muted);margin:10px 0 18px}
+.login input{width:100%;padding:14px 16px;min-height:52px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:1rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid var(--navy);border-radius:999px;background:var(--navy);color:#fff;font-weight:500;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn[disabled]{opacity:.5;cursor:default}
+.login .btn{width:100%;margin-top:12px;min-height:52px;font-size:1rem}
+.err{color:var(--bad);min-height:1.3em;margin:10px 0 0;font-size:.9rem}
+#app{display:none}
+.bar{position:sticky;top:0;z-index:5;background:rgba(246,241,233,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 16px}
+.bar .row{max-width:1400px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.bar .sp{flex:1}
+.stats{color:var(--muted);font-size:.88rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;max-width:1400px;margin:10px auto 0}
+.chip{min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:.85rem;font-weight:500;color:var(--muted);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+select{min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:.9rem}
+main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
+.sec{margin-top:28px}
+.sec h2{display:flex;flex-wrap:wrap;align-items:center;gap:12px;font:500 1.7rem/1.1 var(--serif);color:var(--navy);margin:0 0 12px}
+.sec h2 small{font:400 .85rem var(--sans);color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.tile{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--sand);border:0;padding:0;cursor:pointer;display:block;width:100%}
+.tile img,.tile video{width:100%;height:100%;object-fit:cover;display:block}
+.tile .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 8px 6px;background:linear-gradient(transparent,rgba(10,20,40,.72));color:#fff;font-size:.74rem;line-height:1.25;text-align:left;pointer-events:none}
+.tile .play{position:absolute;top:8px;right:8px;background:rgba(10,20,40,.65);color:#fff;border-radius:999px;font-size:.7rem;padding:2px 8px}
+.tile .alt{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:.8rem;padding:10px}
+.empty{color:var(--muted);padding:40px 0;text-align:center}
+.lb{position:fixed;inset:0;z-index:20;background:#0a1020;display:none;flex-direction:column;color:#fff}
+.lb.show{display:flex}
+.lb .top{display:flex;align-items:center;gap:10px;padding:10px 14px calc(10px)}
+.lb .meta{flex:1;min-width:0;font-size:.9rem}
+.lb .meta b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb .meta span{color:#c4cde0;font-size:.8rem}
+.lb .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;padding:0 8px}
+.lb .stage img,.lb .stage video{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.lb .nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:64px;border:0;border-radius:12px;background:rgba(255,255,255,.14);color:#fff;font-size:1.6rem;cursor:pointer}
+.lb .prev{left:8px}.lb .next{right:8px}
+.lb .btn{background:#fff;color:var(--navy);border-color:#fff}
+.lb .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.lb .msg{color:#c4cde0;text-align:center;padding:20px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:14px;font-size:.9rem;z-index:30;display:none;max-width:90vw;text-align:center}
+.toast.show{display:block}
+</style>
+</head>
+<body>
+<div class="login" id="login">
+  <h1>Photo gallery</h1>
+  <p>Enter the passcode to view the guest photos.</p>
+  <form id="form"><input id="pass" type="password" autocomplete="current-password" placeholder="Passcode" aria-label="Passcode"><button class="btn" type="submit" id="open">Open gallery</button></form>
+  <p class="err" id="err" role="alert"></p>
+</div>
+
+<div id="app">
+  <div class="bar">
+    <div class="row">
+      <h1 style="font-size:1.6rem">Guest photos</h1>
+      <span class="stats" id="stats"></span>
+      <span class="sp"></span>
+      <select id="who" aria-label="Filter by guest"><option value="">All guests</option></select>
+      <button class="btn ghost" id="refresh" type="button">Refresh</button>
+      <button class="btn" id="dlShown" type="button">Download shown…</button>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by event"></div>
+  </div>
+  <main id="main"></main>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="top"><div class="meta"><b id="lbName"></b><span id="lbSub"></span></div><button class="btn ghost" id="lbDl" type="button">Download</button><button class="btn" id="lbClose" type="button">Close</button></div>
+  <div class="stage" id="stage"><button class="nav prev" id="prev" type="button" aria-label="Previous">‹</button><button class="nav next" id="next" type="button" aria-label="Next">›</button></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+var API='https://t5e5ehsifanwb76pvjnq6wsx5q0shtzi.lambda-url.us-east-2.on.aws/';
+var ORDER=['Welcome bonfire','Pool day','Ceremony','Cocktail hour','Reception','Cabo adventures'];
+var LABEL={'Reception':'Dinner & reception'};
+var $=function(id){return document.getElementById(id)};
+var pass='',all=[],shown=[],evFilter='',whoFilter='',cur=-1,toastT;
+
+function toast(t,ms){var e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toastT);if(ms!==0)toastT=setTimeout(function(){e.classList.remove('show')},ms||3500);}
+function post(body){
+  body.passcode=pass;
+  return fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).catch(function(){throw new Error('Cannot reach the gallery service.');})
+   .then(function(r){return r.json().catch(function(){return {}}).then(function(j){ if(r.status===401) {var e=new Error(j.error||'Wrong passcode.'); e.auth=true; throw e;} if(!r.ok) throw new Error(j.error||'Server error'); return j;});});
+}
+function fmtSize(n){return n>=1073741824?(n/1073741824).toFixed(1)+' GB':n>=1048576?Math.round(n/1048576)+' MB':Math.max(1,Math.round(n/1024))+' KB';}
+var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function parse(it){
+  var i=it.key.indexOf('/'), ev=it.key.slice(0,i), f=it.key.slice(i+1);
+  var m=/^(.*)_(\d{4})-(\d{2})-(\d{2})_(\d{2})(\d{2})(\d{2})_([0-9a-f]{6})\.(\w+)$/.exec(f);
+  it.event=ev; it.file=f;
+  if(m){ it.who=m[1]; it.sort=m[2]+m[3]+m[4]+m[5]+m[6]+m[7]; var h=+m[5]; it.when=MON[+m[3]-1]+' '+(+m[4])+', '+((h%12)||12)+':'+m[6]+(h<12?' AM':' PM'); it.ext=m[9].toLowerCase(); }
+  else { it.who='Unknown'; it.sort='0'; it.when=''; it.ext=(f.split('.').pop()||'').toLowerCase(); }
+  it.video=/^(mp4|mov|m4v|3gp|webm)$/.test(it.ext);
+  return it;
+}
+
+function load(){
+  $('refresh').disabled=true;
+  return post({action:'list'}).then(function(j){
+    all=j.items.map(parse);
+    try{sessionStorage.setItem('p26admin',pass)}catch(e){}
+    $('login').style.display='none';$('app').style.display='block';
+    var who={};all.forEach(function(i){who[i.who]=1});
+    var sel=$('who'),keep=sel.value;sel.innerHTML='<option value="">All guests</option>';
+    Object.keys(who).sort().forEach(function(w){var o=document.createElement('option');o.value=w;o.textContent=w;sel.appendChild(o)});
+    sel.value=who[keep]?keep:'';whoFilter=sel.value;
+    if(j.truncated) toast('Showing the first 5,000 files.',6000);
+    render();
+  }).finally(function(){$('refresh').disabled=false;});
+}
+
+function evLabel(e){return LABEL[e]||e;}
+function render(){
+  var counts={};all.forEach(function(i){if(!whoFilter||i.who===whoFilter)counts[i.event]=(counts[i.event]||0)+1;});
+  var events=ORDER.filter(function(e){return counts[e]}).concat(Object.keys(counts).filter(function(e){return ORDER.indexOf(e)<0}));
+  if(evFilter&&!counts[evFilter]) evFilter='';
+  var chips=$('chips');chips.innerHTML='';
+  [''].concat(events).forEach(function(e){
+    var b=document.createElement('button');b.type='button';b.className='chip';b.setAttribute('aria-pressed',String(e===evFilter));
+    b.textContent=(e?evLabel(e):'All events')+' ('+(e?counts[e]:Object.keys(counts).reduce(function(a,k){return a+counts[k]},0))+')';
+    b.onclick=function(){evFilter=e;render();window.scrollTo(0,0);};chips.appendChild(b);
+  });
+  shown=all.filter(function(i){return (!evFilter||i.event===evFilter)&&(!whoFilter||i.who===whoFilter)});
+  shown.sort(function(a,b){var ea=ORDER.indexOf(a.event),eb=ORDER.indexOf(b.event);if(ea<0)ea=99;if(eb<0)eb=99;return ea-eb||(a.sort<b.sort?-1:a.sort>b.sort?1:0)});
+  var bytes=shown.reduce(function(a,i){return a+i.size},0);
+  $('stats').textContent=shown.length+' files · '+fmtSize(bytes);
+  $('dlShown').disabled=!shown.length;
+  var main=$('main');main.innerHTML='';
+  if(!shown.length){main.innerHTML='<p class="empty">No photos yet.</p>';return;}
+  events.filter(function(e){return !evFilter||e===evFilter}).forEach(function(e){
+    var list=shown.filter(function(i){return i.event===e});if(!list.length)return;
+    var sec=document.createElement('section');sec.className='sec';
+    var h=document.createElement('h2');h.appendChild(document.createTextNode(evLabel(e)));
+    var sm=document.createElement('small');sm.textContent=list.length+' files · '+fmtSize(list.reduce(function(a,i){return a+i.size},0));h.appendChild(sm);
+    var d=document.createElement('button');d.type='button';d.className='btn ghost';d.textContent='Download this event…';d.onclick=function(){bulk(list,true)};h.appendChild(d);
+    sec.appendChild(h);
+    var g=document.createElement('div');g.className='grid';
+    list.forEach(function(it){g.appendChild(tile(it))});
+    sec.appendChild(g);main.appendChild(sec);
+  });
+}
+function tile(it){
+  var b=document.createElement('button');b.type='button';b.className='tile';b.setAttribute('aria-label','Open '+it.who+' '+it.when);
+  var m;
+  if(it.video){ m=document.createElement('video');m.muted=true;m.preload='metadata';m.playsInline=true;m.src=it.url+'#t=0.1';b.appendChild(m);var p=document.createElement('span');p.className='play';p.textContent='▶ video';b.appendChild(p);}
+  else { m=new Image();m.loading='lazy';m.decoding='async';m.alt='';m.src=it.url;m.onerror=function(){m.remove();var a=document.createElement('span');a.className='alt';a.textContent=it.ext.toUpperCase()+' · tap to open';b.insertBefore(a,b.firstChild)};b.appendChild(m);}
+  var c=document.createElement('span');c.className='cap';c.textContent=it.who+(it.when?' · '+it.when:'');b.appendChild(c);
+  b.onclick=function(){open(shown.indexOf(it))};
+  return b;
+}
+
+function open(i){
+  if(i<0||i>=shown.length)return;cur=i;var it=shown[i];
+  var st=$('stage');Array.prototype.slice.call(st.querySelectorAll('img,video,.msg')).forEach(function(n){n.remove()});
+  var el;
+  if(it.video){el=document.createElement('video');el.controls=true;el.autoplay=true;el.playsInline=true;el.src=it.url;}
+  else{el=new Image();el.alt='';el.src=it.url;el.onerror=function(){el.remove();var m=document.createElement('div');m.className='msg';m.textContent='This file type can’t be shown in the browser ('+it.ext.toUpperCase()+'). Use Download.';st.appendChild(m);};}
+  st.insertBefore(el,st.firstChild);
+  $('lbName').textContent=it.who;$('lbSub').textContent=evLabel(it.event)+(it.when?' · '+it.when:'')+' · '+fmtSize(it.size)+'  ('+(i+1)+' of '+shown.length+')';
+  $('lb').classList.add('show');document.body.style.overflow='hidden';$('lbClose').focus();
+  var n=shown[i+1];if(n&&!n.video){var pre=new Image();pre.src=n.url;}
+}
+function close(){var v=$('stage').querySelector('video');if(v)v.pause();$('lb').classList.remove('show');document.body.style.overflow='';cur=-1;}
+function step(d){if(cur>=0)open((cur+d+shown.length)%shown.length);}
+$('lbClose').onclick=close;$('prev').onclick=function(){step(-1)};$('next').onclick=function(){step(1)};
+document.addEventListener('keydown',function(e){if(cur<0)return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1);});
+var tx=null;$('stage').addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+$('stage').addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;tx=null;if(Math.abs(dx)>60)step(dx<0?1:-1);});
+$('lbDl').onclick=function(){
+  var it=shown[cur];if(!it)return;$('lbDl').disabled=true;
+  post({action:'sign',key:it.key}).then(function(j){var a=document.createElement('a');a.href=j.url;a.download=it.file;document.body.appendChild(a);a.click();a.remove();})
+   .catch(function(e){toast(e.message)}).finally(function(){$('lbDl').disabled=false;});
+};
+
+async function bulk(list,isEvent){
+  if(!window.showDirectoryPicker){toast('Bulk download needs Chrome or Edge on a computer. You can still save single files from the viewer.',6000);return;}
+  var dir;try{dir=await window.showDirectoryPicker({mode:'readwrite'});}catch(e){return;}
+  var ok=0,skipped=0,bad=0,total=list.length,i=0;
+  var subs={};
+  async function one(it){
+    try{
+      if(!subs[it.event])subs[it.event]=await dir.getDirectoryHandle(it.event.replace(/[^\w .-]/g,'_'),{create:true});
+      var d=subs[it.event];
+      try{var ex=await (await d.getFileHandle(it.file)).getFile();if(ex.size===it.size){skipped++;return;}}catch(e){}
+      var r=await fetch(it.url);if(!r.ok)throw new Error(r.status);
+      var fh=await d.getFileHandle(it.file,{create:true});var w=await fh.createWritable();
+      await r.body.pipeTo(w);ok++;
+    }catch(e){bad++;}
+  }
+  var workers=[0,1,2].map(async function(){while(i<total){var it=list[i++];toast('Saving '+Math.min(i,total)+' of '+total+'…',0);await one(it);}});
+  await Promise.all(workers);
+  toast('Done: '+ok+' saved'+(skipped?', '+skipped+' already there':'')+(bad?', '+bad+' failed (try Refresh, then run again)':'')+'.',9000);
+}
+$('dlShown').onclick=function(){bulk(shown,false)};
+$('refresh').onclick=function(){load().then(function(){toast('Refreshed.')}).catch(function(e){toast(e.message)})};
+$('who').onchange=function(){whoFilter=$('who').value;render();};
+
+$('form').onsubmit=function(e){
+  e.preventDefault();pass=$('pass').value;if(!pass)return;$('err').textContent='';$('open').disabled=true;$('open').textContent='Checking…';
+  load().catch(function(er){$('err').textContent=er.message;try{sessionStorage.removeItem('p26admin')}catch(x){}}).finally(function(){$('open').disabled=false;$('open').textContent='Open gallery';});
+};
+try{var s=sessionStorage.getItem('p26admin');if(s){pass=s;load().catch(function(){pass='';});}}catch(e){}
+})();
+</script>
+</body>
+</html>
