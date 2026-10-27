@@ -138,14 +138,12 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
 
 <div class="bottom" id="bottom"><div class="in"><div class="sum" id="sum"></div><button class="go" id="go" type="button">Upload</button></div></div>
 
-<script src="uc-upload.js"></script>
 <script>
 (function(){
-  var PUBLIC_KEY='4b954acdbd7f1ae3ff26', MAX=524288000, PARALLEL=2;
+  var API='https://t5e5ehsifanwb76pvjnq6wsx5q0shtzi.lambda-url.us-east-2.on.aws/', MAX=524288000, PARALLEL=2;
   var $=function(id){return document.getElementById(id)};
   var who=$('who'),file=$('file'),drop=$('drop'),list=$('list'),bottom=$('bottom'),sum=$('sum'),go=$('go'),thanks=$('thanks');
   $('nojs').style.display='none';
-  if(!window.UCUpload){ $('nojs').style.display='block'; return; }
 
   try{ who.value=localStorage.getItem('p26name')||''; }catch(e){}
   who.addEventListener('input',function(){ who.classList.remove('err'); $('whoHint').textContent=''; try{localStorage.setItem('p26name',who.value)}catch(e){} });
@@ -191,14 +189,18 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     else { st.textContent=it.msg; st.className='st bad'; a.textContent=it.fatal?'Remove':'Retry'; a.setAttribute('aria-label',(it.fatal?'Remove ':'Retry ')+it.file.name); }
   }
 
+  function cancelIt(it){
+    it.cancelled=true; if(it.xhr) try{it.xhr.abort()}catch(e){}
+    if(it.session&&it.session.mode==='multipart'){ var q=it.session; it.session=null; try{post({action:'abort',key:q.key,uploadId:q.uploadId}).catch(function(){})}catch(e){} }
+  }
   function remove(it){
-    if(it.ctl) try{it.ctl.abort()}catch(e){}
+    cancelIt(it);
     if(it.url) try{URL.revokeObjectURL(it.url)}catch(e){}
     it.el.remove(); items=items.filter(function(x){return x!==it}); refresh();
   }
   function act(it){
     if(it.status==='error' && !it.fatal){ it.status='queued'; it.pct=0; paint(it); pump(); refresh(); return; }
-    if(it.status==='uploading'||it.status==='queued'){ if(it.ctl) try{it.ctl.abort()}catch(e){} it.status='ready'; it.pct=0; paint(it); refresh(); return; }
+    if(it.status==='uploading'||it.status==='queued'){ cancelIt(it); it.status='ready'; it.pct=0; paint(it); refresh(); return; }
     remove(it);
   }
 
@@ -241,21 +243,70 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     while(running<PARALLEL && (next=items.filter(function(i){return i.status==='queued'})[0])){ send(next); }
   }
 
-  function send(it){
-    running++; it.status='uploading'; it.pct=0; it.ctl=new AbortController(); paint(it); refresh();
+  function post(body){
+    return fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).catch(function(){
+      throw new Error('step 1: cannot reach the upload service');
+    }).then(function(r){
+      return r.json().catch(function(){return {}}).then(function(j){ if(!r.ok) throw new Error('step 1: service said '+r.status+(j.error?' - '+j.error:'')); return j; });
+    });
+  }
+  function put(it,url,blob,headers,onProg){
+    return new Promise(function(res,rej){
+      var x=new XMLHttpRequest(); it.xhr=x; x.open('PUT',url);
+      Object.keys(headers||{}).forEach(function(k){x.setRequestHeader(k,headers[k])});
+      x.upload.onprogress=function(e){ if(e.lengthComputable) onProg(e.loaded); };
+      x.onload=function(){ (x.status>=200&&x.status<300)?res(x.getResponseHeader('ETag')):rej(new Error('step 2: storage said '+x.status)); };
+      x.onerror=function(){ rej(new Error('step 2: storage blocked or unreachable')); };
+      x.onabort=function(){ var e=new Error('aborted'); e.aborted=true; rej(e); };
+      x.send(blob);
+    });
+  }
+  function retrying(it,fn){
+    var n=0;
+    return new Promise(function(res,rej){
+      (function go(){
+        fn().then(res,function(e){
+          if(e.aborted||it.cancelled||++n>3) return rej(e);
+          setTimeout(go,n*1500);
+        });
+      })();
+    });
+  }
+  function prog(it,bytes){
+    it.pct=Math.min(99,Math.round(bytes/it.file.size*100));
+    it.el.querySelector('.bar b').style.width=it.pct+'%';
+    it.el.querySelector('.st').textContent='Uploading '+it.pct+'% of '+size(it.file.size);
+  }
+  function upload(it){
     var tag=it.meta||{uploader:(who.value.trim()||'Unknown').slice(0,60),event:ev()};
-    window.UCUpload.uploadFile(it.file,{
-      publicKey:PUBLIC_KEY, store:true, fileName:it.file.name, contentType:it.file.type||undefined,
-      metadata:tag, signal:it.ctl.signal, maxConcurrentRequests:2,
-      onProgress:function(p){ if(p&&p.isComputable){ it.pct=Math.min(99,Math.round(p.value*100)); var b=it.el.querySelector('.bar b'); b.style.width=it.pct+'%'; it.el.querySelector('.st').textContent='Uploading '+it.pct+'% of '+size(it.file.size); } }
-    }).then(function(){
-      it.status='done'; it.pct=100;
+    var begin=it.session?Promise.resolve():post({action:'start',name:tag.uploader,event:tag.event,size:it.file.size,type:it.file.type,filename:it.file.name,taken:it.file.lastModified}).then(function(s){ it.session=s; it.etags=[]; });
+    return begin.then(function(){
+      var s=it.session;
+      if(s.mode==='single') return retrying(it,function(){ return put(it,s.url,it.file,{'Content-Type':s.contentType},function(l){prog(it,l)}); });
+      var chain=Promise.resolve();
+      s.urls.forEach(function(url,i){
+        chain=chain.then(function(){
+          if(it.etags[i]) return;
+          var from=i*s.partSize, blob=it.file.slice(from,Math.min(it.file.size,from+s.partSize));
+          return retrying(it,function(){ return put(it,url,blob,{},function(l){prog(it,from+l)}); }).then(function(etag){
+            if(!etag) throw new Error('step 2: storage did not return a receipt (bucket CORS)');
+            it.etags[i]=etag;
+          });
+        });
+      });
+      return chain.then(function(){ return post({action:'complete',key:s.key,uploadId:s.uploadId,parts:it.etags.map(function(e,i){return {PartNumber:i+1,ETag:e}})}); });
+    });
+  }
+  function send(it){
+    running++; it.status='uploading'; it.pct=0; it.cancelled=false; paint(it); refresh();
+    upload(it).then(function(){
+      it.status='done'; it.pct=100; it.session=null;
     }).catch(function(err){
       if(it.status!=='uploading') return;   // cancelled by the guest
       it.status='error'; it.pct=0;
-      it.msg='Couldn’t upload (check your signal). Tap Retry.';
+      it.msg='Couldn’t upload ('+(err&&err.message||'unknown')+'). Tap Retry.';
     }).then(function(){
-      running--; it.ctl=null; paint(it); pump(); refresh();
+      running--; it.xhr=null; paint(it); pump(); refresh();
     });
   }
 
