@@ -262,7 +262,7 @@ $('who').onchange=function(){whoFilter=$('who').value;render();};
 
 $('showpw').onchange=function(){$('pass').type=this.checked?'text':'password';$('pass').focus();};
 $('form').onsubmit=function(e){
-  e.preventDefault();pass=$('pass').value;if(!pass)return;$('err').textContent='';$('open').disabled=true;$('open').textContent='Checking…';
+  e.preventDefault();pass=$('pass').value.trim();$('pass').value=pass;if(!pass)return;$('err').textContent='';$('open').disabled=true;$('open').textContent='Checking…';
   load().catch(function(er){$('err').textContent=er.message;try{sessionStorage.removeItem('p26admin')}catch(x){}}).finally(function(){$('open').disabled=false;$('open').textContent='Open gallery';});
 };
 try{var s=sessionStorage.getItem('p26admin');if(s){pass=s;load().catch(function(){pass='';});}}catch(e){}
