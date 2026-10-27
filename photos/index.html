@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Share Your Photos · Justin &amp; Hannah</title>
+<meta name="description" content="Upload the photos and videos you take at Justin &amp; Hannah's wedding weekend in Cabo.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f1e9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231c3560'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='26' text-anchor='middle' fill='%23f6f1e9'%3EJ%26H%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1.35.1/web/uc-file-uploader-regular.min.css">
+<style>
+@font-face{font-family:"Cormorant Garamond";font-weight:500;font-display:swap;src:url(../fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-weight:600;font-display:swap;src:url(../fonts/cormorant-garamond-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-weight:400;font-display:swap;src:url(../fonts/montserrat-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Montserrat";font-weight:500;font-display:swap;src:url(../fonts/montserrat-latin-500-normal.woff2) format("woff2")}
+:root{--cream:#f6f1e9;--ivory:#fbf8f3;--sand:#ece4d8;--sky:#a8c3de;--dusty:#6f93b8;--navy:#1c3560;--tan:#b88c66;--ink:#1c2a45;--muted:#4f5c75;--line:#e2d8c9;
+--serif:"Cormorant Garamond",Georgia,serif;--sans:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+--uc-primary-oklch:35% 0.09 260}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 1.0625rem/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--navy);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--dusty);outline-offset:3px;border-radius:8px}
+.top{background:linear-gradient(180deg,#d3e1ef 0%,#e8eef3 60%,var(--cream) 100%);text-align:center;padding:max(28px,env(safe-area-inset-top)) 20px 44px}
+.back{display:inline-block;font-size:.9rem;font-weight:500;text-decoration:none;color:var(--navy);padding:10px 14px;margin-bottom:12px}
+.eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--navy);font-weight:500;margin:0 0 10px}
+h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:0;letter-spacing:.02em}
+.wrap{max-width:560px;margin:0 auto;padding:0 20px 56px}
+.card{background:var(--ivory);border:1px solid var(--line);border-radius:18px;padding:24px 22px;box-shadow:0 1px 2px rgba(28,53,96,.05),0 8px 24px rgba(28,53,96,.07);margin-top:-10px;text-align:center}
+.card p{margin:0 0 18px}
+.up{display:flex;justify-content:center;margin:22px 0 10px;min-height:56px}
+.tips{list-style:none;margin:22px 0 0;padding:0;text-align:left;color:var(--muted);font-size:.95rem}
+.tips li{padding:10px 0 10px 28px;position:relative;border-top:1px solid var(--line)}
+.tips li::before{content:"";position:absolute;left:4px;top:19px;width:9px;height:9px;border-radius:50%;background:var(--sky)}
+.note{border-left:3px solid var(--sky);padding:2px 0 2px 14px;margin:22px 0 0;color:var(--muted);font-size:.95rem;text-align:left}
+.fallback{display:none;margin-top:14px;font-size:.95rem;color:var(--muted)}
+.foot{text-align:center;color:var(--muted);font-size:.9rem;margin-top:26px}
+</style>
+<noscript><style>.fallback{display:block}</style></noscript>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="../">← Back to the guide</a>
+  <p class="eyebrow">Justin &amp; Hannah · Cabo 2026</p>
+  <h1>Share your photos</h1>
+</header>
+
+<main class="wrap">
+  <div class="card">
+    <p>Took a photo or video this weekend? Add it here so we can enjoy it too. Thank you!</p>
+
+    <div class="up">
+      <uc-config
+        ctx-name="wedding-photos"
+        pubkey="4b954acdbd7f1ae3ff26"
+        multiple
+        accept="image/*,video/*"
+        max-local-file-size-bytes="524288000"
+        source-list="local, camera"
+      ></uc-config>
+      <uc-file-uploader-regular ctx-name="wedding-photos"></uc-file-uploader-regular>
+    </div>
+
+    <p class="fallback" id="fallback">The uploader needs JavaScript and a connection to load. If it doesn’t appear, try again when you have a stronger signal, or send your photos to Justin or Hannah directly.</p>
+
+    <ul class="tips">
+      <li>Choose as many photos and videos as you like.</li>
+      <li>Each file can be up to 500&nbsp;MB, so very long videos may need to be trimmed.</li>
+      <li>Resort Wi-Fi can be slow. You’re welcome to upload after you’re home too, and this page will stay open.</li>
+    </ul>
+    <div class="note">Your uploads go straight to Justin and Hannah. There’s no public gallery.</div>
+  </div>
+  <p class="foot"><a href="../">Back to the resort guide</a></p>
+</main>
+
+<script type="module">
+  import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1.35.1/web/file-uploader.min.js';
+  UC.defineComponents(UC);
+</script>
+<script>
+  /* if the uploader hasn't appeared after a few seconds (no signal, blocked script), show a friendly note */
+  setTimeout(function(){
+    if(!window.customElements||!customElements.get('uc-file-uploader-regular')){
+      var f=document.getElementById('fallback'); if(f) f.style.display='block';
+    }
+  },6000);
+</script>
+</body>
+</html>
