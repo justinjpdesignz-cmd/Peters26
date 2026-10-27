@@ -23,6 +23,12 @@ h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0
 .login input{width:100%;padding:14px 16px;min-height:52px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:1rem}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid var(--navy);border-radius:999px;background:var(--navy);color:#fff;font-weight:500;font-size:.9rem;cursor:pointer;white-space:nowrap}
 .btn.ghost{background:transparent;color:var(--navy)}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
+.tile.sel{outline:4px solid var(--navy);outline-offset:-4px}
+.tile .tick{position:absolute;top:8px;left:8px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.9);border:2px solid var(--navy);color:#fff;display:none;place-items:center;font-size:.9rem;font-weight:700}
+.selmode .tile .tick{display:grid}
+.tile.sel .tick{background:var(--navy)}
+[hidden]{display:none!important}
 .btn[disabled]{opacity:.5;cursor:default}
 .login .btn{width:100%;margin-top:12px;min-height:52px;font-size:1rem}
 .err{color:var(--bad);min-height:1.3em;margin:10px 0 0;font-size:.9rem}
@@ -79,6 +85,9 @@ main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
       <span class="sp"></span>
       <select id="who" aria-label="Filter by guest"><option value="">All guests</option></select>
       <button class="btn ghost" id="refresh" type="button">Refresh</button>
+      <button class="btn ghost" id="selBtn" type="button">Select</button>
+      <button class="btn ghost" id="selAll" type="button" hidden>Select all shown</button>
+      <button class="btn danger" id="delSel" type="button" hidden>Delete selected (0)</button>
       <button class="btn" id="dlShown" type="button">Download shown…</button>
     </div>
     <div class="chips" id="chips" role="group" aria-label="Filter by event"></div>
@@ -87,7 +96,7 @@ main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
 </div>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <div class="top"><div class="meta"><b id="lbName"></b><span id="lbSub"></span></div><button class="btn ghost" id="lbDl" type="button">Download</button><button class="btn" id="lbClose" type="button">Close</button></div>
+  <div class="top"><div class="meta"><b id="lbName"></b><span id="lbSub"></span></div><button class="btn ghost" id="lbDl" type="button">Download</button><button class="btn danger" id="lbDel" type="button">Delete</button><button class="btn" id="lbClose" type="button">Close</button></div>
   <div class="stage" id="stage"><button class="nav prev" id="prev" type="button" aria-label="Previous">‹</button><button class="nav next" id="next" type="button" aria-label="Next">›</button></div>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -98,7 +107,7 @@ var API='https://t5e5ehsifanwb76pvjnq6wsx5q0shtzi.lambda-url.us-east-2.on.aws/';
 var ORDER=['Welcome bonfire','Pool day','Ceremony','Cocktail hour','Reception','Cabo adventures'];
 var LABEL={'Reception':'Dinner & reception'};
 var $=function(id){return document.getElementById(id)};
-var pass='',all=[],shown=[],evFilter='',whoFilter='',cur=-1,toastT;
+var pass='',all=[],shown=[],evFilter='',whoFilter='',cur=-1,toastT,selMode=false,sel={};
 
 function toast(t,ms){var e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toastT);if(ms!==0)toastT=setTimeout(function(){e.classList.remove('show')},ms||3500);}
 function post(body){
@@ -133,6 +142,23 @@ function load(){
   }).finally(function(){$('refresh').disabled=false;});
 }
 
+function updSel(){var n=Object.keys(sel).length;$('delSel').textContent='Delete selected ('+n+')';$('delSel').disabled=!n;}
+function setSelMode(on){selMode=on;sel={};document.body.classList.toggle('selmode',on);$('selBtn').textContent=on?'Cancel':'Select';$('selAll').hidden=!on;$('delSel').hidden=!on;updSel();render();}
+function deleteKeys(keys){
+  if(!keys.length)return Promise.resolve();
+  if(!confirm('Permanently delete '+keys.length+(keys.length===1?' file':' files')+' from the bucket?\n\nThis can’t be undone. Download anything you want to keep first.'))return Promise.resolve();
+  var done=0,failed=0,chunks=[];for(var i=0;i<keys.length;i+=100)chunks.push(keys.slice(i,i+100));
+  toast('Deleting…',0);
+  return chunks.reduce(function(p,c){return p.then(function(){return post({action:'delete',keys:c}).then(function(j){done+=j.deleted;failed+=j.failed;});});},Promise.resolve()).then(function(){
+    var gone={};keys.forEach(function(k){gone[k]=1});all=all.filter(function(i){return !gone[i.key]});
+    sel={};if(cur>=0)close();render();updSel();
+    toast(done+' deleted'+(failed?', '+failed+' could not be deleted':'')+'.',6000);
+  }).catch(function(e){toast(e.message,6000)});
+}
+$('selBtn').onclick=function(){setSelMode(!selMode)};
+$('selAll').onclick=function(){shown.forEach(function(i){sel[i.key]=true});render();updSel();};
+$('delSel').onclick=function(){deleteKeys(Object.keys(sel)).then(function(){updSel();})};
+$('lbDel').onclick=function(){var it=shown[cur];if(it)deleteKeys([it.key]);};
 function evLabel(e){return LABEL[e]||e;}
 function render(){
   var counts={};all.forEach(function(i){if(!whoFilter||i.who===whoFilter)counts[i.event]=(counts[i.event]||0)+1;});
@@ -168,8 +194,10 @@ function tile(it){
   var m;
   if(it.video){ m=document.createElement('video');m.muted=true;m.preload='metadata';m.playsInline=true;m.src=it.url+'#t=0.1';b.appendChild(m);var p=document.createElement('span');p.className='play';p.textContent='▶ video';b.appendChild(p);}
   else { m=new Image();m.loading='lazy';m.decoding='async';m.alt='';m.src=it.url;m.onerror=function(){m.remove();var a=document.createElement('span');a.className='alt';a.textContent=it.ext.toUpperCase()+' · tap to open';b.insertBefore(a,b.firstChild)};b.appendChild(m);}
+  var tk=document.createElement('span');tk.className='tick';tk.textContent='✓';b.appendChild(tk);
+  if(sel[it.key])b.classList.add('sel');
   var c=document.createElement('span');c.className='cap';c.textContent=it.who+(it.when?' · '+it.when:'');b.appendChild(c);
-  b.onclick=function(){open(shown.indexOf(it))};
+  b.onclick=function(){ if(selMode){ if(sel[it.key]){delete sel[it.key];b.classList.remove('sel');}else{sel[it.key]=true;b.classList.add('sel');} updSel(); } else open(shown.indexOf(it)); };
   return b;
 }
 
