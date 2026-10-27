@@ -44,7 +44,8 @@ h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0
 .show{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 0;font-size:.92rem;color:var(--muted);cursor:pointer;min-height:44px}
 .show input{width:20px;height:20px;min-height:0;padding:0;margin:0;accent-color:var(--navy)}
 .login .btn{width:100%;margin-top:12px;min-height:52px;font-size:1rem}
-.err{color:var(--bad);min-height:1.3em;margin:10px 0 0;font-size:.9rem}
+.login .err{color:var(--bad);font-weight:500;min-height:1.3em;margin:10px 0 0;font-size:.92rem}
+.login input.bad{border-color:var(--bad);box-shadow:0 0 0 3px rgba(179,64,47,.15)}
 #app{display:none}
 .bar{position:sticky;top:0;z-index:5;background:rgba(246,241,233,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 16px}
 .bar .row{max-width:1400px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -99,6 +100,7 @@ main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
       <select id="who" aria-label="Filter by guest"><option value="">All guests</option></select>
       <button class="btn ghost" id="refresh" type="button">Refresh</button>
       <button class="btn ghost" id="selBtn" type="button">Select</button>
+      <button class="btn ghost" id="out" type="button">Sign out</button>
       <button class="btn ghost" id="selAll" type="button" hidden>Select all shown</button>
       <button class="btn danger" id="delSel" type="button" hidden>Delete selected (0)</button>
       <button class="btn" id="dlShown" type="button">Download shown…</button>
@@ -155,7 +157,7 @@ function load(){
   }).finally(function(){$('refresh').disabled=false;});
 }
 
-function updSel(){var n=Object.keys(sel).length;$('delSel').textContent='Delete selected ('+n+')';$('delSel').disabled=!n;}
+function updSel(){var n=Object.keys(sel).length;$('delSel').textContent='Delete selected ('+n+')';$('delSel').disabled=!n;var every=shown.length>0&&shown.every(function(i){return sel[i.key]});$('selAll').textContent=every?'Deselect all':'Select all shown';$('selAll').dataset.all=every?'1':'';}
 function setSelMode(on){selMode=on;sel={};Object.keys(tiles).forEach(function(k){tiles[k].classList.remove('sel')});document.body.classList.toggle('selmode',on);$('selBtn').textContent=on?'Cancel':'Select';$('selAll').hidden=!on;$('delSel').hidden=!on;updSel();}
 function deleteKeys(keys){
   if(!keys.length)return Promise.resolve();
@@ -169,7 +171,7 @@ function deleteKeys(keys){
   }).catch(function(e){toast(e.message,6000)});
 }
 $('selBtn').onclick=function(){setSelMode(!selMode)};
-$('selAll').onclick=function(){shown.forEach(function(i){sel[i.key]=true;if(tiles[i.key])tiles[i.key].classList.add('sel')});updSel();};
+$('selAll').onclick=function(){var off=$('selAll').dataset.all==='1';shown.forEach(function(i){if(off)delete sel[i.key];else sel[i.key]=true;if(tiles[i.key])tiles[i.key].classList.toggle('sel',!off)});updSel();};
 $('delSel').onclick=function(){deleteKeys(Object.keys(sel)).then(function(){updSel();})};
 $('lbDel').onclick=function(){var it=shown[cur];if(it)deleteKeys([it.key]);};
 function evLabel(e){return LABEL[e]||e;}
@@ -188,6 +190,7 @@ function render(){
   var bytes=shown.reduce(function(a,i){return a+i.size},0);
   $('stats').textContent=shown.length+' files · '+fmtSize(bytes);
   $('dlShown').disabled=!shown.length;
+  if(selMode)updSel();
   var main=$('main');main.innerHTML='';
   if(!shown.length){main.innerHTML='<p class="empty">No photos yet.</p>';return;}
   events.filter(function(e){return !evFilter||e===evFilter}).forEach(function(e){
@@ -207,7 +210,7 @@ function tile(it){
   var b=document.createElement('button');b.type='button';b.className='tile';b.setAttribute('aria-label','Open '+it.who+' '+it.when);
   var m;
   if(it.video){ m=document.createElement('video');m.muted=true;m.preload='metadata';m.playsInline=true;m.src=it.url+'#t=0.1';b.appendChild(m);var p=document.createElement('span');p.className='play';p.textContent='▶ video';b.appendChild(p);}
-  else { m=new Image();m.loading='lazy';m.decoding='async';m.alt='';m.src=it.url;m.onerror=function(){m.remove();var a=document.createElement('span');a.className='alt';a.textContent=it.ext.toUpperCase()+' · tap to open';b.insertBefore(a,b.firstChild)};b.appendChild(m);}
+  else { m=new Image();m.loading='lazy';m.decoding='async';m.alt='';m.src=it.thumb||it.url;m.onerror=function(){ if(it.thumb&&!it.thumbFailed){it.thumbFailed=true;m.src=it.url;return;} m.remove();var a=document.createElement('span');a.className='alt';a.textContent=it.ext.toUpperCase()+' · tap to open';b.insertBefore(a,b.firstChild)};b.appendChild(m);}
   var tk=document.createElement('span');tk.className='tick';tk.textContent='✓';b.appendChild(tk);
   if(sel[it.key])b.classList.add('sel');
   var c=document.createElement('span');c.className='cap';c.textContent=it.who+(it.when?' · '+it.when:'');b.appendChild(c);
@@ -263,9 +266,18 @@ $('refresh').onclick=function(){load().then(function(){toast('Refreshed.')}).cat
 $('who').onchange=function(){whoFilter=$('who').value;render();};
 
 $('showpw').onchange=function(){$('pass').type=this.checked?'text':'password';$('pass').focus();};
+$('out').onclick=function(){
+  try{sessionStorage.removeItem('p26admin')}catch(e){}
+  if(cur>=0)close();
+  pass='';all=[];shown=[];tiles={};evFilter='';whoFilter='';
+  setSelMode(false);$('main').innerHTML='';$('chips').innerHTML='';$('stats').textContent='';
+  $('app').style.display='none';$('login').style.display='';
+  $('pass').value='';$('pass').type='password';$('showpw').checked=false;$('err').textContent='';
+  window.scrollTo(0,0);$('pass').focus();
+};
 $('form').onsubmit=function(e){
-  e.preventDefault();pass=$('pass').value.trim();$('pass').value=pass;if(!pass)return;$('err').textContent='';$('open').disabled=true;$('open').textContent='Checking…';
-  load().catch(function(er){$('err').textContent=er.message;try{sessionStorage.removeItem('p26admin')}catch(x){}}).finally(function(){$('open').disabled=false;$('open').textContent='Open gallery';});
+  e.preventDefault();pass=$('pass').value.trim();$('pass').value=pass;if(!pass)return;$('err').textContent='';$('pass').classList.remove('bad');$('open').disabled=true;$('open').textContent='Checking…';
+  load().catch(function(er){$('err').textContent=er.message;$('pass').classList.add('bad');$('pass').select();try{sessionStorage.removeItem('p26admin')}catch(x){}}).finally(function(){$('open').disabled=false;$('open').textContent='Open gallery';});
 };
 try{var s=sessionStorage.getItem('p26admin');if(s){pass=s;load().catch(function(){pass='';});}}catch(e){}
 })();
