@@ -71,6 +71,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
 .tips li::before{content:"";position:absolute;left:4px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--sky)}
 .note{border-left:3px solid var(--sky);padding:2px 0 2px 14px;margin:18px 0 0;color:var(--muted);font-size:.92rem}
 .foot{text-align:center;color:var(--muted);font-size:.9rem;margin-top:24px}
+.foot a{padding:10px 6px;display:inline-block}
 .bottom{position:fixed;left:0;right:0;bottom:0;background:rgba(251,248,243,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));transform:translateY(110%);transition:transform .2s;z-index:5}
 .bottom.show{transform:none}
 .bottom .in{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:12px}
@@ -133,7 +134,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     </ul>
     <div class="note">Your uploads go straight to Justin and Hannah. There’s no public gallery.</div>
   </div>
-  <p class="foot"><a href="../">Back to the resort guide</a></p>
+  <p class="foot"><a href="../">Back to the resort guide</a> · <a href="admin/">Admin login</a></p>
 </main>
 
 <div class="bottom" id="bottom"><div class="in"><div class="sum" id="sum"></div><button class="go" id="go" type="button">Upload</button></div></div>

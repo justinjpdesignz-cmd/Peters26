@@ -87,6 +87,9 @@ main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
 .lb .msg{color:#c4cde0;text-align:center;padding:20px}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:14px;font-size:.9rem;z-index:30;display:none;max-width:90vw;text-align:center}
 .toast.show{display:block}
+.home{color:var(--navy);font-size:.85rem;font-weight:500;text-decoration:none;white-space:nowrap;padding:10px 4px}
+.home:hover{text-decoration:underline}
+.login .home{display:inline-block;margin-top:14px;font-size:.9rem}
 </style>
 </head>
 <body>
@@ -95,12 +98,14 @@ main{max-width:1400px;margin:0 auto;padding:8px 16px 80px}
   <p>Enter the passcode to view the guest photos.</p>
   <form id="form"><input id="pass" type="password" autocomplete="current-password" placeholder="Passcode" aria-label="Passcode"><label class="show"><input type="checkbox" id="showpw"> Show passcode</label><button class="btn" type="submit" id="open">Open gallery</button></form>
   <p class="err" id="err" role="alert"></p>
+  <a class="home" href="../../">← Back to the main site</a>
 </div>
 
 <div id="app">
   <div class="bar">
     <div class="row main">
       <div class="lft">
+        <a class="home" href="../../">← Main site</a>
         <h1 style="font-size:1.6rem">Guest photos</h1>
         <span class="stats" id="stats"></span>
         <span class="sp"></span>
