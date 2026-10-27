@@ -28,6 +28,9 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
 .wrap{max-width:560px;margin:0 auto;padding:0 20px 56px}
 .card{background:var(--ivory);border:1px solid var(--line);border-radius:18px;padding:24px 22px;box-shadow:0 1px 2px rgba(28,53,96,.05),0 8px 24px rgba(28,53,96,.07);margin-top:-10px;text-align:center}
 .card p{margin:0 0 18px}
+.fld{text-align:left;margin:0 0 14px}
+.fld label{display:block;font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin-bottom:6px}
+.fld input,.fld select{width:100%;font:inherit;font-size:1rem;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
 .up{display:flex;justify-content:center;margin:22px 0 10px;min-height:56px}
 .tips{list-style:none;margin:22px 0 0;padding:0;text-align:left;color:var(--muted);font-size:.95rem}
 .tips li{padding:10px 0 10px 28px;position:relative;border-top:1px solid var(--line)}
@@ -49,6 +52,17 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
   <div class="card">
     <p>Took a photo or video this weekend? Add it here so we can enjoy it too. Thank you!</p>
 
+    <div class="fld"><label for="who">Your name</label><input id="who" type="text" autocomplete="name" placeholder="e.g. Aunt Sue" maxlength="60"></div>
+    <div class="fld"><label for="ev">What are these from?</label>
+      <select id="ev">
+        <option value="Cabo adventures">Day-to-day Cabo adventures</option>
+        <option value="Welcome bonfire">Welcome bonfire</option>
+        <option value="Pool day">Pool day</option>
+        <option value="Ceremony">Ceremony</option>
+        <option value="Cocktail hour">Cocktail hour</option>
+        <option value="Reception">Dinner &amp; reception</option>
+      </select></div>
+
     <div class="up">
       <uc-config
         ctx-name="wedding-photos"
@@ -64,7 +78,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     <p class="fallback" id="fallback">The uploader needs JavaScript and a connection to load. If it doesn’t appear, try again when you have a stronger signal, or send your photos to Justin or Hannah directly.</p>
 
     <ul class="tips">
-      <li>Choose as many photos and videos as you like.</li>
+      <li>Add your name and pick the event first. It helps us sort everything.</li>
       <li>Each file can be up to 500&nbsp;MB, so very long videos may need to be trimmed.</li>
       <li>Resort Wi-Fi can be slow. You’re welcome to upload after you’re home too, and this page will stay open.</li>
     </ul>
@@ -76,6 +90,14 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
 <script type="module">
   import * as UC from 'https://cdn.jsdelivr.net/npm/@uploadcare/file-uploader@1.35.1/web/file-uploader.min.js';
   UC.defineComponents(UC);
+  /* tag every file with the uploader's name and the event so they can be sorted later */
+  var cfg=document.querySelector('uc-config');
+  cfg.metadata=function(){
+    return {
+      uploader:(document.getElementById('who').value||'').trim().slice(0,60)||'Unknown',
+      event:document.getElementById('ev').value
+    };
+  };
 </script>
 <script>
   /* if the uploader hasn't appeared after a few seconds (no signal, blocked script), show a friendly note */
