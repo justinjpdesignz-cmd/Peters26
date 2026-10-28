@@ -521,9 +521,15 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
 /* Weather: live forecast for the three event days (Open-Meteo, free, no key). Falls back to typical November weather. */
 (function(){
   var box=document.getElementById('wx'); if(!box) return;
-  var URL='https://api.open-meteo.com/v1/forecast?latitude=22.89&longitude=-109.91&timezone=America%2FMazatlan&temperature_unit=fahrenheit&wind_speed_unit=mph&start_date=2026-11-19&end_date=2026-11-21'
+  // Adding ?wxtest to the page address previews the live forecast for the next 3 days instead (for checking the connection).
+  var TEST=/[?&]wxtest\b/.test(location.search);
+  function cabo(offset){ return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Mazatlan',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(Date.now()+offset*864e5)); }
+  var D0=TEST?cabo(0):'2026-11-19', D2=TEST?cabo(2):'2026-11-21';
+  var URL='https://api.open-meteo.com/v1/forecast?latitude=22.89&longitude=-109.91&timezone=America%2FMazatlan&temperature_unit=fahrenheit&wind_speed_unit=mph&start_date='+D0+'&end_date='+D2
     +'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,sunset&hourly=temperature_2m,weather_code';
-  var DAYS=[{d:'2026-11-19',n:'Thu 19',e:'Welcome Bonfire'},{d:'2026-11-20',n:'Fri 20',e:'Pool Day'},{d:'2026-11-21',n:'Sat 21 · Wedding',e:'Ceremony 4:30',wed:true}];
+  function dn(d){ return new Date(d+'T12:00:00Z').toLocaleDateString('en-US',{weekday:'short',day:'numeric',timeZone:'UTC'}); }
+  var DAYS=TEST?[0,1,2].map(function(i){ var d=cabo(i); return {d:d,n:dn(d),e:'Test day '+(i+1),wed:i===2}; })
+    :[{d:'2026-11-19',n:'Thu 19',e:'Welcome Bonfire'},{d:'2026-11-20',n:'Fri 20',e:'Pool Day'},{d:'2026-11-21',n:'Sat 21 · Wedding',e:'Ceremony 4:30',wed:true}];
   var KEY='p26wx';
   function icon(c){ return c<=1?'sun':c===2?'psun':c===3||c===45||c===48?'cloud':c>=95?'storm':'rain'; }
   function words(c){ return c===0?'clear':c===1?'mostly clear':c===2?'partly cloudy':c===3?'cloudy':(c===45||c===48)?'foggy':c>=95?'stormy':(c>=51&&c<=57)?'drizzly':(c>=80&&c<=82)||(c>=61&&c<=67)?'rainy':'unsettled'; }
@@ -546,20 +552,20 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
         +(dl.wind_speed_10m_max&&dl.wind_speed_10m_max[i]!=null?'<br>'+r(dl.wind_speed_10m_max[i])+' mph wind':'')+'</div></div>';
     });
     var tip='', h=j.hourly;
-    if(h&&h.time){ var ix=h.time.indexOf('2026-11-21T16:00'); if(ix>=0&&h.temperature_2m[ix]!=null){
-      tip='<p class="wx-tip"><b>Saturday, around the ceremony:</b> '+r(h.temperature_2m[ix])+'°F and '+words(h.weather_code[ix])+'.'+(dl.sunset&&dl.sunset[2]?' Sunset is at about '+esc(clock(dl.sunset[2]))+'.':'')+'</p>'; } }
-    document.getElementById('wxKick').textContent='Forecast for the weekend';
-    document.getElementById('wxTitle').textContent='Cabo, Nov 19–21';
+    if(h&&h.time){ var ix=h.time.indexOf(DAYS[2].d+'T16:00'); if(ix>=0&&h.temperature_2m[ix]!=null){
+      tip='<p class="wx-tip"><b>'+(TEST?esc(DAYS[2].n)+' at 4 pm':'Saturday, around the ceremony')+':</b> '+r(h.temperature_2m[ix])+'°F and '+words(h.weather_code[ix])+'.'+(dl.sunset&&dl.sunset[2]?' Sunset is at about '+esc(clock(dl.sunset[2]))+'.':'')+'</p>'; } }
+    document.getElementById('wxKick').textContent=TEST?'Live test: next 3 days':'Forecast for the weekend';
+    document.getElementById('wxTitle').textContent=TEST?'Cabo, right now':'Cabo, Nov 19–21';
     document.getElementById('wxBody').innerHTML='<div class="wx-days">'+cols+'</div>'+tip
       +'<p class="wx-foot">Forecasts can shift, so check back. Updated '+esc(when)+'.</p>';
   }
   function stamp(t){ var d=new Date(t); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+', '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}); }
-  function fromCache(){ try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
+  function fromCache(){ if(TEST) return; try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
   var ctl=('AbortController' in window)?new AbortController():null, to=setTimeout(function(){ if(ctl) ctl.abort(); },8000);
   fetch(URL,ctl?{signal:ctl.signal}:{}).then(function(res){ if(!res.ok) throw 0; return res.json(); }).then(function(j){
     clearTimeout(to);
     if(!usable(j)) return;                       // not in range yet: keep the typical-November card
-    var t=Date.now(); render(j,stamp(t)); try{ localStorage.setItem(KEY,JSON.stringify({t:t,j:j})); }catch(e){}
+    var t=Date.now(); render(j,stamp(t)); if(!TEST){ try{ localStorage.setItem(KEY,JSON.stringify({t:t,j:j})); }catch(e){} }
   }).catch(function(){ clearTimeout(to); fromCache(); });
 })();
   if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
