@@ -191,7 +191,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
   }
 
   function cancelIt(it){
-    it.cancelled=true; if(it.xhr) try{it.xhr.abort()}catch(e){}
+    it.cancelled=true; (it.xhrs||[]).slice().forEach(function(x){try{x.abort()}catch(e){}}); if(it.xhr) try{it.xhr.abort()}catch(e){}
     if(it.session&&it.session.mode==='multipart'){ var q=it.session; it.session=null; try{post({action:'abort',key:q.key,uploadId:q.uploadId}).catch(function(){})}catch(e){} }
   }
   function remove(it){
@@ -253,7 +253,9 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
   }
   function put(it,url,blob,headers,onProg){
     return new Promise(function(res,rej){
-      var x=new XMLHttpRequest(); it.xhr=x; x.open('PUT',url);
+      var x=new XMLHttpRequest(); it.xhr=x; (it.xhrs=it.xhrs||[]).push(x); x.open('PUT',url);
+      var done=function(){ var k=(it.xhrs||[]).indexOf(x); if(k>=0) it.xhrs.splice(k,1); };
+      x.addEventListener('loadend',done);
       Object.keys(headers||{}).forEach(function(k){x.setRequestHeader(k,headers[k])});
       x.upload.onprogress=function(e){ if(e.lengthComputable) onProg(e.loaded); };
       x.onload=function(){ (x.status>=200&&x.status<300)?res(x.getResponseHeader('ETag')):rej(new Error('step 2: storage said '+x.status)); };
@@ -284,17 +286,21 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     return begin.then(function(){
       var s=it.session;
       if(s.mode==='single') return retrying(it,function(){ return put(it,s.url,it.file,{'Content-Type':s.contentType},function(l){prog(it,l)}); });
-      var chain=Promise.resolve();
-      s.urls.forEach(function(url,i){
-        chain=chain.then(function(){
-          if(it.etags[i]) return;
-          var from=i*s.partSize, blob=it.file.slice(from,Math.min(it.file.size,from+s.partSize));
-          return retrying(it,function(){ return put(it,url,blob,{},function(l){prog(it,from+l)}); }).then(function(etag){
-            if(!etag) throw new Error('step 2: storage did not return a receipt (bucket CORS)');
-            it.etags[i]=etag;
-          });
-        });
-      });
+      // big files go up in pieces, several at a time: one connection alone can't fill a fast line over a long distance
+      var ps=s.partSize, n=s.urls.length, loaded=[], nextPart=0, failure=null, WIDTH=4;
+      var len=function(i){ return Math.min(it.file.size,(i+1)*ps)-i*ps; };
+      var sofar=function(){ var t=0; for(var i=0;i<n;i++) t+=it.etags[i]?len(i):(loaded[i]||0); return t; };
+      function worker(){
+        while(nextPart<n && it.etags[nextPart]) nextPart++;
+        if(failure||it.cancelled||nextPart>=n) return Promise.resolve();
+        var i=nextPart++, from=i*ps, blob=it.file.slice(from,from+len(i));
+        return retrying(it,function(){ loaded[i]=0; return put(it,s.urls[i],blob,{},function(l){ loaded[i]=l; prog(it,sofar()); }); }).then(function(etag){
+          if(!etag) throw new Error('step 2: storage did not return a receipt (bucket CORS)');
+          it.etags[i]=etag; loaded[i]=len(i); prog(it,sofar());
+          return worker();
+        },function(e){ if(!failure) failure=e; });
+      }
+      var chain=Promise.all(Array.from({length:Math.min(WIDTH,n)},worker)).then(function(){ if(failure) throw failure; if(it.cancelled){ var e=new Error('aborted'); e.aborted=true; throw e; } });
       return chain.then(function(){ return post({action:'complete',key:s.key,uploadId:s.uploadId,parts:it.etags.map(function(e,i){return {PartNumber:i+1,ETag:e}})}); });
     });
   }
