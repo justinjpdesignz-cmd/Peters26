@@ -32,7 +32,7 @@ a{color:var(--navy);text-underline-offset:3px}
 button,input{font:inherit;color:inherit}
 a:focus-visible,button:focus-visible,input:focus-visible,label:focus-within{outline:3px solid var(--dusty);outline-offset:3px;border-radius:12px}
 .top{background:linear-gradient(180deg,#d3e1ef 0%,#e8eef3 60%,var(--cream) 100%);text-align:center;padding:max(28px,env(safe-area-inset-top)) 20px 44px}
-.back{display:inline-block;font-size:.9rem;font-weight:500;text-decoration:none;color:var(--navy);padding:10px 14px;margin-bottom:12px}
+.back{display:inline-block;min-height:44px;box-sizing:border-box;font-size:.9rem;font-weight:500;text-decoration:none;color:var(--navy);padding:10px 14px;margin-bottom:12px}
 .eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--navy);font-weight:500;margin:0 0 10px}
 h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:0;letter-spacing:.02em}
 .wrap{max-width:600px;margin:0 auto;padding:0 16px 120px}
@@ -43,6 +43,9 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
 #who{width:100%;font-size:1rem;padding:14px 16px;min-height:52px;border:1px solid var(--line);border-radius:14px;background:#fff}
 #who.err{border-color:var(--bad);box-shadow:0 0 0 3px rgba(179,64,47,.15)}
 .hint{margin:6px 2px 0;font-size:.85rem;color:var(--bad);min-height:1.2em}
+.sub{margin:2px 2px 0;font-size:.8rem;color:var(--muted)}
+.lbl label,.lbl span{display:inline-flex;align-items:center;min-height:44px}
+.foot a{display:inline-block;padding:12px 6px;min-height:44px;box-sizing:border-box}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{position:relative}
 .chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
@@ -100,18 +103,20 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
       <div class="lbl"><i>1</i><label for="who">Your name</label></div>
       <input id="who" type="text" autocomplete="name" placeholder="So we know who took them" maxlength="60">
       <p class="hint" id="whoHint" role="alert"></p>
+      <p class="sub">Please use English letters (A–Z) so your photos are filed under your name.</p>
     </div>
 
     <div class="step">
       <div class="lbl"><i>2</i><span id="evLbl">What are these from?</span></div>
       <div class="chips" role="radiogroup" aria-labelledby="evLbl" id="chips">
-        <label class="chip"><input type="radio" name="ev" value="Cabo adventures" checked><span>Cabo adventures</span></label>
+        <label class="chip"><input type="radio" name="ev" value="Cabo adventures"><span>Cabo adventures</span></label>
         <label class="chip"><input type="radio" name="ev" value="Welcome bonfire"><span>Welcome bonfire</span></label>
         <label class="chip"><input type="radio" name="ev" value="Pool day"><span>Pool day</span></label>
         <label class="chip"><input type="radio" name="ev" value="Ceremony"><span>Ceremony</span></label>
         <label class="chip"><input type="radio" name="ev" value="Cocktail hour"><span>Cocktail hour</span></label>
         <label class="chip"><input type="radio" name="ev" value="Reception"><span>Dinner &amp; reception</span></label>
       </div>
+      <p class="hint" id="evHint" role="alert"></p>
     </div>
 
     <div class="step" style="margin-bottom:0">
@@ -147,10 +152,11 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
   $('nojs').style.display='none';
 
   try{ who.value=localStorage.getItem('p26name')||''; }catch(e){}
-  who.addEventListener('input',function(){ who.classList.remove('err'); $('whoHint').textContent=''; try{localStorage.setItem('p26name',who.value)}catch(e){} });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name=ev]'),function(r){ r.addEventListener('change',function(){ $('evHint').textContent=''; refresh(); }); });
+  who.addEventListener('input',function(){ refresh(); who.classList.remove('err'); $('whoHint').textContent=''; try{localStorage.setItem('p26name',who.value)}catch(e){} });
 
   var items=[], seq=0, running=0, lock=null;
-  function ev(){ return document.querySelector('input[name=ev]:checked').value; }
+  function ev(){ var c=document.querySelector('input[name=ev]:checked'); return c?c.value:''; }
   function size(n){ return n>=1048576 ? (n/1048576).toFixed(n>=1.05e8?0:1)+' MB' : Math.max(1,Math.round(n/1024))+' KB'; }
   function ok(f){ return /^(image|video)\//.test(f.type) || /\.(jpe?g|png|gif|heic|heif|webp|avif|mp4|mov|m4v|3gp|webm)$/i.test(f.name); }
 
@@ -212,7 +218,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     bottom.classList.toggle('show', items.length>0);
     go.style.display='';
     if(busy){ go.style.display='none'; sum.innerHTML='Uploading '+(done+1>total?total:done+1)+' of '+total+'…<small>Keep this page open</small>'; }
-    else if(ready){ go.disabled=false; go.textContent='Upload '+ready+(ready===1?' file':' files'); sum.innerHTML=ready+' ready'+(done?' · '+done+' uploaded':'')+(failed?' · '+failed+' failed':''); }
+    else if(ready){ go.disabled=false; go.textContent='Upload '+ready+(ready===1?' file':' files'); sum.innerHTML=ready+' ready'+(done?' · '+done+' uploaded':'')+(failed?' · '+failed+' failed':'')+((!who.value.trim()||!ev())?'<small>Add your name and pick an event above</small>':''); }
     else if(failed){ go.disabled=false; go.textContent='Retry '+failed; sum.innerHTML=failed+' failed'+(done?' · '+done+' uploaded':'')+'<small>Tap Retry when your signal is better</small>'; }
     else if(done){ go.textContent='Add more'; go.disabled=false; sum.innerHTML=done+' uploaded ✓'; }
     else { bottom.classList.remove('show'); }
@@ -230,10 +236,19 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
   }
   window.addEventListener('beforeunload',function(e){ if(count(['queued','uploading'])){ e.preventDefault(); e.returnValue=''; } });
 
+  function friendly(err){
+    var m=(err&&err.message)||'';
+    if(/step 1: service said 4(29|03)/.test(m)) return 'Too many tries just now. Wait a minute, then tap Retry.';
+    if(/step 1: service said 5|step 2: storage said 5/.test(m)) return 'Our server had a hiccup. Tap Retry in a moment.';
+    if(/step 1|step 2/.test(m)) return 'Your connection dropped. Tap Retry when your signal is better.';
+    return 'Something went wrong. Tap Retry.';
+  }
+
   function start(){
     var name=who.value.trim();
     if(!name){ who.classList.add('err'); $('whoHint').textContent='Please add your name first.'; who.scrollIntoView({block:'center',behavior:'smooth'}); who.focus(); return; }
     var e=ev();
+    if(!e){ $('evHint').textContent='Please pick which event these photos are from.'; $('chips').scrollIntoView({block:'center',behavior:'smooth'}); return; }
     items.forEach(function(it){ if(it.status==='ready'){ it.meta={uploader:name.slice(0,60),event:e}; it.status='queued'; paint(it); } else if(it.status==='error'&&!it.fatal&&!it.meta){ it.meta={uploader:name.slice(0,60),event:e}; } });
     items.forEach(function(it){ if(it.status==='error'&&!it.fatal){ it.status='queued'; it.pct=0; paint(it);} });
     pump(); refresh();
@@ -312,7 +327,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
       if(it.status!=='uploading') return;   // cancelled by the guest
       it.status='error'; it.pct=0;
       if(err&&err.full){ it.fatal=true; it.msg='Uploads are paused because the storage limit has been reached. Please let Justin or Hannah know.'; }
-      else it.msg='Couldn’t upload ('+(err&&err.message||'unknown')+'). Tap Retry.';
+      else it.msg=friendly(err);
     }).then(function(){
       running--; it.xhr=null; paint(it); pump(); refresh();
     });
