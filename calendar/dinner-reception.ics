@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//peters26.com//Wedding weekend//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:dinner-reception-2026@peters26.com
+DTSTAMP:20261027T000000Z
+DTSTART:20261122T010000Z
+DTEND:20261122T050000Z
+SUMMARY:Justin & Hannah: Dinner & Reception
+LOCATION:Swan Terrace\, Upper Terrace · Pueblo Bonito Sunset Beach\, Cabo
+  San Lucas
+DESCRIPTION:Dinner and celebration. Schedule and map: https://peters26.co
+ m/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Dinner & Reception starts in 1 hour
+TRIGGER:-PT1H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -135,6 +135,13 @@ h2{font:500 clamp(2.1rem,8vw,3rem)/1.08 var(--serif);margin:0 0 10px;color:var(-
 .time i{display:block;font:500 .66rem/1.2 var(--sans);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--dusty);margin-top:3px}
 .ev .card{padding:18px 18px 20px}
 .ev .card h3{font-size:1.45rem}
+.cal{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.cal span{flex-basis:100%;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.cal a,.btn-cal{display:inline-flex;align-items:center;min-height:42px;padding:0 13px;border:1px solid var(--navy);border-radius:999px;color:var(--navy);font-weight:500;font-size:.8rem;white-space:nowrap;text-decoration:none;background:transparent}
+.cal a:hover,.btn-cal:hover{background:var(--navy);color:#fff}
+.calall{margin:0 0 22px}
+.cal{margin-top:12px;gap:8px 8px}
+.btn-cal{min-height:46px;padding:0 20px;font-size:.9rem;white-space:normal;text-align:center}
 
 /* accordion */
 .acc{background:var(--ivory);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
@@ -247,6 +254,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
     <p class="kicker reveal">The weekend</p>
     <h2 class="reveal">Schedule</h2>
     <p class="lede reveal">Everything in order, from Thursday night to the reception. All times are local Cabo time.</p>
+    <p class="reveal calall"><a class="btn-cal" href="calendar/wedding-weekend.ics">Add the whole weekend to your calendar</a></p>
 
     <div class="tl">
       <span class="day-pill reveal">Thursday · November 19</span>
@@ -257,6 +265,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
           <p class="meta">7:00–9:00 pm · Beach Section III</p>
           <span class="chip">Attire: all white</span>
           <div class="note">Cocktails &amp; tacos on the beach at Beach Section III (L on the resort map). Join us for a night of drinks and laughter to start our wedding weekend!</div>
+          <div class="cal"><span>Add to calendar</span><a href="calendar/welcome-bonfire.ics">Apple / Outlook</a><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Justin%20%26%20Hannah%3A%20Welcome%20Bonfire&amp;dates=20261120T020000Z%2F20261120T040000Z&amp;details=Cocktails%20%26%20tacos%20on%20the%20beach.%20Attire%3A%20all%20white.%20Schedule%20and%20map%3A%20https%3A%2F%2Fpeters26.com%2F&amp;location=Beach%20Section%20III%20%C2%B7%20Pueblo%20Bonito%20Sunset%20Beach%2C%20Cabo%20San%20Lucas" target="_blank" rel="noopener">Google</a></div>
         </div>
       </div>
 
@@ -267,6 +276,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
           <h3>Pool Day</h3>
           <p class="meta">10:00 am–4:00 pm · Sky Pool</p>
           <div class="note">Join us at the Sky Pool, or feel free to make a day for yourself to explore Cabo! Pool day details will be updated the day of, so check back.</div>
+          <div class="cal"><span>Add to calendar</span><a href="calendar/pool-day.ics">Apple / Outlook</a><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Justin%20%26%20Hannah%3A%20Pool%20Day&amp;dates=20261120T170000Z%2F20261120T230000Z&amp;details=Join%20us%20at%20the%20Sky%20Pool%2C%20or%20explore%20Cabo%21%20Details%20will%20be%20updated%20on%20peters26.com.%20Schedule%20and%20map%3A%20https%3A%2F%2Fpeters26.com%2F&amp;location=Sky%20Pool%20%C2%B7%20Pueblo%20Bonito%20Sunset%20Beach%2C%20Cabo%20San%20Lucas" target="_blank" rel="noopener">Google</a></div>
         </div>
       </div>
 
@@ -278,6 +288,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
           <p class="meta">4:30 pm · Sunshine Garden</p>
           <span class="chip">Attire: beach formal</span>
           <div class="note">Please arrive a little early, as carts may take a while. Beach formal means elegant but relaxed.</div>
+          <div class="cal"><span>Add to calendar</span><a href="calendar/ceremony.ics">Apple / Outlook</a><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Justin%20%26%20Hannah%3A%20Ceremony&amp;dates=20261121T233000Z%2F20261122T000000Z&amp;details=Please%20arrive%20a%20little%20early%3B%20carts%20may%20take%20a%20while.%20Attire%3A%20beach%20formal.%20Schedule%20and%20map%3A%20https%3A%2F%2Fpeters26.com%2F&amp;location=Sunshine%20Garden%20%C2%B7%20Pueblo%20Bonito%20Sunset%20Beach%2C%20Cabo%20San%20Lucas" target="_blank" rel="noopener">Google</a></div>
         </div>
       </div>
       <div class="ev reveal">
@@ -294,6 +305,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
           <h3>Cocktail Hour</h3>
           <p class="meta">5:00–6:00 pm · Swan Terrace, Lower Terrace</p>
           <div class="note">Drinks and mingling at Swan Terrace.</div>
+          <div class="cal"><span>Add to calendar</span><a href="calendar/cocktail-hour.ics">Apple / Outlook</a><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Justin%20%26%20Hannah%3A%20Cocktail%20Hour&amp;dates=20261122T000000Z%2F20261122T010000Z&amp;details=Drinks%20and%20mingling.%20Schedule%20and%20map%3A%20https%3A%2F%2Fpeters26.com%2F&amp;location=Swan%20Terrace%2C%20Lower%20Terrace%20%C2%B7%20Pueblo%20Bonito%20Sunset%20Beach%2C%20Cabo%20San%20Lucas" target="_blank" rel="noopener">Google</a></div>
         </div>
       </div>
       <div class="ev reveal" id="reception">
@@ -302,6 +314,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
           <h3>Dinner &amp; Reception</h3>
           <p class="meta">6:00–10:00 pm · Swan Terrace, Upper Terrace</p>
           <div class="note">Dinner and celebration to follow at Swan Terrace.</div>
+          <div class="cal"><span>Add to calendar</span><a href="calendar/dinner-reception.ics">Apple / Outlook</a><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Justin%20%26%20Hannah%3A%20Dinner%20%26%20Reception&amp;dates=20261122T010000Z%2F20261122T050000Z&amp;details=Dinner%20and%20celebration.%20Schedule%20and%20map%3A%20https%3A%2F%2Fpeters26.com%2F&amp;location=Swan%20Terrace%2C%20Upper%20Terrace%20%C2%B7%20Pueblo%20Bonito%20Sunset%20Beach%2C%20Cabo%20San%20Lucas" target="_blank" rel="noopener">Google</a></div>
         </div>
       </div>
     </div>
