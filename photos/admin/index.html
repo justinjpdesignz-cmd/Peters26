@@ -221,8 +221,16 @@ function tile(it){
   if(tiles[it.key]) return tiles[it.key];
   var b=document.createElement('button');b.type='button';b.className='tile';b.setAttribute('aria-label','Open '+it.who+' '+it.when);
   var m;
-  if(it.video){ m=document.createElement('video');m.muted=true;m.preload='metadata';m.playsInline=true;m.src=it.url+'#t=0.1';b.appendChild(m);var p=document.createElement('span');p.className='play';p.textContent='▶ video';b.appendChild(p);}
-  else { m=new Image();m.loading='lazy';m.decoding='async';m.alt='';m.src=it.thumb||it.url;m.onerror=function(){ if(it.thumb&&!it.thumbFailed){it.thumbFailed=true;m.src=it.url;return;} m.remove();var a=document.createElement('span');a.className='alt';a.textContent=it.ext.toUpperCase()+' · tap to open';b.insertBefore(a,b.firstChild)};b.appendChild(m);}
+  function plain(){ if(m)m.remove(); var a=document.createElement('span');a.className='alt';a.textContent=it.ext.toUpperCase()+' · tap to open';b.insertBefore(a,b.firstChild); }
+  function vidEl(){ m=document.createElement('video');m.muted=true;m.preload='metadata';m.playsInline=true;m.src=it.url+'#t=0.1';b.insertBefore(m,b.firstChild); }
+  m=new Image();m.loading='lazy';m.decoding='async';m.alt='';m.src=it.thumb||it.url;
+  m.onerror=function(){
+    if(it.video){ m.remove(); vidEl(); }   // no preview yet: fall back to the video's own first frame
+    else if(it.thumb&&!it.thumbFailed){ it.thumbFailed=true; m.src=it.url; }
+    else plain();
+  };
+  b.appendChild(m);
+  if(it.video){ var p=document.createElement('span');p.className='play';p.textContent='▶ video';b.appendChild(p); }
   var tk=document.createElement('span');tk.className='tick';tk.textContent='✓';b.appendChild(tk);
   if(sel[it.key])b.classList.add('sel');
   var c=document.createElement('span');c.className='cap';c.textContent=it.who+(it.when?' · '+it.when:'');b.appendChild(c);
