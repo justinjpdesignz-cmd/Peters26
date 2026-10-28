@@ -140,6 +140,29 @@ h2{font:500 clamp(2.1rem,8vw,3rem)/1.08 var(--serif);margin:0 0 10px;color:var(-
 .cal a,.btn-cal{display:inline-flex;align-items:center;min-height:42px;padding:0 13px;border:1px solid var(--navy);border-radius:999px;color:var(--navy);font-weight:500;font-size:.8rem;white-space:nowrap;text-decoration:none;background:transparent}
 .cal a:hover,.btn-cal:hover{background:var(--navy);color:#fff}
 .calall{margin:0 0 22px}
+.wx{background:var(--ivory);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px 18px;box-shadow:var(--shadow);margin:0 0 26px;font-variant-numeric:lining-nums}
+.wx-kick{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dusty);margin:0 0 4px}
+.wx h3{font:600 1.6rem/1.15 var(--serif);color:var(--navy);margin:0 0 14px}
+.wx-sample{display:inline-block;margin-left:8px;font-size:.6rem;letter-spacing:.12em;background:var(--sky);color:var(--navy);padding:2px 8px;border-radius:999px;vertical-align:middle}
+.wx-big{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.wx-big svg{width:56px;height:56px;flex:none}
+.wx-big b{font:600 2.4rem/1 var(--serif);color:var(--navy)}.wx-big b span{font-size:1.4rem;color:var(--muted);font-weight:500}
+.wx-big small{display:block;color:var(--muted);font-size:.85rem;margin-top:3px}
+.wx-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wx-stats div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.wx-stats i{display:block;font-style:normal;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.wx-stats b{font:600 1.25rem/1.3 var(--serif);color:var(--navy)}
+.wx-days{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.wx-d{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 6px 10px;text-align:center}
+.wx-d.wed{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.wx-d .dn{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.wx-d .en{font:600 .95rem/1.15 var(--serif);color:var(--navy);margin:3px 0 6px;min-height:2.3em}
+.wx-d svg{width:38px;height:38px}
+.wx-d .tt{font:600 1.2rem/1.2 var(--serif);color:var(--navy)}.wx-d .tt em{font-style:normal;color:var(--muted);font-weight:500;font-size:1rem}
+.wx-d .rr{font-size:.7rem;color:var(--muted);margin-top:4px;line-height:1.35}
+.wx-tip{margin:12px 0 0;background:var(--sand);border-radius:12px;padding:10px 12px;font-size:.84rem;color:var(--ink)}
+.wx-tip b{font-weight:600;color:var(--navy)}
+.wx-foot{margin:12px 0 0;font-size:.78rem;color:var(--muted)}
 .cal{margin-top:12px;gap:8px 8px}
 .btn-cal{min-height:46px;padding:0 20px;font-size:.9rem;white-space:normal;text-align:center}
 
@@ -255,6 +278,26 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
     <h2 class="reveal">Schedule</h2>
     <p class="lede reveal">Everything in order, from Thursday night to the reception. All times are local Cabo time.</p>
     <p class="reveal calall"><a class="btn-cal" href="calendar/wedding-weekend.ics">Add the whole weekend to your calendar</a></p>
+    <div class="wx reveal" id="wx" aria-live="polite">
+      <p class="wx-kick" id="wxKick">Cabo in November</p>
+      <h3 id="wxTitle">What to expect</h3>
+      <div id="wxBody">
+        <div class="wx-big"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#wx-sun"/></svg><div><b>85° <span>/ 68°</span></b><small>Typical daytime high / night low (°F)</small></div></div>
+        <div class="wx-stats">
+          <div><i>Ocean</i><b>80°F</b></div><div><i>Sunshine</i><b>~11 hrs</b></div>
+          <div><i>Rain</i><b>~1 day, 0.4 in</b></div><div><i>Storm season</i><b>Over Nov 30</b></div>
+        </div>
+        <p class="wx-tip"><b>Pack:</b> light layers for the evening, sunscreen, and shoes you can walk on sand in.</p>
+        <p class="wx-foot">The live forecast for our three days appears here about two weeks before the wedding.</p>
+      </div>
+    </div>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <g id="wx-sun"><circle cx="24" cy="24" r="9" fill="#f2b84b"/><g stroke="#f2b84b" stroke-width="3" stroke-linecap="round"><path d="M24 5v6M24 37v6M5 24h6M37 24h6M10.6 10.6l4.2 4.2M33.2 33.2l4.2 4.2M10.6 37.4l4.2-4.2M33.2 14.8l4.2-4.2"/></g></g>
+      <g id="wx-psun"><circle cx="19" cy="19" r="8" fill="#f2b84b"/><g stroke="#f2b84b" stroke-width="3" stroke-linecap="round"><path d="M19 4v5M5 19h5M9 9l3.5 3.5M29 9l-3.5 3.5"/></g><path d="M16 38a8 8 0 0 1 1-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#dbe5f1" stroke="#a8c3de" stroke-width="1.5"/></g>
+      <g id="wx-cloud"><path d="M13 36a8 8 0 0 1 1-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#dbe5f1" stroke="#a8c3de" stroke-width="1.5"/></g>
+      <g id="wx-rain"><path d="M13 30a8 8 0 0 1 1-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#dbe5f1" stroke="#a8c3de" stroke-width="1.5"/><g stroke="#6f93b8" stroke-width="3" stroke-linecap="round"><path d="M17 36l-2 6M25 36l-2 6M33 36l-2 6"/></g></g>
+      <g id="wx-storm"><path d="M13 30a8 8 0 0 1 1-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#c8d2e2" stroke="#8fa3c0" stroke-width="1.5"/><path d="M25 30l-5 8h5l-3 7 8-10h-5l3-5z" fill="#f2b84b"/></g>
+    </defs></svg>
 
     <div class="tl">
       <span class="day-pill reveal">Thursday · November 19</span>
@@ -483,6 +526,50 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
 })();
 
   /* offline support */
+/* Weather: live forecast for the three event days (Open-Meteo, free, no key). Falls back to typical November weather. */
+(function(){
+  var box=document.getElementById('wx'); if(!box) return;
+  var URL='https://api.open-meteo.com/v1/forecast?latitude=22.89&longitude=-109.91&timezone=America%2FMazatlan&temperature_unit=fahrenheit&wind_speed_unit=mph&start_date=2026-11-19&end_date=2026-11-21'
+    +'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,sunset&hourly=temperature_2m,weather_code';
+  var DAYS=[{d:'2026-11-19',n:'Thu 19',e:'Welcome Bonfire'},{d:'2026-11-20',n:'Fri 20',e:'Pool Day'},{d:'2026-11-21',n:'Sat 21 · Wedding',e:'Ceremony 4:30',wed:true}];
+  var KEY='p26wx';
+  function icon(c){ return c<=1?'sun':c===2?'psun':c===3||c===45||c===48?'cloud':c>=95?'storm':'rain'; }
+  function words(c){ return c===0?'clear':c===1?'mostly clear':c===2?'partly cloudy':c===3?'cloudy':(c===45||c===48)?'foggy':c>=95?'stormy':(c>=51&&c<=57)?'drizzly':(c>=80&&c<=82)||(c>=61&&c<=67)?'rainy':'unsettled'; }
+  function esc(t){ var d=document.createElement('div'); d.textContent=String(t); return d.innerHTML; }
+  function r(n){ return Math.round(n); }
+  function clock(iso){ var m=/T(\d{2}):(\d{2})/.exec(iso||''); if(!m) return ''; var h=+m[1]; return ((h%12)||12)+':'+m[2]+(h<12?' am':' pm'); }
+  function usable(j){
+    var dl=j&&j.daily; if(!dl||!dl.time||dl.time.length<3) return false;
+    for(var i=0;i<3;i++){ if(dl.temperature_2m_max[i]==null||dl.temperature_2m_min[i]==null||dl.weather_code[i]==null) return false; }
+    return true;
+  }
+  function render(j,when){
+    var dl=j.daily, cols='';
+    DAYS.forEach(function(x,i){
+      var c=dl.weather_code[i];
+      cols+='<div class="wx-d'+(x.wed?' wed':'')+'"><div class="dn">'+esc(x.n)+'</div><div class="en">'+esc(x.e)+'</div>'
+        +'<svg viewBox="0 0 48 48" role="img" aria-label="'+esc(words(c))+'"><use href="#wx-'+icon(c)+'"/></svg>'
+        +'<div class="tt">'+r(dl.temperature_2m_max[i])+'° <em>/ '+r(dl.temperature_2m_min[i])+'°</em></div>'
+        +'<div class="rr">'+(dl.precipitation_probability_max&&dl.precipitation_probability_max[i]!=null?r(dl.precipitation_probability_max[i])+'% rain':'')
+        +(dl.wind_speed_10m_max&&dl.wind_speed_10m_max[i]!=null?'<br>'+r(dl.wind_speed_10m_max[i])+' mph wind':'')+'</div></div>';
+    });
+    var tip='', h=j.hourly;
+    if(h&&h.time){ var ix=h.time.indexOf('2026-11-21T16:00'); if(ix>=0&&h.temperature_2m[ix]!=null){
+      tip='<p class="wx-tip"><b>Saturday, around the ceremony:</b> '+r(h.temperature_2m[ix])+'°F and '+words(h.weather_code[ix])+'.'+(dl.sunset&&dl.sunset[2]?' Sunset is at about '+esc(clock(dl.sunset[2]))+'.':'')+'</p>'; } }
+    document.getElementById('wxKick').textContent='Forecast for the weekend';
+    document.getElementById('wxTitle').textContent='Cabo, Nov 19–21';
+    document.getElementById('wxBody').innerHTML='<div class="wx-days">'+cols+'</div>'+tip
+      +'<p class="wx-foot">Forecasts can shift, so check back. Updated '+esc(when)+'.</p>';
+  }
+  function stamp(t){ var d=new Date(t); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+', '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}); }
+  function fromCache(){ try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
+  var ctl=('AbortController' in window)?new AbortController():null, to=setTimeout(function(){ if(ctl) ctl.abort(); },8000);
+  fetch(URL,ctl?{signal:ctl.signal}:{}).then(function(res){ if(!res.ok) throw 0; return res.json(); }).then(function(j){
+    clearTimeout(to);
+    if(!usable(j)) return;                       // not in range yet: keep the typical-November card
+    var t=Date.now(); render(j,stamp(t)); try{ localStorage.setItem(KEY,JSON.stringify({t:t,j:j})); }catch(e){}
+  }).catch(function(){ clearTimeout(to); fromCache(); });
+})();
   if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
 </script>
 </body>
