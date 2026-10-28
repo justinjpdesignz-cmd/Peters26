@@ -158,6 +158,7 @@ h2{font:500 clamp(2.1rem,8vw,3rem)/1.08 var(--serif);margin:0 0 10px;color:var(-
 .wx-tip{margin:12px 0 0;background:var(--sand);border-radius:12px;padding:10px 12px;font-size:.84rem;color:var(--ink)}
 .wx-tip b{font-weight:600;color:var(--navy)}
 .wx-foot{margin:12px 0 0;font-size:.78rem;color:var(--muted)}
+.wx-foot a{color:var(--navy)}
 
 /* accordion */
 .acc{background:var(--ivory);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden}
@@ -557,7 +558,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
     document.getElementById('wxKick').textContent=TEST?'Live test: next 3 days':'Forecast for the weekend';
     document.getElementById('wxTitle').textContent=TEST?'Cabo, right now':'Cabo, Nov 19–21';
     document.getElementById('wxBody').innerHTML='<div class="wx-days">'+cols+'</div>'+tip
-      +'<p class="wx-foot">Forecasts can shift, so check back. Updated '+esc(when)+'.</p>';
+      +'<p class="wx-foot">Forecasts can shift, so check back, and other weather apps may show slightly different numbers. Updated '+esc(when)+'. Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a>.</p>';
   }
   function stamp(t){ var d=new Date(t); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+', '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}); }
   function fromCache(){ if(TEST) return; try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
