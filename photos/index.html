@@ -248,7 +248,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     return fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).catch(function(){
       throw new Error('step 1: cannot reach the upload service');
     }).then(function(r){
-      return r.json().catch(function(){return {}}).then(function(j){ if(!r.ok) throw new Error('step 1: service said '+r.status+(j.error?' - '+j.error:'')); return j; });
+      return r.json().catch(function(){return {}}).then(function(j){ if(!r.ok){ var e=new Error('step 1: service said '+r.status+(j.error?' - '+j.error:'')); if(j.full) e.full=true; throw e; } return j; });
     });
   }
   function put(it,url,blob,headers,onProg){
@@ -305,7 +305,8 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
     }).catch(function(err){
       if(it.status!=='uploading') return;   // cancelled by the guest
       it.status='error'; it.pct=0;
-      it.msg='Couldn’t upload ('+(err&&err.message||'unknown')+'). Tap Retry.';
+      if(err&&err.full){ it.fatal=true; it.msg='Uploads are paused because the storage limit has been reached. Please let Justin or Hannah know.'; }
+      else it.msg='Couldn’t upload ('+(err&&err.message||'unknown')+'). Tap Retry.';
     }).then(function(){
       running--; it.xhr=null; paint(it); pump(); refresh();
     });
