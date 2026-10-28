@@ -53,6 +53,13 @@ h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0
 .toast.show{display:block}
 .login .home{display:inline-block;margin-top:14px;font-size:.9rem}
 
+/* ---- loading screen ---- */
+.boot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:70vh;color:var(--muted)}
+.boot[hidden]{display:none}
+.boot p{margin:0;font-size:.95rem}
+.spin{width:36px;height:36px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--navy);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
 /* ---- gallery layout ---- */
 .bar{position:sticky;top:0;z-index:5;background:rgba(246,241,233,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:env(safe-area-inset-top) 16px 0}
 .bar .in{max-width:1400px;margin:0 auto}
@@ -145,6 +152,8 @@ body.selmode .toast{bottom:92px}
   <a class="home" href="../../">← Back to the main site</a>
 </div>
 
+<div class="boot" id="boot" hidden role="status"><div class="spin" aria-hidden="true"></div><p>Loading photos…</p></div>
+
 <div id="app">
   <div class="bar"><div class="in">
     <div class="top1">
@@ -205,18 +214,27 @@ function parse(it){
   return it;
 }
 
-function load(){
+var CK='p26cache',CACHE_MS=150*60*1000;   // saved list is reused for 2.5 h (the links in it last 3 h)
+function readCache(){try{var c=JSON.parse(sessionStorage.getItem(CK)||'null');if(c&&c.items&&Date.now()-c.t<CACHE_MS)return c;}catch(e){}return null;}
+function saveCache(truncated){try{sessionStorage.setItem(CK,JSON.stringify({t:Date.now(),truncated:!!truncated,items:all.map(function(i){return {key:i.key,size:i.size,modified:i.modified,url:i.url,thumb:i.thumb}})}));}catch(e){try{sessionStorage.removeItem(CK)}catch(x){}}}
+function sig(list){return list.map(function(i){return i.key+':'+i.size+':'+(i.thumb?1:0)}).join('|');}
+function apply(j,quiet){
+  var fresh=j.items.map(parse);
+  if(quiet&&sig(fresh)===sig(all)){var by={};fresh.forEach(function(f){by[f.key]=f});all.forEach(function(o){var f=by[o.key];if(f){o.url=f.url;o.thumb=f.thumb;}});return;}   // nothing changed: leave the screen (and scroll position) alone, just take the newer links   // nothing changed: leave the screen (and your scroll position) alone
+  all=fresh;tiles={};
+  $('boot').hidden=true;$('login').style.display='none';$('app').style.display='block';
+  var who={};all.forEach(function(i){who[i.who]=1});
+  var sel=$('who'),keep=sel.value;sel.innerHTML='<option value="">All guests</option>';
+  Object.keys(who).sort().forEach(function(w){var o=document.createElement('option');o.value=w;o.textContent=w;sel.appendChild(o)});
+  sel.value=who[keep]?keep:'';whoFilter=sel.value;
+  if(j.truncated&&!quiet) toast('Showing the first 5,000 files.',6000);
+  render();
+}
+function load(quiet){
   $('refresh').disabled=true;
   return post({action:'list'}).then(function(j){
-    all=j.items.map(parse);tiles={};
     try{sessionStorage.setItem('p26admin',pass)}catch(e){}
-    $('login').style.display='none';$('app').style.display='block';
-    var who={};all.forEach(function(i){who[i.who]=1});
-    var sel=$('who'),keep=sel.value;sel.innerHTML='<option value="">All guests</option>';
-    Object.keys(who).sort().forEach(function(w){var o=document.createElement('option');o.value=w;o.textContent=w;sel.appendChild(o)});
-    sel.value=who[keep]?keep:'';whoFilter=sel.value;
-    if(j.truncated) toast('Showing the first 5,000 files.',6000);
-    render();
+    apply(j,quiet);saveCache(j.truncated);
   }).finally(function(){$('refresh').disabled=false;});
 }
 
@@ -230,7 +248,7 @@ function deleteKeys(keys){
   toast('Deleting…',0);
   return chunks.reduce(function(p,c){return p.then(function(){return post({action:'delete',keys:c}).then(function(j){done+=j.deleted;failed+=j.failed;});});},Promise.resolve()).then(function(){
     var gone={};keys.forEach(function(k){gone[k]=1;delete tiles[k]});all=all.filter(function(i){return !gone[i.key]});
-    sel={};if(cur>=0)close();render();updSel();
+    sel={};if(cur>=0)close();render();updSel();saveCache();
     toast(done+' deleted'+(failed?', '+failed+' could not be deleted':'')+'.',6000);
   }).catch(function(e){toast(e.message,6000)});
 }
@@ -362,7 +380,7 @@ $('who').onchange=function(){whoFilter=$('who').value;render();};
 
 $('showpw').onchange=function(){$('pass').type=this.checked?'text':'password';$('pass').focus();};
 $('out').onclick=function(){
-  try{sessionStorage.removeItem('p26admin')}catch(e){}
+  try{sessionStorage.removeItem('p26admin');sessionStorage.removeItem(CK)}catch(e){}
   menuShow(false);if(cur>=0)close();
   pass='';all=[];shown=[];tiles={};evFilter='';whoFilter='';
   setSelMode(false);$('main').innerHTML='';$('chips').innerHTML='';$('stats').textContent='';
@@ -372,9 +390,21 @@ $('out').onclick=function(){
 };
 $('form').onsubmit=function(e){
   e.preventDefault();pass=$('pass').value.trim();$('pass').value=pass;if(!pass)return;$('err').textContent='';$('pass').classList.remove('bad');$('open').disabled=true;$('open').textContent='Checking…';
-  load().catch(function(er){$('err').textContent=er.message;$('pass').classList.add('bad');$('pass').select();try{sessionStorage.removeItem('p26admin')}catch(x){}}).finally(function(){$('open').disabled=false;$('open').textContent='Open gallery';});
+  load().catch(function(er){$('err').textContent=er.message;$('pass').classList.add('bad');$('pass').select();try{sessionStorage.removeItem('p26admin');sessionStorage.removeItem(CK)}catch(x){}}).finally(function(){$('open').disabled=false;$('open').textContent='Open gallery';});
 };
-try{var s=sessionStorage.getItem('p26admin');if(s){pass=s;load().catch(function(){pass='';});}}catch(e){}
+try{
+  var s=sessionStorage.getItem('p26admin');
+  if(s){
+    pass=s;var c=readCache();
+    $('login').style.display='none';
+    if(c){apply({items:c.items,truncated:c.truncated});}   // show the saved list straight away…
+    else $('boot').hidden=false;                            // …or a loading screen if there isn't one
+    load(!!c).catch(function(e){                            // …then fetch the current list in the background
+      if(e.auth||!c){pass='';all=[];tiles={};$('boot').hidden=true;$('app').style.display='none';$('login').style.display='';try{sessionStorage.removeItem('p26admin');sessionStorage.removeItem(CK)}catch(x){}if(e.auth)$('err').textContent='Please sign in again.';else $('err').textContent=e.message;}
+      else toast('Couldn’t refresh just now. Showing the saved list.',6000);
+    });
+  }
+}catch(e){}
 })();
 </script>
 </body>
