@@ -520,7 +520,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
   function cabo(){
     try{
       var x=new Date(Date.now()-7*3600000), h=x.getUTCHours(), m=x.getUTCMinutes();
-      ct.textContent='\uD83D\uDD52 '+((h%12)||12)+':'+(m<10?'0':'')+m+' '+(h<12?'am':'pm');
+      ct.textContent='\uD83D\uDD52 '+((h%12)||12)+':'+(m<10?'0':'')+m+' '+(h<12?'am':'pm')+' MST';
     }catch(e){}
   }
   cabo(); setInterval(cabo,20000);
