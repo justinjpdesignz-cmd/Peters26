@@ -58,6 +58,9 @@ img{max-width:100%;height:auto}
 a{color:var(--navy);text-underline-offset:3px}
 a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--dusty);outline-offset:3px;border-radius:8px}
 .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.totop{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:9;width:48px;height:48px;border-radius:50%;background:var(--navy);display:grid;place-items:center;box-shadow:0 4px 14px rgba(28,53,96,.3);opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,transform .2s,visibility .2s}
+.totop.show{opacity:1;visibility:visible;transform:none}
+.totop svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .skip{position:absolute;left:12px;top:-60px;background:var(--navy);color:#fff;padding:10px 16px;border-radius:10px;z-index:20;text-decoration:none}
 .skip:focus{top:12px}
 
@@ -222,6 +225,7 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
       var a=e.target.closest&&e.target.closest('a'); if(!a)return;
       if(a.closest('#menu')) ev('menu_'+slug(txt(a)),{item:txt(a)});
       else if(a.classList.contains('tile')){var b=a.querySelector('b');var n=b?txt(b):txt(a);ev('tile_'+slug(n),{item:n});}
+      else if(a.classList.contains('totop')) ev('back_to_top_click');
       else if(a.classList.contains('share')) ev('share_photos_click');
       else if(a.closest('#app')&&a.classList.contains('btn')) ev('app_download_'+(/apple/.test(a.href)?'iphone':'android'));
     }catch(err){}
@@ -612,6 +616,12 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
   }).catch(function(){ clearTimeout(to); fromCache(); });
 })();
   if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
+</script>
+<a class="totop" id="totop" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></a>
+<script>
+(function(){var b=document.getElementById('totop');if(!b)return;var on=false;
+function chk(){var s=(window.pageYOffset||document.documentElement.scrollTop)>700;if(s!==on){on=s;b.className='totop'+(s?' show':'');}}
+window.addEventListener('scroll',chk,{passive:true});chk();})();
 </script>
 </body>
 </html>
