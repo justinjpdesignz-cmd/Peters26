@@ -210,17 +210,30 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLZ751B4B8"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-WLZ751B4B8');</script>
 <script>
-/* simple click tracking: menu links, quick tiles, share-photos button, app download buttons */
-document.addEventListener('click',function(e){
-  try{
-    var a=e.target.closest&&e.target.closest('a'); if(!a||typeof gtag!=='function')return;
-    var txt=function(el){return (el.textContent||'').replace(/\s+/g,' ').trim().slice(0,60)};
-    if(a.closest('#menu')) gtag('event','menu_click',{item:txt(a)});
-    else if(a.classList.contains('tile')){var b=a.querySelector('b');gtag('event','tile_click',{item:b?txt(b):txt(a)});}
-    else if(a.classList.contains('share')) gtag('event','share_photos_click');
-    else if(a.closest('#app')&&a.classList.contains('btn')) gtag('event','app_download_click',{store:/apple/.test(a.href)?'iPhone':'Android'});
-  }catch(err){}
-},true);
+/* click tracking: each menu link, tile, Q&A section (open/close), share button and app download gets its own named event */
+(function(){
+  var touched=false;
+  ['pointerdown','keydown','touchstart'].forEach(function(t){document.addEventListener(t,function(){touched=true},true)});
+  function slug(t){return (t||'').toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'')}
+  function txt(el){return (el.textContent||'').replace(/\s+/g,' ').trim().slice(0,60)}
+  function ev(name,p){try{if(typeof gtag==='function')gtag('event',name.slice(0,40),p||{})}catch(e){}}
+  document.addEventListener('click',function(e){
+    try{
+      var a=e.target.closest&&e.target.closest('a'); if(!a)return;
+      if(a.closest('#menu')) ev('menu_'+slug(txt(a)),{item:txt(a)});
+      else if(a.classList.contains('tile')){var b=a.querySelector('b');var n=b?txt(b):txt(a);ev('tile_'+slug(n),{item:n});}
+      else if(a.classList.contains('share')) ev('share_photos_click');
+      else if(a.closest('#app')&&a.classList.contains('btn')) ev('app_download_'+(/apple/.test(a.href)?'iphone':'android'));
+    }catch(err){}
+  },true);
+  document.addEventListener('toggle',function(e){
+    try{
+      var d=e.target; if(!touched||!d||d.tagName!=='DETAILS'||!d.classList.contains('acc'))return;
+      var s=d.querySelector('summary'),n=s?txt(s):'';
+      ev((d.open?'qa_open_':'qa_close_')+slug(n),{item:n});
+    }catch(err){}
+  },true);
+})();
 </script>
 </head>
 <body>
