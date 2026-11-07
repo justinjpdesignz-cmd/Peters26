@@ -209,6 +209,19 @@ footer a{color:#fff;font-size:.85rem;display:inline-block;margin-top:22px;paddin
 <noscript><style>#menu[hidden]{display:block}.burger{display:none}.acc>*{display:block}</style></noscript>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLZ751B4B8"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-WLZ751B4B8');</script>
+<script>
+/* simple click tracking: menu links, quick tiles, share-photos button, app download buttons */
+document.addEventListener('click',function(e){
+  try{
+    var a=e.target.closest&&e.target.closest('a'); if(!a||typeof gtag!=='function')return;
+    var txt=function(el){return (el.textContent||'').replace(/\s+/g,' ').trim().slice(0,60)};
+    if(a.closest('#menu')) gtag('event','menu_click',{item:txt(a)});
+    else if(a.classList.contains('tile')){var b=a.querySelector('b');gtag('event','tile_click',{item:b?txt(b):txt(a)});}
+    else if(a.classList.contains('share')) gtag('event','share_photos_click');
+    else if(a.closest('#app')&&a.classList.contains('btn')) gtag('event','app_download_click',{store:/apple/.test(a.href)?'iPhone':'Android'});
+  }catch(err){}
+},true);
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
