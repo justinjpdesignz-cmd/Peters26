@@ -163,7 +163,11 @@ body.selmode .toast{bottom:92px}
 .lgrow .nm{flex:1;min-width:0;font-weight:600;color:var(--navy);overflow-wrap:anywhere}
 .lgrow .nm small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
 .lgrow code{font:600 .9rem ui-monospace,Menlo,monospace;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 8px}
-.lgrow .rm{min-height:44px;min-width:44px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--bad);cursor:pointer;font-size:.85rem;padding:0 12px}
+.lgrow.tap{cursor:pointer;border-radius:10px;padding-left:8px;padding-right:8px;margin:0 -8px}
+.lgrow.tap:hover,.lgrow.tap:focus-visible{background:#fff;outline:none}
+.lgrow.sel{background:#fff;box-shadow:inset 3px 0 0 var(--navy)}
+.lgadd h3{font:600 .95rem var(--sans);color:var(--navy);margin:0}
+.lgbtns .btn.danger{margin-right:auto}
 .lgadd{margin-top:14px;padding-top:14px;border-top:2px solid var(--line);display:grid;gap:10px}
 .lgadd input,.lgadd select{width:100%;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:1rem;font-family:inherit}
 .lgadd .rr{display:flex;gap:8px}
@@ -243,14 +247,15 @@ body.selmode .toast{bottom:92px}
 <div class="lgov" id="lg" hidden>
   <div class="lgbox" role="dialog" aria-modal="true" aria-labelledby="lgT">
     <h2 id="lgT">Manage logins</h2>
-    <p class="hint">Anyone you add here can sign in right away. “View &amp; heart” can look, download and heart photos, but can’t delete.</p>
+    <p class="hint">Anyone you add here can sign in right away. Tap a name to edit or delete it. “View &amp; heart” can look, download and heart photos, but can’t delete.</p>
     <div id="lgList"></div>
     <form class="lgadd" id="lgForm" autocomplete="off">
+      <h3 id="lgHead">Add a login</h3>
       <input id="lgName" type="text" placeholder="Name (shown on their hearts)" maxlength="30" autocomplete="off" autocapitalize="words" aria-label="Name">
       <input id="lgCode" type="text" placeholder="Passcode (4+ characters, no spaces)" maxlength="40" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Passcode">
       <div class="rr"><label><input type="radio" name="lgRole" value="viewer" checked> View &amp; heart</label><label><input type="radio" name="lgRole" value="admin"> Full access</label></div>
       <p class="lgerr" id="lgErr" role="alert"></p>
-      <div class="lgbtns"><button type="button" class="btn ghost" id="lgClose">Done</button><button type="submit" class="btn" id="lgAdd">Add login</button></div>
+      <div class="lgbtns"><button type="button" class="btn danger" id="lgDel" hidden>Delete login</button><button type="button" class="btn ghost" id="lgClose">Done</button><button type="submit" class="btn" id="lgAdd">Add login</button></div>
     </form>
   </div>
 </div>
@@ -514,36 +519,53 @@ $('who').onchange=function(){whoFilter=$('who').value;render();};
 
 $('showpw').onchange=function(){$('pass').type=this.checked?'text':'password';$('pass').focus();};
 /* manage logins (full-access people only) */
+var lgEdit=null,lgList=[];
 function lgPaint(list){
-  var box=$('lgList');box.textContent='';
+  lgList=list;var box=$('lgList');box.textContent='';
   list.forEach(function(u){
-    var row=document.createElement('div');row.className='lgrow';
+    var row=document.createElement('div');row.className='lgrow'+(u.builtin?'':' tap')+(lgEdit&&lgEdit.toLowerCase()===u.name.toLowerCase()?' sel':'');
     var nm=document.createElement('div');nm.className='nm';nm.textContent=u.name;
     var sm=document.createElement('small');sm.textContent=(u.role==='admin'?'Full access':'View & heart')+(u.builtin?' · set up in AWS':'');nm.appendChild(sm);row.appendChild(nm);
     if(u.code){var c=document.createElement('code');c.textContent=u.code;row.appendChild(c);
-      var b=document.createElement('button');b.type='button';b.className='rm';b.textContent='Remove';b.setAttribute('aria-label','Remove '+u.name);
-      b.onclick=function(){if(!confirm('Remove '+u.name+'? They will not be able to sign in any more.'))return;lgBusy(true);post({action:'user_remove',name:u.name}).then(function(j){lgPaint(j.users);users=j.users.map(function(x){return x.name;});paintWho();toast(u.name+' removed');}).catch(function(e){$('lgErr').textContent=e.message;}).then(function(){lgBusy(false);});};
-      row.appendChild(b);}
+      row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-label','Edit '+u.name);
+      row.onclick=function(){lgStart(u);};row.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();lgStart(u);}};}
     box.appendChild(row);
   });
 }
-function lgBusy(on){$('lgAdd').disabled=on;$('lgAdd').textContent=on?'Working…':'Add login';}
+function lgMode(){
+  var ed=!!lgEdit,mine=ed&&lgEdit===me;
+  $('lgAdd').textContent=ed?'Save changes':'Add login';$('lgDel').hidden=!ed||mine;$('lgClose').textContent=ed?'Cancel':'Done';
+  $('lgName').disabled=mine;document.querySelectorAll('input[name=lgRole]').forEach(function(r){r.disabled=mine;});
+  $('lgHead').textContent=ed?'Edit '+lgEdit:'Add a login';
+}
+function lgStart(u){
+  lgEdit=u.name;$('lgErr').textContent='';$('lgName').value=u.name;$('lgCode').value=u.code;
+  var r=document.querySelector('input[name=lgRole][value='+(u.role==='admin'?'admin':'viewer')+']');if(r)r.checked=true;
+  lgMode();lgPaint(lgList);$('lgName').scrollIntoView({block:'nearest'});
+}
+function lgReset(){lgEdit=null;$('lgName').value='';$('lgCode').value='';var r=document.querySelector('input[name=lgRole][value=viewer]');if(r)r.checked=true;$('lgErr').textContent='';lgMode();lgPaint(lgList);}
+function lgBusy(on){$('lgAdd').disabled=on;$('lgDel').disabled=on;if(on)$('lgAdd').textContent='Working…';else lgMode();}
+function lgNames(j){users=j.users.map(function(x){return x.name;});paintWho();}
 function lgOpen(){
-  menuShow(false);$('lgErr').textContent='';$('lgList').textContent='Loading…';$('lg').hidden=false;
+  menuShow(false);lgEdit=null;lgMode();$('lgErr').textContent='';$('lgList').textContent='Loading…';$('lg').hidden=false;
   post({action:'users'}).then(function(j){lgPaint(j.users);}).catch(function(e){$('lgList').textContent='';$('lgErr').textContent=e.message;});
 }
-function lgClose(){$('lg').hidden=true;$('lgName').value='';$('lgCode').value='';}
+function lgClose(){if(lgEdit){lgReset();return;}$('lg').hidden=true;lgReset();}
 $('logBtn').onclick=lgOpen;$('lgClose').onclick=lgClose;
-$('lg').addEventListener('click',function(e){if(e.target===$('lg'))lgClose();});
+$('lg').addEventListener('click',function(e){if(e.target===$('lg')){$('lg').hidden=true;lgReset();}});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('lg').hidden)lgClose();});
+$('lgDel').onclick=function(){
+  var n=lgEdit;if(!n||!confirm('Delete the login for '+n+'? They will not be able to sign in any more.'))return;
+  lgBusy(true);post({action:'user_remove',name:n}).then(function(j){lgEdit=null;lgPaint(j.users);lgNames(j);lgReset();toast(n+' deleted');}).catch(function(e){$('lgErr').textContent=e.message;}).then(function(){lgBusy(false);});
+};
 $('lgForm').onsubmit=function(e){
   e.preventDefault();$('lgErr').textContent='';
   var n=$('lgName').value.trim(),c=$('lgCode').value.trim(),r=(document.querySelector('input[name=lgRole]:checked')||{}).value||'viewer';
   if(!n){$('lgErr').textContent='Please enter a name.';return;}
   if(c.length<4||/\s/.test(c)){$('lgErr').textContent='The passcode needs 4 or more characters, with no spaces.';return;}
-  lgBusy(true);
-  post({action:'user_add',name:n,code:c,role:r}).then(function(j){lgPaint(j.users);$('lgName').value='';$('lgCode').value='';toast(n+' added. They can sign in now.');
-    users=j.users.map(function(u){return u.name;});paintWho();
+  var was=lgEdit;lgBusy(true);
+  post(was?{action:'user_edit',name:was,newName:n,code:c,role:r}:{action:'user_add',name:n,code:c,role:r}).then(function(j){
+    lgEdit=null;lgPaint(j.users);lgNames(j);lgReset();toast(was?'Saved changes for '+n:n+' added. They can sign in now.');
   }).catch(function(e){$('lgErr').textContent=e.message;}).then(function(){lgBusy(false);});
 };
 $('out').onclick=function(){
