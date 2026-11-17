@@ -101,7 +101,7 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
   <div class="card">
     <div class="step">
       <div class="lbl"><i>1</i><label for="who">Your name</label></div>
-      <input id="who" type="text" autocomplete="name" placeholder="So we know who took them" maxlength="60">
+      <input id="who" type="text" autocomplete="off" placeholder="So we know who took them" maxlength="60">
       <p class="hint" id="whoHint" role="alert"></p>
       <p class="sub">Please use English letters (A–Z) so your photos are filed under your name.</p>
     </div>
@@ -151,9 +151,9 @@ h1{font:500 clamp(2.2rem,9vw,3.4rem)/1.08 var(--serif);color:var(--navy);margin:
   var who=$('who'),file=$('file'),drop=$('drop'),list=$('list'),bottom=$('bottom'),sum=$('sum'),go=$('go'),thanks=$('thanks');
   $('nojs').style.display='none';
 
-  try{ who.value=localStorage.getItem('p26name')||''; }catch(e){}
+  try{ localStorage.removeItem('p26name'); }catch(e){}
   Array.prototype.forEach.call(document.querySelectorAll('input[name=ev]'),function(r){ r.addEventListener('change',function(){ $('evHint').textContent=''; refresh(); }); });
-  who.addEventListener('input',function(){ refresh(); who.classList.remove('err'); $('whoHint').textContent=''; try{localStorage.setItem('p26name',who.value)}catch(e){} });
+  who.addEventListener('input',function(){ refresh(); who.classList.remove('err'); $('whoHint').textContent=''; });
 
   var items=[], seq=0, running=0, lock=null;
   function ev(){ var c=document.querySelector('input[name=ev]:checked'); return c?c.value:''; }
