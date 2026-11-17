@@ -582,7 +582,7 @@ gtag('config','G-WLZ751B4B8');</script>
 /* Weather: live forecast for the three event days (Open-Meteo, free, no key). Falls back to typical November weather. */
 (function(){
   var box=document.getElementById('wx'); if(!box) return;
-  var URL='https://api.open-meteo.com/v1/forecast?latitude=22.89&longitude=-109.91&timezone=America%2FMazatlan&temperature_unit=fahrenheit&wind_speed_unit=mph&start_date=2026-11-19&end_date=2026-11-21'
+  var URL='https://api.open-meteo.com/v1/forecast?latitude=22.88&longitude=-109.94&timezone=America%2FMazatlan&temperature_unit=fahrenheit&wind_speed_unit=mph&start_date=2026-11-19&end_date=2026-11-21'
     +'&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,sunset&hourly=temperature_2m,weather_code';
   var DAYS=[{d:'2026-11-19',n:'Thu 19',e:'Welcome Bonfire'},{d:'2026-11-20',n:'Fri 20',e:'Pool Day'},{d:'2026-11-21',n:'Sat 21 · Wedding',e:'Ceremony 4:30',wed:true}];
   var KEY='p26wx';
@@ -619,7 +619,7 @@ gtag('config','G-WLZ751B4B8');</script>
   function fromCache(){ try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
   /* Backup source: MET Norway (free, no key). Used only if Open-Meteo can't be reached, for example when an ad blocker cuts it off. Converted to the same shape as the Open-Meteo data. */
   var WXFN='https://ee4hcfms7oytkh4v6euq3qieiy0glsoc.lambda-url.us-east-2.on.aws/';   /* our own saved copy of the forecast (AWS), so ad blockers can't cut it off */
-  var MET='https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=22.89&lon=-109.91';
+  var MET='https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=22.88&lon=-109.94';
   function codeOf(syms){
     var rain=0, thunder=0, heavy=0, n={0:0,1:0,2:0,3:0,45:0};
     syms.forEach(function(sy){ var b=sy.replace(/_(day|night|polartwilight)$/,'');
