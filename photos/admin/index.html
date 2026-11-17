@@ -157,7 +157,10 @@ body.selmode .toast{bottom:92px}
 .lgov{position:fixed;inset:0;background:rgba(28,42,69,.55);z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:4vh 14px;overflow:auto}
 .lgov[hidden]{display:none}
 .lgbox{background:var(--ivory);border:1px solid var(--line);border-radius:18px;width:100%;max-width:480px;padding:18px 18px 20px;box-shadow:0 16px 40px rgba(28,53,96,.25)}
-.lgbox h2{font:500 1.5rem/1.2 var(--serif);color:var(--navy);margin:0 0 4px}
+.lgbox{position:relative}
+.lgx{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:var(--navy);font-size:1.9rem;line-height:1;cursor:pointer}
+.lgx:hover{background:var(--sand)}
+.lgbox h2{padding-right:44px;font:500 1.5rem/1.2 var(--serif);color:var(--navy);margin:0 0 4px}
 .lgbox .hint{color:var(--muted);font-size:.88rem;margin:0 0 14px}
 .lgrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);min-height:52px}
 .lgrow .nm{flex:1;min-width:0;font-weight:600;color:var(--navy);overflow-wrap:anywhere}
@@ -246,6 +249,7 @@ body.selmode .toast{bottom:92px}
 </div>
 <div class="lgov" id="lg" hidden>
   <div class="lgbox" role="dialog" aria-modal="true" aria-labelledby="lgT">
+    <button type="button" class="lgx" id="lgX" aria-label="Close">&times;</button>
     <h2 id="lgT">Manage logins</h2>
     <p class="hint">Anyone you add here can sign in right away. Tap a name to edit or delete it. “View &amp; heart” can look, download and heart photos, but can’t delete.</p>
     <div id="lgList"></div>
@@ -551,7 +555,7 @@ function lgOpen(){
   post({action:'users'}).then(function(j){lgPaint(j.users);}).catch(function(e){$('lgList').textContent='';$('lgErr').textContent=e.message;});
 }
 function lgClose(){if(lgEdit){lgReset();return;}$('lg').hidden=true;lgReset();}
-$('logBtn').onclick=lgOpen;$('lgClose').onclick=lgClose;
+$('logBtn').onclick=lgOpen;$('lgClose').onclick=lgClose;$('lgX').onclick=function(){$('lg').hidden=true;lgReset();};
 $('lg').addEventListener('click',function(e){if(e.target===$('lg')){$('lg').hidden=true;lgReset();}});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('lg').hidden)lgClose();});
 $('lgDel').onclick=function(){
