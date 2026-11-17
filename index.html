@@ -611,7 +611,7 @@ gtag('config','G-WLZ751B4B8');</script>
     document.getElementById('wxKick').textContent='Forecast for the weekend';
     document.getElementById('wxTitle').textContent='Cabo, Nov 19–21';
     document.getElementById('wxBody').innerHTML='<div class="wx-days">'+cols+'</div>'+tip
-      +'<p class="wx-foot">Forecasts can shift, so check back, and other weather apps may show slightly different numbers. Updated '+esc(when)+'. Weather data: '+esc(j._src||'Open-Meteo.com')+'.</p>';
+      +'<p class="wx-foot">Weather data: '+esc(j._src||'Open-Meteo.com')+'</p>';
   }
   function stamp(t){ var d=new Date(t); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+', '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}); }
   function fromCache(){ try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
