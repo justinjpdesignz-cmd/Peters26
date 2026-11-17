@@ -158,7 +158,7 @@ h2{font:500 clamp(2.1rem,8vw,3rem)/1.08 var(--serif);margin:0 0 10px;color:var(-
 .wx-stats b{font:600 1.25rem/1.3 var(--serif);color:var(--navy)}
 .wx-days{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .wx-d{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 6px 10px;text-align:center}
-.wx-d.wed{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.wx-d.now{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
 .wx-d .dn{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .wx-d .en{font:600 .95rem/1.15 var(--serif);color:var(--navy);margin:3px 0 6px;min-height:2.3em}
 .wx-d svg{width:38px;height:38px}
@@ -582,7 +582,7 @@ gtag('config','G-WLZ751B4B8');</script>
 /* Weather: live forecast for the three event days (Open-Meteo, free, no key). Falls back to typical November weather. */
 (function(){
   var box=document.getElementById('wx'); if(!box) return;
-  var DAYS=[{d:'2026-11-19',n:'Thu 19',e:'Welcome Bonfire'},{d:'2026-11-20',n:'Fri 20',e:'Pool Day'},{d:'2026-11-21',n:'Sat 21 · Wedding',e:'Ceremony 4:30',wed:true}];
+  var DAYS=[{d:'2026-11-19',n:'Thu 19',e:'Welcome Bonfire'},{d:'2026-11-20',n:'Fri 20',e:'Pool Day'},{d:'2026-11-21',n:'Sat 21 · Wedding',e:'Ceremony 4:30'}];
   var KEY='p26wx';
   function icon(c){ return c<=1?'sun':c===2?'psun':c===3||c===45||c===48?'cloud':c>=95?'storm':'rain'; }
   function words(c){ return c===0?'clear':c===1?'mostly clear':c===2?'partly cloudy':c===3?'cloudy':(c===45||c===48)?'foggy':c>=95?'stormy':(c>=51&&c<=57)?'drizzly':(c>=80&&c<=82)||(c>=61&&c<=67)?'rainy':'unsettled'; }
@@ -597,9 +597,11 @@ gtag('config','G-WLZ751B4B8');</script>
   }
   function render(j,when){
     var dl=j.daily, cols='';
+    /* highlight today (Cabo time, UTC-7): Thursday until the bonfire day, then each day in turn, Saturday from the wedding on */
+    var today=new Date(Date.now()-7*3600000).toISOString().slice(0,10), cur=today<DAYS[0].d?0:today>DAYS[2].d?2:DAYS.map(function(x){return x.d}).indexOf(today);
     DAYS.forEach(function(x,i){
       var c=dl.weather_code[i];
-      cols+='<div class="wx-d'+(x.wed?' wed':'')+'"><div class="dn">'+esc(x.n)+'</div><div class="en">'+esc(x.e)+'</div>'
+      cols+='<div class="wx-d'+(i===cur?' now':'')+'"><div class="dn">'+esc(x.n)+'</div><div class="en">'+esc(x.e)+'</div>'
         +'<svg viewBox="0 0 48 48" role="img" aria-label="'+esc(words(c))+'"><use href="#wx-'+icon(c)+'"/></svg>'
         +'<div class="tt">'+r(dl.temperature_2m_max[i])+'° <em>/ '+r(dl.temperature_2m_min[i])+'°</em></div>'
         +'<div class="rr">'+esc(cap(words(c)))
