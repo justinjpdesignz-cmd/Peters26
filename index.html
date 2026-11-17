@@ -582,8 +582,6 @@ gtag('config','G-WLZ751B4B8');</script>
 /* Weather: live forecast for the three event days (Open-Meteo, free, no key). Falls back to typical November weather. */
 (function(){
   var box=document.getElementById('wx'); if(!box) return;
-  var URL='https://api.open-meteo.com/v1/forecast?latitude=22.88&longitude=-109.94&timezone=America%2FMazatlan&temperature_unit=fahrenheit&wind_speed_unit=mph&start_date=2026-11-19&end_date=2026-11-21'
-    +'&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,sunset&hourly=temperature_2m,weather_code';
   var DAYS=[{d:'2026-11-19',n:'Thu 19',e:'Welcome Bonfire'},{d:'2026-11-20',n:'Fri 20',e:'Pool Day'},{d:'2026-11-21',n:'Sat 21 · Wedding',e:'Ceremony 4:30',wed:true}];
   var KEY='p26wx';
   function icon(c){ return c<=1?'sun':c===2?'psun':c===3||c===45||c===48?'cloud':c>=95?'storm':'rain'; }
@@ -617,45 +615,7 @@ gtag('config','G-WLZ751B4B8');</script>
   }
   function stamp(t){ var d=new Date(t); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+', '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}); }
   function fromCache(){ try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
-  /* Backup source: MET Norway (free, no key). Used only if Open-Meteo can't be reached, for example when an ad blocker cuts it off. Converted to the same shape as the Open-Meteo data. */
   var WXFN='https://ee4hcfms7oytkh4v6euq3qieiy0glsoc.lambda-url.us-east-2.on.aws/';   /* our own saved copy of the forecast (AWS), so ad blockers can't cut it off */
-  var MET='https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=22.88&lon=-109.94';
-  function codeOf(syms){
-    var rain=0, thunder=0, heavy=0, n={0:0,1:0,2:0,3:0,45:0};
-    syms.forEach(function(sy){ var b=sy.replace(/_(day|night|polartwilight)$/,'');
-      if(/thunder/.test(b)) thunder++; else if(/heavyrain/.test(b)) heavy++; else if(/rain|sleet|snow/.test(b)) rain++;
-      else if(b==='clearsky') n[0]++; else if(b==='fair') n[1]++; else if(b==='partlycloudy') n[2]++; else if(b==='fog') n[45]++; else n[3]++; });
-    if(thunder) return 95; if(heavy) return 65;
-    if(rain>=2||rain/syms.length>=.25) return 61;
-    var best=3, bn=-1; [0,1,2,3,45].forEach(function(k){ if(n[k]>bn){ best=k; bn=n[k]; } }); return best;
-  }
-  function metToJ(m){
-    var ts=m&&m.properties&&m.properties.timeseries; if(!ts||!ts.length) return null;
-    var OFF=-7*3600000, days={}, list=[];
-    ts.forEach(function(t){
-      var ms=Date.parse(t.time); if(isNaN(ms)||!t.data||!t.data.instant) return;
-      var iso=new Date(ms+OFF).toISOString(), date=iso.slice(0,10), hr=+iso.slice(11,13);
-      var det=t.data.instant.details||{}, n1=t.data.next_1_hours, n6=t.data.next_6_hours;
-      var d=days[date]||(days[date]={max:-99,min:99,wind:0,syms:[],has:false});
-      function tmp(v){ if(v==null) return; d.max=Math.max(d.max,v); d.min=Math.min(d.min,v); d.has=true; }
-      tmp(det.air_temperature);
-      if(n6&&n6.details){ tmp(n6.details.air_temperature_max); tmp(n6.details.air_temperature_min); }
-      if(det.wind_speed!=null) d.wind=Math.max(d.wind,det.wind_speed);
-      var sym=(n1&&n1.summary&&n1.summary.symbol_code)||(n6&&n6.summary&&n6.summary.symbol_code)||'';
-      if(hr>=8&&hr<=16&&sym) d.syms.push(sym);
-      list.push({ms:ms,T:det.air_temperature,sym:sym});
-    });
-    var out={daily:{time:[],weather_code:[],temperature_2m_max:[],temperature_2m_min:[],wind_speed_10m_max:[],sunset:[]},hourly:{time:[],temperature_2m:[],weather_code:[]},_src:'MET Norway (api.met.no)'};
-    for(var i=0;i<DAYS.length;i++){
-      var d=days[DAYS[i].d]; if(!d||!d.has||!d.syms.length) return null;
-      out.daily.time.push(DAYS[i].d); out.daily.weather_code.push(codeOf(d.syms));
-      out.daily.temperature_2m_max.push(d.max*9/5+32); out.daily.temperature_2m_min.push(d.min*9/5+32); out.daily.wind_speed_10m_max.push(d.wind*2.23694);
-    }
-    var target=Date.UTC(2026,10,21,16,0,0)-OFF, best=null;      /* 4:00 pm Cabo time on the wedding day */
-    list.forEach(function(e){ if(e.T!=null&&e.sym&&(best===null||Math.abs(e.ms-target)<Math.abs(best.ms-target))) best=e; });
-    if(best&&Math.abs(best.ms-target)<=3*3600000){ out.hourly.time.push('2026-11-21T16:00'); out.hourly.temperature_2m.push(best.T*9/5+32); out.hourly.weather_code.push(codeOf([best.sym])); }
-    return out;
-  }
   function get(url){
     var ctl=('AbortController' in window)?new AbortController():null, to=setTimeout(function(){ if(ctl) ctl.abort(); },8000);
     return fetch(url,ctl?{signal:ctl.signal}:{}).then(function(res){ clearTimeout(to); if(!res.ok) throw 0; return res.json(); },function(e){ clearTimeout(to); throw e; });
@@ -665,12 +625,8 @@ gtag('config','G-WLZ751B4B8');</script>
     var t=(j._t&&j._t<=Date.now())?j._t:Date.now(); render(j,stamp(t)); try{ localStorage.setItem(KEY,JSON.stringify({t:t,j:j})); }catch(e){}
     return true;
   }
-  /* order: our saved copy, then Open-Meteo directly, then MET Norway, then the last copy this phone saved */
-  get(WXFN).then(show).catch(function(){
-    return get(URL).then(show);
-  }).catch(function(){
-    return get(MET).then(function(m){ return show(metToJ(m)); });
-  }).catch(fromCache);
+  /* the forecast comes from our own saved copy in AWS (refreshed every couple of hours); if that can't be reached, show what this phone saved last, else the typical-November card */
+  get(WXFN).then(show).catch(fromCache);
 })();
   if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
 </script>
