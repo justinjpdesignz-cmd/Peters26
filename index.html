@@ -618,6 +618,7 @@ gtag('config','G-WLZ751B4B8');</script>
   function stamp(t){ var d=new Date(t); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+', '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}); }
   function fromCache(){ try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
   /* Backup source: MET Norway (free, no key). Used only if Open-Meteo can't be reached, for example when an ad blocker cuts it off. Converted to the same shape as the Open-Meteo data. */
+  var WXFN='https://ee4hcfms7oytkh4v6euq3qieiy0glsoc.lambda-url.us-east-2.on.aws/';   /* our own saved copy of the forecast (AWS), so ad blockers can't cut it off */
   var MET='https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=22.89&lon=-109.91';
   function codeOf(syms){
     var rain=0, thunder=0, heavy=0, n={0:0,1:0,2:0,3:0,45:0};
@@ -661,10 +662,13 @@ gtag('config','G-WLZ751B4B8');</script>
   }
   function show(j){
     if(!usable(j)) return false;                // not in range yet: keep the typical-November card
-    var t=Date.now(); render(j,stamp(t)); try{ localStorage.setItem(KEY,JSON.stringify({t:t,j:j})); }catch(e){}
+    var t=(j._t&&j._t<=Date.now())?j._t:Date.now(); render(j,stamp(t)); try{ localStorage.setItem(KEY,JSON.stringify({t:t,j:j})); }catch(e){}
     return true;
   }
-  get(URL).then(show,function(){
+  /* order: our saved copy, then Open-Meteo directly, then MET Norway, then the last copy this phone saved */
+  get(WXFN).then(show).catch(function(){
+    return get(URL).then(show);
+  }).catch(function(){
     return get(MET).then(function(m){ return show(metToJ(m)); });
   }).catch(fromCache);
 })();
