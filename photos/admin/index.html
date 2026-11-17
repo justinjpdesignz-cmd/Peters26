@@ -173,6 +173,9 @@ body.selmode .toast{bottom:92px}
 .lgbtns .btn.danger{margin-right:auto}
 .lgadd{margin-top:14px;padding-top:14px;border-top:2px solid var(--line);display:grid;gap:10px}
 .lgadd input,.lgadd select{width:100%;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:1rem;font-family:inherit}
+.lgadd .pw{position:relative}
+.lgadd .pw input{padding-right:70px}
+.lgadd .pw button{position:absolute;right:4px;top:4px;height:40px;min-width:60px;border:0;border-radius:10px;background:transparent;color:var(--navy);font-weight:500;font-size:.88rem;cursor:pointer}
 .lgadd .rr{display:flex;gap:8px}
 .lgadd .rr label{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:.9rem}
 .lgadd .rr input{width:auto;min-height:0;accent-color:var(--navy)}
@@ -256,7 +259,7 @@ body.selmode .toast{bottom:92px}
     <form class="lgadd" id="lgForm" autocomplete="off">
       <h3 id="lgHead">Add a login</h3>
       <input id="lgName" type="text" placeholder="Name (shown on their hearts)" maxlength="30" autocomplete="off" autocapitalize="words" aria-label="Name">
-      <input id="lgCode" type="text" placeholder="Passcode (4+ characters, no spaces)" maxlength="40" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Passcode">
+      <div class="pw"><input id="lgCode" type="password" placeholder="Passcode (4+ characters, no spaces)" maxlength="40" autocomplete="new-password" autocapitalize="none" spellcheck="false" aria-label="Passcode"><button type="button" id="lgShow" aria-pressed="false">Show</button></div>
       <div class="rr"><label><input type="radio" name="lgRole" value="viewer" checked> View &amp; heart</label><label><input type="radio" name="lgRole" value="admin"> Full access</label></div>
       <p class="lgerr" id="lgErr" role="alert"></p>
       <div class="lgbtns"><button type="button" class="btn danger" id="lgDel" hidden>Delete login</button><button type="button" class="btn ghost" id="lgClose">Done</button><button type="submit" class="btn" id="lgAdd">Add login</button></div>
@@ -530,7 +533,7 @@ function lgPaint(list){
     var row=document.createElement('div');row.className='lgrow'+(u.builtin?'':' tap')+(lgEdit&&lgEdit.toLowerCase()===u.name.toLowerCase()?' sel':'');
     var nm=document.createElement('div');nm.className='nm';nm.textContent=u.name;
     var sm=document.createElement('small');sm.textContent=(u.role==='admin'?'Full access':'View & heart')+(u.builtin?' · set up in AWS':'');nm.appendChild(sm);row.appendChild(nm);
-    if(u.code){var c=document.createElement('code');c.textContent=u.code;row.appendChild(c);
+    if(u.code){var c=document.createElement('code');c.textContent='••••••';c.setAttribute('aria-label','passcode hidden');row.appendChild(c);
       row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-label','Edit '+u.name);
       row.onclick=function(){lgStart(u);};row.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();lgStart(u);}};}
     box.appendChild(row);
@@ -547,7 +550,9 @@ function lgStart(u){
   var r=document.querySelector('input[name=lgRole][value='+(u.role==='admin'?'admin':'viewer')+']');if(r)r.checked=true;
   lgMode();lgPaint(lgList);$('lgName').scrollIntoView({block:'nearest'});
 }
-function lgReset(){lgEdit=null;$('lgName').value='';$('lgCode').value='';var r=document.querySelector('input[name=lgRole][value=viewer]');if(r)r.checked=true;$('lgErr').textContent='';lgMode();lgPaint(lgList);}
+function lgHide(){$('lgCode').type='password';$('lgShow').textContent='Show';$('lgShow').setAttribute('aria-pressed','false');}
+$('lgShow').onclick=function(){var on=$('lgCode').type==='password';$('lgCode').type=on?'text':'password';this.textContent=on?'Hide':'Show';this.setAttribute('aria-pressed',String(on));};
+function lgReset(){lgHide();lgEdit=null;$('lgName').value='';$('lgCode').value='';var r=document.querySelector('input[name=lgRole][value=viewer]');if(r)r.checked=true;$('lgErr').textContent='';lgMode();lgPaint(lgList);}
 function lgBusy(on){$('lgAdd').disabled=on;$('lgDel').disabled=on;if(on)$('lgAdd').textContent='Working…';else lgMode();}
 function lgNames(j){users=j.users.map(function(x){return x.name;});paintWho();}
 function lgOpen(){
@@ -569,7 +574,7 @@ $('lgForm').onsubmit=function(e){
   if(c.length<4||/\s/.test(c)){$('lgErr').textContent='The passcode needs 4 or more characters, with no spaces.';return;}
   var was=lgEdit;lgBusy(true);
   post(was?{action:'user_edit',name:was,newName:n,code:c,role:r}:{action:'user_add',name:n,code:c,role:r}).then(function(j){
-    lgEdit=null;lgPaint(j.users);lgNames(j);lgReset();toast(was?'Saved changes for '+n:n+' added. They can sign in now.');
+    lgEdit=null;lgPaint(j.users);lgNames(j);lgReset();$('lgName').focus();toast(was?'Saved changes for '+n:n+' added. They can sign in now.');
   }).catch(function(e){$('lgErr').textContent=e.message;}).then(function(){lgBusy(false);});
 };
 $('out').onclick=function(){
