@@ -77,6 +77,8 @@ body.selmode .top1{display:none}
 body.selmode .selbar{display:flex}
 .ttl{flex:1;min-width:0}
 .ttl h1{font-size:1.5rem;line-height:1.1}
+.meline{display:block;font-size:.68rem;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:1px}
+.meline b{color:var(--navy);font-weight:600}
 .stats{display:block;color:var(--muted);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ib{width:44px;height:44px;flex:none;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--navy);display:inline-grid;place-items:center;cursor:pointer;padding:0;text-decoration:none}
 .ib svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -187,7 +189,7 @@ body.selmode .toast{bottom:92px}
     <div class="top1">
       <button class="ib backgal" id="backGal" type="button" aria-label="Back to the gallery" title="Back to the gallery"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
       <a class="ib home" href="../../" aria-label="Back to the main site" title="Back to the main site"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 10v10h4v-6h4v6h4V10"/></svg><span>Main site</span></a>
-      <div class="ttl"><h1 id="ttl">Guest photos</h1><span class="stats" id="stats"></span></div>
+      <div class="ttl"><span class="meline" id="meline" hidden></span><h1 id="ttl">Guest photos</h1><span class="stats" id="stats"></span></div>
       <button class="btn ghost" id="selBtn" type="button">Select</button>
       <div class="menuwrap">
         <button class="ib" id="more" type="button" aria-label="More options" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg></button>
@@ -338,7 +340,8 @@ document.addEventListener('click',function(e){if(!menu.hidden&&!menu.contains(e.
 menu.addEventListener('click',function(){menuShow(false);});
 $('lbDel').onclick=function(){var it=shown[cur];if(!it)return;if(view==='trash')purgeKeys([it.key]);else trashKeys([it.key]);};
 $('lbRestore').onclick=function(){var it=shown[cur];if(it)restoreKeys([it.key]);};
-function paintWho(){var w=$('whoami');if(me){w.hidden=false;w.innerHTML='Signed in as <b></b>'+(role==='viewer'?' <span>· view &amp; heart only</span>':'');w.querySelector('b').textContent=me;}else w.hidden=true;
+function paintWho(){var ml=$('meline');if(me){ml.hidden=false;ml.innerHTML='<b></b>';ml.querySelector('b').textContent=me;}else ml.hidden=true;
+  var w=$('whoami');if(me){w.hidden=false;w.innerHTML='Signed in as <b></b>'+(role==='viewer'?' <span>· view &amp; heart only</span>':'');w.querySelector('b').textContent=me;}else w.hidden=true;
   var sel=$('favWho');sel.innerHTML='';var o=document.createElement('option');o.value='me';o.textContent='Mine';sel.appendChild(o);
   if(users.length>1){var e=document.createElement('option');e.value='all';e.textContent='Everyone’s';sel.appendChild(e);users.forEach(function(u){if(u!==me){var x=document.createElement('option');x.value='u:'+u;x.textContent=u+'’s';sel.appendChild(x);}});}
   sel.value=favScope;if(sel.value!==favScope){favScope='me';sel.value='me';}}
