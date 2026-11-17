@@ -174,8 +174,9 @@ body.selmode .toast{bottom:92px}
 .lgadd{margin-top:14px;padding-top:14px;border-top:2px solid var(--line);display:grid;gap:10px}
 .lgadd input,.lgadd select{width:100%;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:1rem;font-family:inherit}
 .lgadd .pw{position:relative}
-.lgadd .pw input{padding-right:70px}
-.lgadd .pw button{position:absolute;right:4px;top:4px;height:40px;min-width:60px;border:0;border-radius:10px;background:transparent;color:var(--navy);font-weight:500;font-size:.88rem;cursor:pointer}
+.lgadd .pw input{padding-right:54px}
+.lgadd .pw button{position:absolute;right:4px;top:2px;width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lgadd .pw button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .lgadd .rr{display:flex;gap:8px}
 .lgadd .rr label{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:.9rem}
 .lgadd .rr input{width:auto;min-height:0;accent-color:var(--navy)}
@@ -259,7 +260,7 @@ body.selmode .toast{bottom:92px}
     <form class="lgadd" id="lgForm" autocomplete="off">
       <h3 id="lgHead">Add a login</h3>
       <input id="lgName" type="text" placeholder="Name (shown on their hearts)" maxlength="30" autocomplete="off" autocapitalize="words" aria-label="Name">
-      <div class="pw"><input id="lgCode" type="password" placeholder="Passcode (4+ characters, no spaces)" maxlength="40" autocomplete="new-password" autocapitalize="none" spellcheck="false" aria-label="Passcode"><button type="button" id="lgShow" aria-pressed="false">Show</button></div>
+      <div class="pw"><input id="lgCode" type="password" placeholder="Passcode (4+ characters, no spaces)" maxlength="40" autocomplete="new-password" autocapitalize="none" spellcheck="false" aria-label="Passcode"><button type="button" id="lgShow" aria-pressed="false" aria-label="Show passcode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
       <div class="rr"><label><input type="radio" name="lgRole" value="viewer" checked> View &amp; heart</label><label><input type="radio" name="lgRole" value="admin"> Full access</label></div>
       <p class="lgerr" id="lgErr" role="alert"></p>
       <div class="lgbtns"><button type="button" class="btn danger" id="lgDel" hidden>Delete login</button><button type="button" class="btn ghost" id="lgClose">Done</button><button type="submit" class="btn" id="lgAdd">Add login</button></div>
@@ -527,6 +528,7 @@ $('who').onchange=function(){whoFilter=$('who').value;render();};
 $('showpw').onchange=function(){$('pass').type=this.checked?'text':'password';$('pass').focus();};
 /* manage logins (full-access people only) */
 var lgEdit=null,lgList=[];
+var EYE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',EYEOFF='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg>';
 function lgPaint(list){
   lgList=list;var box=$('lgList');box.textContent='';
   list.forEach(function(u){
@@ -550,8 +552,8 @@ function lgStart(u){
   var r=document.querySelector('input[name=lgRole][value='+(u.role==='admin'?'admin':'viewer')+']');if(r)r.checked=true;
   lgMode();lgPaint(lgList);$('lgName').scrollIntoView({block:'nearest'});
 }
-function lgHide(){$('lgCode').type='password';$('lgShow').textContent='Show';$('lgShow').setAttribute('aria-pressed','false');}
-$('lgShow').onclick=function(){var on=$('lgCode').type==='password';$('lgCode').type=on?'text':'password';this.textContent=on?'Hide':'Show';this.setAttribute('aria-pressed',String(on));};
+function lgHide(){$('lgCode').type='password';$('lgShow').innerHTML=EYE;$('lgShow').setAttribute('aria-pressed','false');$('lgShow').setAttribute('aria-label','Show passcode');}
+$('lgShow').onclick=function(){var on=$('lgCode').type==='password';$('lgCode').type=on?'text':'password';this.innerHTML=on?EYEOFF:EYE;this.setAttribute('aria-pressed',String(on));this.setAttribute('aria-label',on?'Hide passcode':'Show passcode');};
 function lgReset(){lgHide();lgEdit=null;$('lgName').value='';$('lgCode').value='';var r=document.querySelector('input[name=lgRole][value=viewer]');if(r)r.checked=true;$('lgErr').textContent='';lgMode();lgPaint(lgList);}
 function lgBusy(on){$('lgAdd').disabled=on;$('lgDel').disabled=on;if(on)$('lgAdd').textContent='Working…';else lgMode();}
 function lgNames(j){users=j.users.map(function(x){return x.name;});paintWho();}
