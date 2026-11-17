@@ -610,6 +610,7 @@ gtag('config','G-WLZ751B4B8');</script>
       tip='<p class="wx-tip"><b>Saturday, around the ceremony:</b> '+r(h.temperature_2m[ix])+'°F and '+words(h.weather_code[ix])+'.'+(dl.sunset&&dl.sunset[2]?' Sunset is at about '+esc(clock(dl.sunset[2]))+'.':'')+'</p>'; } }
     document.getElementById('wxKick').textContent='Forecast for the weekend';
     document.getElementById('wxTitle').textContent='Cabo, Nov 19–21';
+    document.getElementById('wxBody').innerHTML='<div class="wx-days">'+cols+'</div>'+tip;
   }
   function stamp(t){ var d=new Date(t); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+', '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}); }
   function fromCache(){ try{ var c=JSON.parse(localStorage.getItem(KEY)||'null'); if(c&&usable(c.j)&&Date.now()-c.t<36*3600*1000){ render(c.j,stamp(c.t)); } }catch(e){} }
