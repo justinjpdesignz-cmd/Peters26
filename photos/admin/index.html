@@ -154,6 +154,7 @@ body.selmode main{padding-bottom:110px}
 body.selmode .toast{bottom:92px}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:14px;font-size:.9rem;z-index:30;display:none;max-width:90vw;text-align:center}
 /* manage logins */
+.sentinel{text-align:center;color:var(--muted);font-size:.85rem;padding:24px 0 40px}
 .lgov{position:fixed;inset:0;background:rgba(28,42,69,.55);z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:4vh 14px;overflow:auto}
 .lgov[hidden]{display:none}
 .lgbox{background:var(--ivory);border:1px solid var(--line);border-radius:18px;width:100%;max-width:480px;padding:18px 18px 20px;box-shadow:0 16px 40px rgba(28,53,96,.25)}
@@ -430,7 +431,7 @@ function render(){
   $('stats').textContent=plural(shown.length)+' · '+fmtSize(bytes)+(view==='trash'?' · erased after 30 days':'');$('binCount').textContent=bin.length?'('+bin.length+')':'';
   $('dlShown').disabled=!shown.length;$('dlShown').hidden=!HAS_DIR;
   if(selMode)updSel();
-  var main=$('main');main.innerHTML='';
+  var main=$('main');main.innerHTML='';pending=[];if(pageObs){pageObs.disconnect();pageObs=null;}
   if(!shown.length){main.innerHTML='<p class="empty">'+(view==='trash'?'The trash is empty. Deleted files wait here for 30 days.':(favOnly?(favScope==='me'?'No favorites yet. Tap the heart on a photo to add it here.':'No favorites to show here.'):'No photos yet.'))+'</p>';return;}
   events.filter(function(e){return !evFilter||e===evFilter}).forEach(function(e){
     var list=shown.filter(function(i){return i.event===e});if(!list.length)return;
@@ -440,9 +441,24 @@ function render(){
     if(HAS_DIR){var sp=document.createElement('span');sp.className='sp';h.appendChild(sp);var d=document.createElement('button');d.type='button';d.className='lnk';d.textContent='Download…';d.setAttribute('aria-label','Download all of '+evLabel(e));d.onclick=function(){bulk(list,true)};h.appendChild(d);}
     sec.appendChild(h);
     var g=document.createElement('div');g.className='grid';
-    list.forEach(function(it){g.appendChild(tile(it))});
+    pending.push({g:g,list:list,pos:0});
     sec.appendChild(g);main.appendChild(sec);
   });
+  loadMore(PAGE);
+  if(pending.length){var sn=document.createElement('div');sn.id='sentinel';sn.className='sentinel';sn.textContent='Loading more…';main.appendChild(sn);
+    if('IntersectionObserver' in window){pageObs=new IntersectionObserver(function(en){if(en[0].isIntersecting){loadMore(PAGE);if(!pending.length&&sn.parentNode)sn.remove();}},{rootMargin:'1200px 0px'});pageObs.observe(sn);}
+    else{loadMore(1e9);sn.remove();}}
+}
+/* the gallery fills in a page of photos at a time as you scroll, so thousands of photos don't all load at once */
+var PAGE=120,pending=[],pageObs=null;
+function loadMore(n){
+  while(n>0&&pending.length){
+    var p=pending[0];
+    while(n>0&&p.pos<p.list.length){p.g.appendChild(tile(p.list[p.pos++]));n--;}
+    if(p.pos>=p.list.length)pending.shift();
+  }
+  if(!pending.length){var sn=$('sentinel');if(sn)sn.remove();if(pageObs){pageObs.disconnect();pageObs=null;}}
+  else{var sn2=$('sentinel');if(sn2&&pageObs){pageObs.unobserve(sn2);pageObs.observe(sn2);}}   // look again in case it is still on screen
 }
 function tile(it){
   if(tiles[it.key]) return tiles[it.key];
