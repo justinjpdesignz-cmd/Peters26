@@ -84,6 +84,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .dots{display:flex;gap:10px;justify-content:center;margin:20px 0 0;padding:0;list-style:none}
 .dots li{width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(28,53,96,.12)}
 .count{display:inline-block;margin-top:20px;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(28,53,96,.14);font-size:.9rem;font-weight:500;color:var(--navy)}
+.today{text-wrap:balance;max-width:400px;margin:16px auto 0;padding:12px 18px;border-radius:16px;background:rgba(255,255,255,.75);border:1px solid rgba(28,53,96,.14);font-size:.92rem;line-height:1.45;color:var(--navy)}
+.today[hidden]{display:none}
+.today b{display:block;font:600 .7rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--tan);margin-bottom:3px}
 .cabotime{margin:12px 0 0;min-height:1.4em;font-size:.88rem;color:var(--navy);opacity:.85}
 .share{display:inline-flex;align-items:center;justify-content:center;min-height:46px;margin-top:14px;padding:10px 22px;border-radius:999px;background:var(--navy);color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;letter-spacing:.02em}
 .share:hover{background:#142848}
@@ -294,6 +297,7 @@ gtag('config','G-WLZ751B4B8');</script>
   </ul>
   <div class="count" id="count"><span id="countText">Welcome to Cabo</span></div>
   <p class="cabotime" id="cabotime" aria-live="off"></p>
+  <p class="today" id="today" hidden><b>Today · Thursday the 19th</b>We’ll be hanging out at Pool 26/27. Come say hi!</p>
   <svg class="waves" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
     <path fill="#a8c3de" opacity=".55" d="M0 58C240 18 480 98 720 58S1200 18 1440 58V120H0Z"/>
     <path fill="#6f93b8" opacity=".33" d="M0 80C260 50 500 110 760 80S1220 50 1440 80V120H0Z"/>
@@ -580,6 +584,8 @@ gtag('config','G-WLZ751B4B8');</script>
     }catch(e){}
   }
   cabo(); setInterval(cabo,20000);
+  /* one-day note: only shows on Thursday Nov 19 (Cabo time) */
+  try{var td=d.getElementById('today');if(td&&new Date(Date.now()-7*3600000).toISOString().slice(0,10)==='2026-11-19')td.hidden=false;}catch(e){}
 
   /* gentle reveal on scroll; everything shows if IntersectionObserver is missing */
   var els=d.querySelectorAll('.reveal');
