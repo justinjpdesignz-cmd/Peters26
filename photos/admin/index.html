@@ -105,12 +105,12 @@ body.trashview .tile .heartby,body.selmode .tile .heartby{display:none}
 .selbar .cnt{flex:1;font-weight:500;color:var(--navy)}
 .lnk{border:0;background:none;color:var(--navy);font-weight:500;font-size:.9rem;min-height:44px;padding:0 10px;cursor:pointer;border-radius:10px}
 .lnk:hover{background:var(--sand)}
-.filters{display:flex;gap:8px;align-items:center;overflow-x:auto;padding:4px 0 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:4px 0 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .filters::-webkit-scrollbar{display:none}
 #chips{display:contents}
 .chip{flex:none;min-height:40px;padding:0 15px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:.85rem;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap}
 .chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
-select{flex:none;min-height:40px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:.85rem;font-weight:500;color:var(--navy);max-width:170px}
+select{flex:1 1 130px;min-width:0;min-height:40px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:.85rem;font-weight:500;color:var(--navy);max-width:210px}
 main{max-width:1400px;margin:0 auto;padding:4px 12px 90px}
 .sec{margin-top:22px}
 .sec h2{display:flex;align-items:center;gap:10px;font:500 1.6rem/1.1 var(--serif);color:var(--navy);margin:0 0 10px;padding:0 4px}
@@ -242,7 +242,7 @@ body.selmode .toast{bottom:92px}
       <span class="cnt" id="selCnt">Select items</span>
       <button class="lnk" id="selAll" type="button">Select all shown</button>
     </div>
-    <div class="filters" role="group" aria-label="Filters"><select id="who" aria-label="Filter by guest"><option value="">All guests</option></select><span id="chips"></span><select id="favWho" aria-label="Whose favorites"></select></div>
+    <div class="filters" role="group" aria-label="Filters"><select id="evSel" aria-label="Filter by event"></select><select id="who" aria-label="Filter by guest"><option value="">All guests</option></select><span id="chips"></span><select id="favWho" aria-label="Whose favorites"></select></div>
   </div></div>
   <main id="main"></main>
   <div class="actbar" id="actbar"><button class="btn only-gal" id="dlSel" type="button"><svg width="20" height="20" style="margin-right:8px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Download</button><button class="btn only-gal favsel" id="favSel" type="button"><svg width="20" height="20" style="margin-right:8px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span id="favSelLbl">Favorite</span></button><button class="btn danger only-gal" id="delSel" type="button"><svg width="20" height="20" style="margin-right:8px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete</button><button class="btn only-bin" id="restoreSel" type="button"><svg width="20" height="20" style="margin-right:8px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 2.5 5.8M4 20v-5h5"/></svg>Restore</button><button class="btn danger only-bin" id="purgeSel" type="button"><svg width="20" height="20" style="margin-right:8px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete forever</button></div>
@@ -420,11 +420,12 @@ function render(){
   var chips=$('chips');document.querySelector('.filters').appendChild($('favWho'));chips.innerHTML='';
   if(view!=='trash'){var fb=document.createElement('button');fb.type='button';fb.className='chip favchip';fb.setAttribute('aria-pressed',String(favOnly));fb.onclick=function(){favOnly=!favOnly;render();window.scrollTo(0,0);};chips.appendChild(fb);chips.appendChild($('favWho'));favCounts();}
   $('favWho').classList.toggle('on',favOnly&&view!=='trash'&&users.length>1);
+  var es=$('evSel');es.innerHTML='';
   [''].concat(events).forEach(function(e){
-    var b=document.createElement('button');b.type='button';b.className='chip';b.setAttribute('aria-pressed',String(e===evFilter));
-    b.textContent=(e?evLabel(e):'All events')+' ('+(e?counts[e]:Object.keys(counts).reduce(function(a,k){return a+counts[k]},0))+')';
-    b.onclick=function(){evFilter=e;render();window.scrollTo(0,0);};chips.appendChild(b);
+    var o=document.createElement('option');o.value=e;
+    o.textContent=(e?evLabel(e):'All events')+' ('+(e?counts[e]:Object.keys(counts).reduce(function(a,k){return a+counts[k]},0))+')';es.appendChild(o);
   });
+  es.value=evFilter;
   shown=base().filter(function(i){return (!evFilter||i.event===evFilter)&&(!whoFilter||i.who===whoFilter)&&(!favOnly||heartedBy(i,favScope))});
   shown.sort(function(a,b){var ea=ORDER.indexOf(a.event),eb=ORDER.indexOf(b.event);if(ea<0)ea=99;if(eb<0)eb=99;return ea-eb||(a.sort<b.sort?-1:a.sort>b.sort?1:0)});
   var bytes=shown.reduce(function(a,i){return a+i.size},0);
@@ -541,6 +542,7 @@ $('dlShown').onclick=function(){bulk(shown,false)};
 $('refresh').onclick=function(){load().then(function(){toast('Refreshed.')}).catch(function(e){toast(e.message)})};
 $('favWho').onchange=function(){favScope=this.value;render();window.scrollTo(0,0);};
 $('who').onchange=function(){whoFilter=$('who').value;render();};
+$('evSel').onchange=function(){evFilter=this.value;render();window.scrollTo(0,0);};
 
 $('showpw').onchange=function(){$('pass').type=this.checked?'text':'password';$('pass').focus();};
 /* manage logins (full-access people only) */
