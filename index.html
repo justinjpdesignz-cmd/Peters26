@@ -87,7 +87,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .today{text-wrap:balance;max-width:400px;margin:16px auto 0;padding:12px 18px;border-radius:16px;background:rgba(255,255,255,.75);border:1px solid rgba(28,53,96,.14);font-size:.92rem;line-height:1.45;color:var(--navy)}
 .today[hidden]{display:none}
 .today b{display:block;font:600 .7rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--tan);margin-bottom:3px}
-.cabotime{margin:12px 0 0;min-height:1.4em;font-size:.88rem;color:var(--navy);opacity:.85}
+.cabotime{margin:20px 0 0;min-height:1.4em;font-size:.88rem;color:var(--navy);opacity:.85}
 .share{display:inline-flex;align-items:center;justify-content:center;min-height:46px;margin-top:14px;padding:10px 22px;border-radius:999px;background:var(--navy);color:#fff;text-decoration:none;font-size:.9rem;font-weight:500;letter-spacing:.02em}
 .share:hover{background:#142848}
 .share .ic,.navshare .ic{width:1.35em;height:1.35em;flex:none;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-right:10px}
@@ -300,7 +300,6 @@ gtag('config','G-WLZ751B4B8');</script>
   <ul class="dots" aria-hidden="true">
     <li style="background:#ece6dc"></li><li style="background:#a8c3de"></li><li style="background:#6f93b8"></li><li style="background:#1c3560"></li><li style="background:#b88c66"></li><li style="background:#c9a37f"></li>
   </ul>
-  <div class="count" id="count"><span id="countText">Welcome to Cabo</span></div>
   <p class="cabotime" id="cabotime" aria-live="off"></p>
   <p class="today" id="today" hidden><b>Today · Thursday the 19th</b>We’ll be hanging out at Pool 26/27 from 8 am to 4 pm. Come say hi!</p>
   <svg class="waves" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
@@ -561,18 +560,6 @@ gtag('config','G-WLZ751B4B8');</script>
     window.addEventListener('hashchange',function(){if(location.hash==='#weekend')openIt();});
     d.addEventListener('click',function(e){var l=e.target.closest&&e.target.closest('a[href="#weekend"]');if(l)openIt();});
   })();
-  /* countdown to the welcome bonfire: Thu Nov 19, 2026, 7:00 pm Cabo time (UTC-7) = Nov 20, 02:00 UTC */
-  var t=d.getElementById('countText');
-  try{
-    var now=Date.now(), day=86400000;
-    var bonfire=Date.UTC(2026,10,20,2,0,0), wedding=Date.UTC(2026,10,21,23,30,0);
-    var diff=bonfire-now;
-    if(diff>day){var n=Math.floor(diff/day);t.innerHTML='<b>'+n+'</b> '+(n===1?'day':'days')+' to go';}
-    else if(diff>0){t.textContent='The celebration starts tonight!';}
-    
-    else{t.textContent='Thank you for celebrating with us!';}
-  }catch(e){}
-
   /* current time in Cabo: Baja California Sur is on Mountain Standard Time (UTC-7) all year, no daylight saving */
   var ct=d.getElementById('cabotime');
   function cabo(){
