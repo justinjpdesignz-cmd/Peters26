@@ -135,6 +135,8 @@ h2{font:500 clamp(2.1rem,8vw,3rem)/1.08 var(--serif);margin:0 0 10px;color:var(-
 .thanks+.quick{margin-top:30px}
 .thanks h2{margin-bottom:12px}
 .thanks p{color:var(--ink);margin:0 0 14px}
+.thanks .registry{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 24px;border-radius:999px;border:1.5px solid var(--navy);color:var(--navy);text-decoration:none;font-weight:500;font-size:.92rem;background:transparent}
+.thanks .registry:hover{background:var(--navy);color:#fff}
 .thanks .sign{margin-top:18px;color:var(--muted)}
 .thanks .sign span{font:italic 500 1.6rem var(--serif);color:var(--navy)}
 .lede{color:var(--muted);margin:0 0 26px}
@@ -257,6 +259,7 @@ gtag('config','G-WLZ751B4B8');</script>
       else if(a.classList.contains('totop')) ev('back_to_top_click');
       else if(a.classList.contains('share')) ev('share_photos_click');
       else if(a.classList.contains('navshare')) ev('share_photos_nav_click');
+      else if(a.classList.contains('registry')) ev('registry_click');
       else if(a.closest('#app')&&a.classList.contains('btn')) ev('app_download_'+(/apple/.test(a.href)?'iphone':'android'));
     }catch(err){}
   },true);
@@ -318,6 +321,8 @@ gtag('config','G-WLZ751B4B8');</script>
     <h2>We’re still smiling</h2>
     <p>Having all of you with us in Cabo made our wedding weekend more special than we could have imagined. Thank you for traveling to be with us, for the laughs, the dancing, and every moment in between. We feel so lucky to have shared it with you.</p>
     <p>If you took any photos or videos, we’d love to have them. Tap the button above to add them for us.</p>
+    <p>Your presence was the greatest gift. If you’d also like to celebrate us with a contribution, our registry is on The Knot, and every bit means so much to us.</p>
+    <p><a class="registry" href="https://www.theknot.com/us/justin-peters-and-hannah-long-nov-2026/registry" target="_blank" rel="noopener">Visit our registry</a></p>
     <p class="sign">With all our love,<br><span>Justin &amp; Hannah</span></p>
   </section>
 
