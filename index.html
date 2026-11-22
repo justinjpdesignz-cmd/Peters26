@@ -131,6 +131,11 @@ nav ul li:last-child a{border-bottom:0}
 section{padding:34px 0 6px}
 .kicker{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--tan);margin:0 0 10px;font-weight:600}
 h2{font:500 clamp(2.1rem,8vw,3rem)/1.08 var(--serif);margin:0 0 10px;color:var(--navy);letter-spacing:.01em}
+.thanks{padding-top:26px}
+.thanks h2{margin-bottom:12px}
+.thanks p{color:var(--ink);margin:0 0 14px}
+.thanks .sign{margin-top:18px;color:var(--muted)}
+.thanks .sign span{font:italic 500 1.6rem var(--serif);color:var(--navy)}
 .lede{color:var(--muted);margin:0 0 26px}
 .rule{display:flex;align-items:center;gap:10px;margin:0 0 20px}
 .rule i{height:1px;background:var(--line);flex:1}
@@ -277,7 +282,6 @@ gtag('config','G-WLZ751B4B8');</script>
     </button>
   </div>
   <ul id="menu" hidden>
-    <li><a href="#weather">Weather</a></li>
     <li><a href="#weekend">Weekend schedule</a></li>
     <li><a href="#info">Good to know</a></li>
     <li><a href="#map">Resort map</a></li>
@@ -328,35 +332,19 @@ gtag('config','G-WLZ751B4B8');</script>
     </a>
   </div>
 
-  <section id="weather">
-    <div class="wx reveal" id="wx" aria-live="polite">
-      <p class="wx-kick" id="wxKick">Cabo in November</p>
-      <h3 id="wxTitle">What to expect</h3>
-      <div id="wxBody">
-        <div class="wx-big"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#wx-sun"/></svg><div><b>85° <span>/ 68°</span></b><small>Typical daytime high / night low (°F)</small></div></div>
-        <div class="wx-stats">
-          <div><i>Ocean</i><b>80°F</b></div><div><i>Sunshine</i><b>~11 hrs</b></div>
-          <div><i>Rain</i><b>~1 day, 0.4 in</b></div><div><i>Storm season</i><b>Over Nov 30</b></div>
-        </div>
-        <p class="wx-tip"><b>Pack:</b> light layers for the evening, sunscreen, and shoes you can walk on sand in.</p>
-        <p class="wx-foot">The live forecast for our three days appears here about two weeks before the wedding.</p>
-      </div>
-    </div>
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-      <g id="wx-sun"><circle cx="24" cy="24" r="9" fill="#f2b84b"/><g stroke="#f2b84b" stroke-width="3" stroke-linecap="round"><path d="M24 5v6M24 37v6M5 24h6M37 24h6M10.6 10.6l4.2 4.2M33.2 33.2l4.2 4.2M10.6 37.4l4.2-4.2M33.2 14.8l4.2-4.2"/></g></g>
-      <g id="wx-psun"><circle cx="19" cy="19" r="8" fill="#f2b84b"/><g stroke="#f2b84b" stroke-width="3" stroke-linecap="round"><path d="M19 4v5M5 19h5M9 9l3.5 3.5M29 9l-3.5 3.5"/></g><path d="M16 38a8 8 0 0 1 1-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#dbe5f1" stroke="#a8c3de" stroke-width="1.5"/></g>
-      <g id="wx-cloud"><path d="M13 36a8 8 0 0 1 1-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#dbe5f1" stroke="#a8c3de" stroke-width="1.5"/></g>
-      <g id="wx-rain"><path d="M13 30a8 8 0 0 1 1-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#dbe5f1" stroke="#a8c3de" stroke-width="1.5"/><g stroke="#6f93b8" stroke-width="3" stroke-linecap="round"><path d="M17 36l-2 6M25 36l-2 6M33 36l-2 6"/></g></g>
-      <g id="wx-storm"><path d="M13 30a8 8 0 0 1 1-16 11 11 0 0 1 21 3 6.5 6.5 0 0 1-1 13z" fill="#c8d2e2" stroke="#8fa3c0" stroke-width="1.5"/><path d="M25 30l-5 8h5l-3 7 8-10h-5l3-5z" fill="#f2b84b"/></g>
-    </defs></svg>
+  <section id="thanks" class="thanks reveal">
+    <p class="kicker">Thank you</p>
+    <h2>We’re still smiling</h2>
+    <p>Having all of you with us in Cabo made our wedding weekend more special than we could have imagined. Thank you for traveling to be with us, for the laughs, the dancing, and every moment in between. We feel so lucky to have shared it with you.</p>
+    <p>If you took any photos or videos, we’d love to have them. Tap the button above to add them for us.</p>
+    <p class="sign">With all our love,<br><span>Justin &amp; Hannah</span></p>
   </section>
 
   <section id="weekend">
-    <p class="kicker reveal">The weekend</p>
-    <h2 class="reveal">Schedule</h2>
-    <p class="lede reveal">Everything in order, from Thursday night to the reception. All times are local Cabo time.</p>
-
-
+    <details class="acc reveal">
+      <summary>The weekend schedule <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <div class="acc-body">
+    <p class="lede">Thursday night to the reception. All times were local Cabo time.</p>
     <div class="tl">
       <span class="day-pill reveal">Thursday · November 19</span>
       <div class="ev reveal" id="bonfire">
@@ -414,6 +402,8 @@ gtag('config','G-WLZ751B4B8');</script>
         </div>
       </div>
     </div>
+        </div>
+    </details>
   </section>
 
   <section id="info">
@@ -563,6 +553,13 @@ gtag('config','G-WLZ751B4B8');</script>
   d.addEventListener('click',function(e){if(!m.hidden&&!(e.target.closest&&e.target.closest('nav')))set(false);});
 
   /* open the right accordion if a link points inside one */
+  /* the weekend schedule is collapsed: open it when someone follows a link to it */
+  (function(){var sd=d.querySelector('#weekend details');if(!sd)return;
+    function openIt(){sd.open=true;}
+    if(location.hash==='#weekend')openIt();
+    window.addEventListener('hashchange',function(){if(location.hash==='#weekend')openIt();});
+    d.addEventListener('click',function(e){var l=e.target.closest&&e.target.closest('a[href="#weekend"]');if(l)openIt();});
+  })();
   /* countdown to the welcome bonfire: Thu Nov 19, 2026, 7:00 pm Cabo time (UTC-7) = Nov 20, 02:00 UTC */
   var t=d.getElementById('countText');
   try{
@@ -571,7 +568,7 @@ gtag('config','G-WLZ751B4B8');</script>
     var diff=bonfire-now;
     if(diff>day){var n=Math.floor(diff/day);t.innerHTML='<b>'+n+'</b> '+(n===1?'day':'days')+' to go';}
     else if(diff>0){t.textContent='The celebration starts tonight!';}
-    else if(now<wedding+day){t.textContent='Welcome to Cabo!';}
+    
     else{t.textContent='Thank you for celebrating with us!';}
   }catch(e){}
 
