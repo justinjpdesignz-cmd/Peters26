@@ -576,12 +576,13 @@ $('showpw').onchange=function(){$('pass').type=this.checked?'text':'password';$(
 /* manage logins (full-access people only) */
 var lgEdit=null,lgList=[];
 var EYE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',EYEOFF='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg>';
+function lgAgo(iso){var d=new Date(iso);if(isNaN(d))return '';var m=Math.round((Date.now()-d)/6e4);if(m<2)return 'just now';if(m<60)return m+' min ago';var t=d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});var n=new Date();var y=new Date(n.getFullYear(),n.getMonth(),n.getDate()-1);if(d.toDateString()===n.toDateString())return 'today '+t;if(d.toDateString()===y.toDateString())return 'yesterday '+t;return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' '+t;}
 function lgPaint(list){
   lgList=list;var box=$('lgList');box.textContent='';
   list.forEach(function(u){
     var row=document.createElement('div');row.className='lgrow'+(u.builtin?'':' tap')+(lgEdit&&lgEdit.toLowerCase()===u.name.toLowerCase()?' sel':'');
     var nm=document.createElement('div');nm.className='nm';nm.textContent=u.name;
-    var sm=document.createElement('small');sm.textContent=(u.role==='admin'?'Full access':'View & heart')+(u.builtin?' · set up in AWS':'');nm.appendChild(sm);row.appendChild(nm);
+    var sm=document.createElement('small');sm.textContent=(u.role==='admin'?'Full access':'View & heart')+(u.builtin?' · set up in AWS':'')+(u.last!==undefined?' · '+(u.last?'Last seen '+lgAgo(u.last):'Not seen yet'):'');nm.appendChild(sm);row.appendChild(nm);
     if(u.code){var c=document.createElement('code');c.textContent='••••••';c.setAttribute('aria-label','passcode hidden');row.appendChild(c);
       row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-label','Edit '+u.name);
       row.onclick=function(){lgStart(u);};row.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();lgStart(u);}};}
