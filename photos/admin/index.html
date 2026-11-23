@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>(function(){var h=document.documentElement;try{if(navigator.maxTouchPoints>0||'ontouchstart' in window)h.classList.add('touch');}catch(e){}window.addEventListener('pointermove',function f(e){if(e.pointerType==='mouse'){h.classList.add('mouse');window.removeEventListener('pointermove',f);}},{passive:true});})();</script>
 <title>Photo Gallery · Justin &amp; Hannah</title>
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta property="og:type" content="website">
@@ -137,9 +138,11 @@ main{max-width:1400px;margin:0 auto;padding:4px 12px 90px}
 .tile .heart{position:absolute;right:6px;top:6px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(10,20,40,.5);opacity:0;transition:opacity .12s;cursor:pointer}
 .tile .heart svg,.ib.favb svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ib.favb svg{stroke:currentColor}
-@media(hover:hover){.tile:hover .heart,.tile:focus-visible .heart{opacity:1}}   /* hover only exists with a mouse; on a phone it made the first tap just reveal the heart */
+/* No hover styling at all unless a real mouse has been seen (html.mouse, set in the script). On an iPhone any hover effect makes the first tap only "hover" and the second tap open the photo. */
+html.mouse .tile:hover .heart,html.mouse .tile:focus-visible .heart{opacity:1}
 .tile.isfav .heart{opacity:1}
-@media(hover:none){.tile .heart{opacity:.8;width:34px;height:34px;top:5px;right:5px}}   /* phones: a small heart is always showing, so one tap on the photo opens it and one tap on the heart favorites it */
+html.touch .tile .heart{opacity:.8;width:34px;height:34px;top:5px;right:5px}   /* touch screens: a small heart is always showing, so one tap on the photo opens it and one tap on the heart favorites it */
+html.touch .tile.isfav .heart{opacity:1}
 .tile.isfav .heart svg,.ib.favb.on svg{fill:#ff1f3d;stroke:#ff1f3d}
 body.selmode .tile .heart,body.trashview .tile .heart{display:none}
 .tile.vid .cap{padding-right:78px}
@@ -148,8 +151,9 @@ body.selmode .tile .heart,body.trashview .tile .heart{display:none}
 .lb .ib.favb{margin-left:auto}
 body.trashview .favb,body.trashview .favchip,body.trashview .favsel{display:none}
 .tile .tick{position:absolute;top:6px;left:6px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.92);border:2px solid var(--navy);color:transparent;display:grid;place-items:center;font-size:.9rem;font-weight:700;opacity:0;transition:opacity .12s;cursor:pointer}
-@media(hover:hover){.tile:hover .tick,.tile:focus-visible .tick{opacity:1}}
-@media(hover:none){.tile .tick{display:none}body.selmode .tile .tick{display:grid}}
+html.mouse .tile:hover .tick,html.mouse .tile:focus-visible .tick{opacity:1}
+html.touch:not(.mouse) .tile .tick{display:none}
+html.touch:not(.mouse) body.selmode .tile .tick{display:grid}
 body.selmode .tile .tick{opacity:1;display:grid}
 .tile.sel .tick{background:var(--navy);color:#fff}
 .actbar{position:fixed;left:0;right:0;bottom:0;z-index:6;display:none;gap:10px;justify-content:center;padding:10px 16px max(12px,env(safe-area-inset-bottom));background:rgba(251,248,243,.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line)}
