@@ -440,7 +440,7 @@ function render(){
   shown=base().filter(function(i){return (!evFilter||i.event===evFilter)&&(!whoFilter||i.who===whoFilter)&&(!favOnly||heartedBy(i,favScope))});
   shown.sort(function(a,b){var ea=ORDER.indexOf(a.event),eb=ORDER.indexOf(b.event);if(ea<0)ea=99;if(eb<0)eb=99;return ea-eb||(a.sort<b.sort?-1:a.sort>b.sort?1:0)});
   var bytes=shown.reduce(function(a,i){return a+i.size},0);
-  $('stats').textContent=plural(shown.length)+' · '+fmtSize(bytes)+(view==='trash'?' · erased after 30 days':'');$('binCount').textContent=bin.length?'('+bin.length+')':'';
+  $('stats').textContent=plural(shown.length)+' · '+fmtSize(bytes)+' · v11-23-D'+(document.documentElement.classList.contains('touch')?'t':'')+(view==='trash'?' · erased after 30 days':'');$('binCount').textContent=bin.length?'('+bin.length+')':'';
   $('dlShown').disabled=!shown.length;$('dlShown').hidden=!HAS_DIR;
   if(selMode)updSel();
   var main=$('main');main.innerHTML='';pending=[];if(pageObs){pageObs.disconnect();pageObs=null;}
