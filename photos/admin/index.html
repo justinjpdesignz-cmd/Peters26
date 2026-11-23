@@ -428,7 +428,7 @@ function render(){
   var events=ORDER.filter(function(e){return counts[e]}).concat(Object.keys(counts).filter(function(e){return ORDER.indexOf(e)<0}));
   if(evFilter&&!counts[evFilter]) evFilter='';
   var chips=$('chips');document.querySelector('.filters').appendChild($('favWho'));chips.innerHTML='';
-  if(view!=='trash'){var fb=document.createElement('button');fb.type='button';fb.className='chip favchip';fb.setAttribute('aria-pressed',String(favOnly));fb.onclick=function(){favOnly=!favOnly;render();window.scrollTo(0,0);};chips.appendChild(fb);chips.appendChild($('favWho'));favCounts();}
+  if(view!=='trash'){var fb=document.createElement('button');fb.type='button';fb.className='chip favchip';fb.setAttribute('aria-pressed',String(favOnly));fb.onclick=function(){favOnly=!favOnly;if(!favOnly){favScope='me';$('favWho').value='me';}render();window.scrollTo(0,0);};chips.appendChild(fb);chips.appendChild($('favWho'));favCounts();}
   $('favWho').classList.toggle('on',favOnly&&view!=='trash'&&users.length>1);
   var es=$('evSel');es.innerHTML='';
   [''].concat(events).forEach(function(e){
