@@ -25,7 +25,8 @@
 :root{--cream:#f6f1e9;--ivory:#fbf8f3;--sand:#ece4d8;--sky:#a8c3de;--dusty:#6f93b8;--navy:#1c3560;--ink:#1c2a45;--muted:#4f5c75;--line:#e2d8c9;--bad:#b3402f;
 --serif:"Cormorant Garamond",Georgia,serif;--sans:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--cream);color:var(--ink);font:400 1rem/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+html{overflow-x:hidden}
+body{overflow-x:hidden;touch-action:pan-y pinch-zoom;margin:0;background:var(--cream);color:var(--ink);font:400 1rem/1.55 var(--sans);-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit;color:inherit}
 button:focus-visible,input:focus-visible,select:focus-visible,.tile:focus-visible{outline:3px solid var(--dusty);outline-offset:2px;border-radius:10px}
 h1{font:500 clamp(1.8rem,5vw,2.6rem)/1.1 var(--serif);color:var(--navy);margin:0}
@@ -112,6 +113,7 @@ body.trashview .tile .heartby,body.selmode .tile .heartby{display:none}
 #chips{display:contents}
 .chip{flex:none;min-height:40px;padding:0 15px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:.85rem;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap}
 .chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+@media(max-width:700px){select,#favWho{font-size:16px!important}}   /* 16px stops iPhones zooming in when a drop-down is tapped */
 select{flex:1 1 130px;min-width:0;min-height:40px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:.85rem;font-weight:500;color:var(--navy);max-width:210px}
 main{max-width:1400px;margin:0 auto;padding:4px 12px 90px}
 .sec{margin-top:22px}
@@ -135,7 +137,9 @@ main{max-width:1400px;margin:0 auto;padding:4px 12px 90px}
 .tile .heart{position:absolute;right:6px;top:6px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(10,20,40,.5);opacity:0;transition:opacity .12s;cursor:pointer}
 .tile .heart svg,.ib.favb svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ib.favb svg{stroke:currentColor}
-.tile:hover .heart,.tile:focus-visible .heart,.tile.isfav .heart{opacity:1}
+@media(hover:hover){.tile:hover .heart,.tile:focus-visible .heart{opacity:1}}   /* hover only exists with a mouse; on a phone it made the first tap just reveal the heart */
+.tile.isfav .heart{opacity:1}
+@media(hover:none){.tile .heart{opacity:.8;width:34px;height:34px;top:5px;right:5px}}   /* phones: a small heart is always showing, so one tap on the photo opens it and one tap on the heart favorites it */
 .tile.isfav .heart svg,.ib.favb.on svg{fill:#ff1f3d;stroke:#ff1f3d}
 body.selmode .tile .heart,body.trashview .tile .heart{display:none}
 .tile.vid .cap{padding-right:78px}
@@ -144,7 +148,7 @@ body.selmode .tile .heart,body.trashview .tile .heart{display:none}
 .lb .ib.favb{margin-left:auto}
 body.trashview .favb,body.trashview .favchip,body.trashview .favsel{display:none}
 .tile .tick{position:absolute;top:6px;left:6px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.92);border:2px solid var(--navy);color:transparent;display:grid;place-items:center;font-size:.9rem;font-weight:700;opacity:0;transition:opacity .12s;cursor:pointer}
-.tile:hover .tick,.tile:focus-visible .tick{opacity:1}
+@media(hover:hover){.tile:hover .tick,.tile:focus-visible .tick{opacity:1}}
 @media(hover:none){.tile .tick{display:none}body.selmode .tile .tick{display:grid}}
 body.selmode .tile .tick{opacity:1;display:grid}
 .tile.sel .tick{background:var(--navy);color:#fff}
